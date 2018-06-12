@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="FileFormats" id="de.fzi.unisens" metadata="uml2-1.0" initialized="true" tag="1000" key="323030363130303620556E6973656E73496E746572666163652F6F6A">
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.1/@sourceConnections.0 //@children.2/@sourceConnections.0" name="FileFormat" location="360,80" size="200,151" id="de.fzi.unisens/FileFormat" runTimeClassModel="setComment(Ljava.lang.String;),getFileFormatName(),comment,getComment()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="96,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="comment" id="de.fzi.unisens/FileFormat#comment"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="177,54">
+      <children xsi:type="editmodel:MethodEditModel" name="getComment" id="de.fzi.unisens/FileFormat#getComment()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getFileFormatName" id="de.fzi.unisens/FileFormat#getFileFormatName()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setComment" id="de.fzi.unisens/FileFormat#setComment(Ljava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showAssociationMember="true" showMethods="true" showAttributes="true" showLiterals="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="CsvFileFormat" location="100,366" size="213,187" id="de.fzi.unisens/CsvFileFormat" runTimeClassModel="CsvFileFormat(Ljava.lang.String;),setSeparator(Ljava.lang.String;),getFileFormatName(),nAME,getSeparator(),separator">
+    <children xsi:type="editmodel:CompartmentEditModel" size="100,36">
+      <children xsi:type="editmodel:AttributeEditModel" name="nAME" id="de.fzi.unisens/CsvFileFormat#nAME"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="separator" id="de.fzi.unisens/CsvFileFormat#separator"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="190,72">
+      <children xsi:type="editmodel:MethodEditModel" name="CsvFileFormat" id="de.fzi.unisens/CsvFileFormat#CsvFileFormat(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getFileFormatName" id="de.fzi.unisens/CsvFileFormat#getFileFormatName()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getSeparator" id="de.fzi.unisens/CsvFileFormat#getSeparator()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setSeparator" id="de.fzi.unisens/CsvFileFormat#setSeparator(Ljava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="de.fzi.unisens/FileFormat&lt;-de.fzi.unisens/CsvFileFormat" source="//@children.1" target="//@children.0" targetEnd="//@children.1/@sourceConnections.0/@children.1" sourceEnd="//@children.1/@sourceConnections.0/@children.0" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="203,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,141"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showAssociationMember="true" showMethods="true" showAttributes="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="BinFileFormat" location="660,330" size="196,223" id="de.fzi.unisens/BinFileFormat" runTimeClassModel="setEndianess(I),endianess,lITTLE_ENDIAN,BinFileFormat(I),getFileFormatName(),nAME,bIG_ENDIAN,getEndianess()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="111,72">
+      <children xsi:type="editmodel:AttributeEditModel" name="bIG_ENDIAN" id="de.fzi.unisens/BinFileFormat#bIG_ENDIAN"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="endianess" id="de.fzi.unisens/BinFileFormat#endianess"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="lITTLE_ENDIAN" id="de.fzi.unisens/BinFileFormat#lITTLE_ENDIAN"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="nAME" id="de.fzi.unisens/BinFileFormat#nAME"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="173,72">
+      <children xsi:type="editmodel:MethodEditModel" name="BinFileFormat" id="de.fzi.unisens/BinFileFormat#BinFileFormat(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getEndianess" id="de.fzi.unisens/BinFileFormat#getEndianess()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getFileFormatName" id="de.fzi.unisens/BinFileFormat#getFileFormatName()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setEndianess" id="de.fzi.unisens/BinFileFormat#setEndianess(I)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="de.fzi.unisens/FileFormat&lt;-de.fzi.unisens/BinFileFormat" source="//@children.2" target="//@children.0" targetEnd="//@children.2/@sourceConnections.0/@children.1" sourceEnd="//@children.2/@sourceConnections.0/@children.0" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,10" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="190,151"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showAssociationMember="true" showMethods="true" showAttributes="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=1" autoName="false"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="10,10" gridOrigin="0,0" rulerUnit="pixel">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showInterfaceStereotype="true" showAssociationMember="true" showMethods="true" showAttributes="true" showLiterlas="true"/>
+</editmodel:ClassDiagramEditModel>

@@ -1,0 +1,24 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.unisens.org/unisens2.0/signal"  elementFormDefault="qualified"  attributeFormDefault="unqualified"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"  xmlns="http://www.unisens.org/unisens2.0/signal">
+	<xsd:element name="signal"  type="signal" >
+		<xsd:annotation>
+			<xsd:documentation>The root element. A signal has at least one sample.</xsd:documentation></xsd:annotation></xsd:element>
+    <xsd:complexType name="signal">
+        <xsd:annotation>
+        	<xsd:documentation></xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+    		<xsd:element name="sample" type="sample" minOccurs="1" maxOccurs="unbounded" />
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="sample">
+        <xsd:annotation>
+        	<xsd:documentation>A sample has a data element for each channel. </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+    		<xsd:element name="data" type="xsd:double" minOccurs="1" maxOccurs="unbounded"/>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>

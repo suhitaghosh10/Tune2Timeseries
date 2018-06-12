@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="Entries" id="de.fzi.unisens" metadata="uml2-1.0" initialized="true" scrolledX="13" scrolledY="835" tag="1000" key="323030363130303620556E6973656E73496E746572666163652F6F6A">
+  <children xsi:type="editmodel:InterfaceEditModel" name="SignalEntry" location="20,888" size="243,255" id="de.fzi.unisens/SignalEntry" runTimeClassModel="read(JI),append(Ljava.lang.Object;),read(I)">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="220,162">
+      <children xsi:type="editmodel:MethodEditModel" name="read" id="de.fzi.unisens/SignalEntry#read(JI)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="read" id="de.fzi.unisens/SignalEntry#read(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="append" id="de.fzi.unisens/SignalEntry#append(Ljava.lang.Object;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" id="de.fzi.unisens/MeasurementEntry&lt;-de.fzi.unisens/SignalEntry" source="//@children.0" target="//@children.2" targetEnd="//@children.0/@sourceConnections.0/@children.1" sourceEnd="//@children.0/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="102,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="58,537"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showAssociationMember="true" showMethods="true" showLiterals="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="ValuesEntry" location="280,888" size="302,273" id="de.fzi.unisens/ValuesEntry" runTimeClassModel="append(Lde.fzi.unisens.Value;),readValuesList(I),setTimestampType(I),appendValuesList(Lde.fzi.unisens.ValueList;),append([Lde.fzi.unisens.Value;),read(JI),readValuesList(JI),getTimestampType(),read(I)">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="279,162">
+      <children xsi:type="editmodel:MethodEditModel" name="read" id="de.fzi.unisens/ValuesEntry#read(JI)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="read" id="de.fzi.unisens/ValuesEntry#read(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="append" id="de.fzi.unisens/ValuesEntry#append(Lde.fzi.unisens.Value;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="append" id="de.fzi.unisens/ValuesEntry#append([Lde.fzi.unisens.Value;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getTimestampType" id="de.fzi.unisens/ValuesEntry#getTimestampType()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setTimestampType" id="de.fzi.unisens/ValuesEntry#setTimestampType(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="appendValuesList" id="de.fzi.unisens/ValuesEntry#appendValuesList(Lde.fzi.unisens.ValueList;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="readValuesList" id="de.fzi.unisens/ValuesEntry#readValuesList(JI)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="readValuesList" id="de.fzi.unisens/ValuesEntry#readValuesList(I)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" id="de.fzi.unisens/MeasurementEntry&lt;-de.fzi.unisens/ValuesEntry" source="//@children.1" target="//@children.2" targetEnd="//@children.1/@sourceConnections.0/@children.1" sourceEnd="//@children.1/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,22" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="229,537"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showAssociationMember="true" showMethods="true" showLiterals="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.0/@sourceConnections.0 //@children.1/@sourceConnections.0" name="MeasurementEntry" location="80,500" size="262,543" id="de.fzi.unisens/MeasurementEntry" runTimeClassModel="setUnit(Ljava.lang.String;),getLsbValue(),iNT16,setBaseline(I),getChannelCount(),resetPos(),getAdcZero(),uINT8,uINT64,setAdcResolution(I),dOUBLE,iNT32,setAdcZero(I),setLsbValue(D),iNT8,uINT16,getChannelNames(),getBaseline(),setDataType(Ljava.lang.String;),getAdcResolution(),setChannelNames([Ljava.lang.String;),iNT64,fLOAT,uINT32,getUnit(),getDataType()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="77,180">
+      <children xsi:type="editmodel:AttributeEditModel" name="iNT16" id="de.fzi.unisens/MeasurementEntry#iNT16"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="uINT16" id="de.fzi.unisens/MeasurementEntry#uINT16"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="iNT8" id="de.fzi.unisens/MeasurementEntry#iNT8"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="iNT64" id="de.fzi.unisens/MeasurementEntry#iNT64"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="uINT64" id="de.fzi.unisens/MeasurementEntry#uINT64"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="uINT8" id="de.fzi.unisens/MeasurementEntry#uINT8"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="iNT32" id="de.fzi.unisens/MeasurementEntry#iNT32"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="uINT32" id="de.fzi.unisens/MeasurementEntry#uINT32"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="fLOAT" id="de.fzi.unisens/MeasurementEntry#fLOAT"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dOUBLE" id="de.fzi.unisens/MeasurementEntry#dOUBLE"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="239,270">
+      <children xsi:type="editmodel:MethodEditModel" name="getAdcResolution" id="de.fzi.unisens/MeasurementEntry#getAdcResolution()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getAdcZero" id="de.fzi.unisens/MeasurementEntry#getAdcZero()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getBaseline" id="de.fzi.unisens/MeasurementEntry#getBaseline()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getChannelNames" id="de.fzi.unisens/MeasurementEntry#getChannelNames()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getLsbValue" id="de.fzi.unisens/MeasurementEntry#getLsbValue()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getUnit" id="de.fzi.unisens/MeasurementEntry#getUnit()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setAdcResolution" id="de.fzi.unisens/MeasurementEntry#setAdcResolution(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setAdcZero" id="de.fzi.unisens/MeasurementEntry#setAdcZero(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setBaseline" id="de.fzi.unisens/MeasurementEntry#setBaseline(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setLsbValue" id="de.fzi.unisens/MeasurementEntry#setLsbValue(D)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setUnit" id="de.fzi.unisens/MeasurementEntry#setUnit(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getChannelCount" id="de.fzi.unisens/MeasurementEntry#getChannelCount()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setDataType" id="de.fzi.unisens/MeasurementEntry#setDataType(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="resetPos" id="de.fzi.unisens/MeasurementEntry#resetPos()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDataType" id="de.fzi.unisens/MeasurementEntry#getDataType()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" id="de.fzi.unisens/TimedEntry&lt;-de.fzi.unisens/MeasurementEntry" source="//@children.2" target="//@children.4" targetEnd="//@children.2/@sourceConnections.0/@children.1" sourceEnd="//@children.2/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="262,17" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="8,147"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showAssociationMember="true" showMethods="true" showAttributes="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="EventEntry" location="581,891" size="266,309" id="de.fzi.unisens/EventEntry" runTimeClassModel="append(Lde.fzi.unisens.Event;),empty(),setCommentLength(Ljava.lang.String;),getCommentLength(),read(JI),setTypeLength(I),append(Ljava.util.List;),getTypeLength(),getTimestampType(),read(I)">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="243,198">
+      <children xsi:type="editmodel:MethodEditModel" name="append" id="de.fzi.unisens/EventEntry#append(Lde.fzi.unisens.Event;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="read" id="de.fzi.unisens/EventEntry#read(JI)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="read" id="de.fzi.unisens/EventEntry#read(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="empty" id="de.fzi.unisens/EventEntry#empty()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="append" id="de.fzi.unisens/EventEntry#append(Ljava.util.List;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getCommentLength" id="de.fzi.unisens/EventEntry#getCommentLength()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getTypeLength" id="de.fzi.unisens/EventEntry#getTypeLength()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getTimestampType" id="de.fzi.unisens/EventEntry#getTimestampType()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setTypeLength" id="de.fzi.unisens/EventEntry#setTypeLength(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setCommentLength" id="de.fzi.unisens/EventEntry#setCommentLength(Ljava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="de.fzi.unisens/TimedEntry&lt;-de.fzi.unisens/EventEntry" source="//@children.3" target="//@children.4" targetEnd="//@children.3/@sourceConnections.0/@children.1" sourceEnd="//@children.3/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="23,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="184,147"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showAssociationMember="true" showMethods="true" showLiterals="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.2/@sourceConnections.0 //@children.3/@sourceConnections.0" name="TimedEntry" location="420,320" size="209,147" id="de.fzi.unisens/TimedEntry" runTimeClassModel="getSampleRate(),getLength(),setSampleRate(I)">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="186,54">
+      <children xsi:type="editmodel:MethodEditModel" name="setSampleRate" id="de.fzi.unisens/TimedEntry#setSampleRate(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getSampleRate" id="de.fzi.unisens/TimedEntry#getSampleRate()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getLength" id="de.fzi.unisens/TimedEntry#getLength()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="de.fzi.unisens/Entry&lt;-de.fzi.unisens/TimedEntry" source="//@children.4" target="//@children.5" targetEnd="//@children.4/@sourceConnections.0/@children.1" sourceEnd="//@children.4/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="136,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="71,309"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showAssociationMember="true" showMethods="true" showLiterals="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.4/@sourceConnections.0 //@children.7/@sourceConnections.0" name="Entry" location="485,4" size="230,309" id="de.fzi.unisens/Entry" runTimeClassModel="getFileFormat,setComment(Ljava.lang.String;),setSourceType(Ljava.lang.String;),getId(),setFileFormat,getSourceId(),getContentClass(),setSourceId(Ljava.lang.String;),rename(Ljava.lang.String;),getSourceType(),getComment(),setContentClass(Ljava.lang.String;)">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="207,216">
+      <children xsi:type="editmodel:MethodEditModel" name="getComment" id="de.fzi.unisens/Entry#getComment()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getId" id="de.fzi.unisens/Entry#getId()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getSourceId" id="de.fzi.unisens/Entry#getSourceId()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getSourceType" id="de.fzi.unisens/Entry#getSourceType()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setComment" id="de.fzi.unisens/Entry#setComment(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setSourceId" id="de.fzi.unisens/Entry#setSourceId(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setSourceType" id="de.fzi.unisens/Entry#setSourceType(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="rename" id="de.fzi.unisens/Entry#rename(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setContentClass" id="de.fzi.unisens/Entry#setContentClass(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getContentClass" id="de.fzi.unisens/Entry#getContentClass()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showAssociationMember="true" showMethods="true" showAttributes="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Event" location="534,1150" size="342,259" id="de.fzi.unisens/Event" runTimeClassModel="timestamp,setComment(Ljava.lang.String;),setTimestamp(J),getType(),getTimestamp(),type,comment,getComment(),Event(JLjava.lang.String;Ljava.lang.String;),setType(Ljava.lang.String;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="104,54">
+      <children xsi:type="editmodel:AttributeEditModel" name="comment" id="de.fzi.unisens/Event#comment"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="timestamp" id="de.fzi.unisens/Event#timestamp"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="type" id="de.fzi.unisens/Event#type"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="319,126">
+      <children xsi:type="editmodel:MethodEditModel" name="getComment" id="de.fzi.unisens/Event#getComment()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getTimestamp" id="de.fzi.unisens/Event#getTimestamp()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getType" id="de.fzi.unisens/Event#getType()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setComment" id="de.fzi.unisens/Event#setComment(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setType" id="de.fzi.unisens/Event#setType(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setTimestamp" id="de.fzi.unisens/Event#setTimestamp(J)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="Event" id="de.fzi.unisens/Event#Event(JLjava.lang.String;Ljava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showAssociationMember="true" showMethods="true" showAttributes="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="CustomEntry" location="782,891" size="338,165" id="de.fzi.unisens/CustomEntry" runTimeClassModel="getAttributes(),getAttribute(Ljava.lang.String;),setAttribute(Ljava.lang.String;Ljava.lang.String;)">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="315,54">
+      <children xsi:type="editmodel:MethodEditModel" name="getAttribute" id="de.fzi.unisens/CustomEntry#getAttribute(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setAttribute" id="de.fzi.unisens/CustomEntry#setAttribute(Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getAttributes" id="de.fzi.unisens/CustomEntry#getAttributes()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="de.fzi.unisens/Entry&lt;-de.fzi.unisens/CustomEntry" source="//@children.7" target="//@children.5" targetEnd="//@children.7/@sourceConnections.0/@children.1" sourceEnd="//@children.7/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="134,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="182,309"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showAssociationMember="true" showMethods="true" showAttributes="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Value" location="284,1163" size="241,201" id="de.fzi.unisens/Value" runTimeClassModel="timestamp,setTimestamp(J),getData(),data,getTimestamp(),setData(Ljava.lang.Object;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="93,36">
+      <children xsi:type="editmodel:AttributeEditModel" name="data" id="de.fzi.unisens/Value#data"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="timestamp" id="de.fzi.unisens/Value#timestamp"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="181,72">
+      <children xsi:type="editmodel:MethodEditModel" name="getData" id="de.fzi.unisens/Value#getData()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getTimestamp" id="de.fzi.unisens/Value#getTimestamp()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setData" id="de.fzi.unisens/Value#setData(Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setTimestamp" id="de.fzi.unisens/Value#setTimestamp(J)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showAssociationMember="true" showMethods="true" showAttributes="true" showLiterals="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="ValueList" location="20,1170" size="233,187" id="de.fzi.unisens/ValueList" runTimeClassModel="timestamps,getTimestamps(),getData(),data,setTimestamps(J),setData(Ljava.lang.Object;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="99,36">
+      <children xsi:type="editmodel:AttributeEditModel" name="data" id="de.fzi.unisens/ValueList#data"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="timestamps" id="de.fzi.unisens/ValueList#timestamps"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="193,72">
+      <children xsi:type="editmodel:MethodEditModel" name="getData" id="de.fzi.unisens/ValueList#getData()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getTimestamps" id="de.fzi.unisens/ValueList#getTimestamps()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setData" id="de.fzi.unisens/ValueList#setData(Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setTimestamps" id="de.fzi.unisens/ValueList#setTimestamps(J)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showAssociationMember="true" showMethods="true" showAttributes="true" showLiterals="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=1" autoName="false"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="10,10" gridOrigin="0,0" rulerUnit="pixel">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showPrivateInnerClasses="true" showStaticInnerClasses="true" showInterfaceStereotype="true" showAssociationMember="true" showMethods="true" showAttributes="true" showLiterlas="true"/>
+</editmodel:ClassDiagramEditModel>

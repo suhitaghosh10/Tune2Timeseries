@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="ASCII"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/2.0.0/UML" xmi:id="_4hcLMGaaEdybsvnUajUaNw" name="unisens">
+  <packagedElement xmi:type="uml:Class" xmi:id="_hTuyoGaTEdybsvnUajUaNw" name="FileFormat" clientDependency="_6lsmI2aTEdybsvnUajUaNw" isAbstract="true">
+    <ownedAttribute xmi:id="_0JFIAGaTEdybsvnUajUaNw" name="comment" visibility="package" type="_P4ubsWaQEdybsvnUajUaNw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_0JFIBGaTEdybsvnUajUaNw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_0JFIA2aTEdybsvnUajUaNw"/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="_pl6EMGaTEdybsvnUajUaNw" name="getFileFormatName" visibility="public" isAbstract="true" concurrency="concurrent">
+      <ownedParameter xmi:id="_6blycmaUEdybsvnUajUaNw" type="_P4ubsWaQEdybsvnUajUaNw" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_vgZssWaTEdybsvnUajUaNw" name="getComment" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_6blycGaUEdybsvnUajUaNw" type="_P4ubsWaQEdybsvnUajUaNw" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_2Pfa4maTEdybsvnUajUaNw" name="setComment" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_6blycWaUEdybsvnUajUaNw" name="comment" type="_P4ubsWaQEdybsvnUajUaNw"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_CK6OkWaVEdybsvnUajUaNw" name="CsvFileFormat" clientDependency="_EllhQGaVEdybsvnUajUaNw">
+    <generalization xmi:id="_ElbwQGaVEdybsvnUajUaNw" general="_hTuyoGaTEdybsvnUajUaNw"/>
+    <ownedAttribute xmi:id="_ElbwQWaVEdybsvnUajUaNw" name="nAME" visibility="package" isStatic="true" type="_P4ubsWaQEdybsvnUajUaNw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ElbwTGaVEdybsvnUajUaNw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ElbwS2aVEdybsvnUajUaNw"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_ElbwQmaVEdybsvnUajUaNw" name="separator" visibility="package" type="_P4ubsWaQEdybsvnUajUaNw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ElbwTmaVEdybsvnUajUaNw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ElbwTWaVEdybsvnUajUaNw"/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="_ElbwQ2aVEdybsvnUajUaNw" name="getFileFormatName" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_ElbwRGaVEdybsvnUajUaNw" type="_P4ubsWaQEdybsvnUajUaNw" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_ElbwRWaVEdybsvnUajUaNw" name="setSeparator" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_ElbwRmaVEdybsvnUajUaNw" name="separator" type="_P4ubsWaQEdybsvnUajUaNw"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_ElbwR2aVEdybsvnUajUaNw" name="getSeparator" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_ElbwSGaVEdybsvnUajUaNw" type="_P4ubsWaQEdybsvnUajUaNw" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_ElbwSWaVEdybsvnUajUaNw" name="CsvFileFormat" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_ElbwSmaVEdybsvnUajUaNw" name="separator" type="_P4ubsWaQEdybsvnUajUaNw"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_Pq9lIGaTEdybsvnUajUaNw" name="BinFileFormat" clientDependency="_6lsmIGaTEdybsvnUajUaNw">
+    <generalization xmi:id="_c2OFgGaTEdybsvnUajUaNw"/>
+    <generalization xmi:id="_dErYQGaTEdybsvnUajUaNw"/>
+    <generalization xmi:id="_d0gSsGaTEdybsvnUajUaNw"/>
+    <generalization xmi:id="_eGsO4GaTEdybsvnUajUaNw"/>
+    <generalization xmi:id="_eMf78GaTEdybsvnUajUaNw"/>
+    <generalization xmi:id="_66290GaTEdybsvnUajUaNw" general="_hTuyoGaTEdybsvnUajUaNw"/>
+    <ownedAttribute xmi:id="_QLAXIGaTEdybsvnUajUaNw" name="endianess" visibility="package">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_QLAXI2aTEdybsvnUajUaNw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_QLAXImaTEdybsvnUajUaNw"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_A6HKgGaUEdybsvnUajUaNw" name="nAME" visibility="package" isStatic="true" type="_P4ubsWaQEdybsvnUajUaNw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_A6HKhmaUEdybsvnUajUaNw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_A6HKhWaUEdybsvnUajUaNw"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_xyBUkGaUEdybsvnUajUaNw" name="lITTLE_ENDIAN" visibility="public" isStatic="true">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_xyBUlmaUEdybsvnUajUaNw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_xyBUlWaUEdybsvnUajUaNw"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_y6lfIGaUEdybsvnUajUaNw" name="bIG_ENDIAN" visibility="public" isStatic="true">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_y6vQIWaUEdybsvnUajUaNw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_y6vQIGaUEdybsvnUajUaNw"/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="_P8s1YGaTEdybsvnUajUaNw" name="BinFileFormat" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_5oVJg2aUEdybsvnUajUaNw" name="endianess">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_SIUYYWaTEdybsvnUajUaNw" name="getEndianess" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_5oVJgGaUEdybsvnUajUaNw" direction="return">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_Vy3XgmaTEdybsvnUajUaNw" name="setEndianess" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_5oVJgmaUEdybsvnUajUaNw" name="endianess">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_9dujM2aTEdybsvnUajUaNw" name="getFileFormatName" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_5oVJgWaUEdybsvnUajUaNw" type="_P4ubsWaQEdybsvnUajUaNw" direction="return"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_RCMlMGaQEdybsvnUajUaNw" name="XmlFileFormat">
+    <generalization xmi:id="_i8XH4GaUEdybsvnUajUaNw" general="_hTuyoGaTEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_P3Y-8maQEdybsvnUajUaNw" name="ValueList">
+    <ownedAttribute xmi:id="_P_IlsGaQEdybsvnUajUaNw" name="timestamps" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_P_SWt2aQEdybsvnUajUaNw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_P_SWtmaQEdybsvnUajUaNw"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_P_IlsWaQEdybsvnUajUaNw" name="data" visibility="private" type="_P02oU2aQEdybsvnUajUaNw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_P_SWuWaQEdybsvnUajUaNw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_P_SWuGaQEdybsvnUajUaNw"/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="_P_IlsmaQEdybsvnUajUaNw" name="getData" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_P32GYWaaEdybsvnUajUaNw" type="_P02oU2aQEdybsvnUajUaNw" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_P_SWsGaQEdybsvnUajUaNw" name="getTimestamps" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_P32GY2aaEdybsvnUajUaNw" direction="return">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_P_SWsmaQEdybsvnUajUaNw" name="setTimestamps" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_P32GZWaaEdybsvnUajUaNw" name="timestamps">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_P_SWtGaQEdybsvnUajUaNw" name="setData" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_P32GYmaaEdybsvnUajUaNw" name="data" type="_P02oU2aQEdybsvnUajUaNw"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_P3Y-9WaQEdybsvnUajUaNw" name="Value">
+    <ownedAttribute xmi:id="_P-iv0GaQEdybsvnUajUaNw" name="timestamp" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_P-r5ymaQEdybsvnUajUaNw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_P-r5yWaQEdybsvnUajUaNw"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_P-r5wGaQEdybsvnUajUaNw" name="data" visibility="private" type="_P02oU2aQEdybsvnUajUaNw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_P-r5zGaQEdybsvnUajUaNw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_P-r5y2aQEdybsvnUajUaNw"/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="_P-r5wWaQEdybsvnUajUaNw" name="getTimestamp" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_P-r5wmaQEdybsvnUajUaNw" direction="return">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_P-r5w2aQEdybsvnUajUaNw" name="getData" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_P-r5xGaQEdybsvnUajUaNw" type="_P02oU2aQEdybsvnUajUaNw" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_P-r5xWaQEdybsvnUajUaNw" name="setTimestamp" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_P-r5xmaQEdybsvnUajUaNw" name="timestamp">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_P-r5x2aQEdybsvnUajUaNw" name="setData" visibility="public" concurrency="concurrent">
+      <ownedParameter xmi:id="_P-r5yGaQEdybsvnUajUaNw" name="data" type="_P02oU2aQEdybsvnUajUaNw"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_P02oUWaQEdybsvnUajUaNw" name="java.lang">
+    <packagedElement xmi:type="uml:Class" xmi:id="_P02oU2aQEdybsvnUajUaNw" name="Object"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_P4ubsWaQEdybsvnUajUaNw" name="String" isLeaf="true"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_RHtXU2aQEdybsvnUajUaNw" name="Exception">
+      <generalization xmi:id="_RIASQWaQEdybsvnUajUaNw" general="_RIASQGaQEdybsvnUajUaNw"/>
+      <ownedAttribute xmi:id="_RJfgAGaQEdybsvnUajUaNw" name="serialVersionUID" visibility="package" isLeaf="true" isStatic="true" isReadOnly="true">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
+      </ownedAttribute>
+      <ownedOperation xmi:id="_RJfgAWaQEdybsvnUajUaNw" name="Exception" visibility="public" concurrency="concurrent"/>
+      <ownedOperation xmi:id="_RJfgAmaQEdybsvnUajUaNw" name="Exception" visibility="public" concurrency="concurrent">
+        <ownedParameter xmi:id="_RKPG4GaQEdybsvnUajUaNw" name="arg0" type="_P4ubsWaQEdybsvnUajUaNw"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="_RKPG4WaQEdybsvnUajUaNw" name="Exception" visibility="public" concurrency="concurrent">
+        <ownedParameter xmi:id="_RKPG4maQEdybsvnUajUaNw" name="arg0" type="_P4ubsWaQEdybsvnUajUaNw"/>
+        <ownedParameter xmi:id="_RKPG42aQEdybsvnUajUaNw" name="arg1" type="_RIASQGaQEdybsvnUajUaNw"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="_RKPG5GaQEdybsvnUajUaNw" name="Exception" visibility="public" concurrency="concurrent">
+        <ownedParameter xmi:id="_RKY34GaQEdybsvnUajUaNw" name="arg0" type="_RIASQGaQEdybsvnUajUaNw"/>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_RIASQGaQEdybsvnUajUaNw" name="Throwable"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_fmep1maXEdybsvnUajUaNw" name="IllegalArgumentException"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_P02oVWaQEdybsvnUajUaNw" name="java.io">
+    <packagedElement xmi:type="uml:Class" xmi:id="_P02oVmaQEdybsvnUajUaNw" name="IOException"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_P56ui2aQEdybsvnUajUaNw" name="java.util">
+    <packagedElement xmi:type="uml:Interface" xmi:id="_P6EfgGaQEdybsvnUajUaNw" name="List" isAbstract="true"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_P8dFImaQEdybsvnUajUaNw" name="HashMap"/>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_RGhEgWaQEdybsvnUajUaNw" name="Collection" isAbstract="true"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_RGhEjWaQEdybsvnUajUaNw" name="Date"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P2C7IGaQEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P2MsIWaQEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P3r54GaQEdybsvnUajUaNw" supplier="_P3Y-9WaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P3r542aQEdybsvnUajUaNw" supplier="_P3Y-8maQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P5B9sGaQEdybsvnUajUaNw" supplier="_P4ubsWaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_Pxkq0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P6XadGaQEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Class" href="platform:/resource/UnisensInterface/.repository.uml2#_P6XacGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P6hLcmaQEdybsvnUajUaNw" supplier="_P6EfgGaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P7teQGaQEdybsvnUajUaNw" supplier="_P4ubsWaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P6hLdWaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P7teQ2aQEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Class" href="platform:/resource/UnisensInterface/.repository.uml2#_P7jtQGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P6hLdWaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P7teRWaQEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Class" href="platform:/resource/UnisensInterface/.repository.uml2#_P7jtQGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P6hLdWaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P7teSGaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P6hLdWaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P73PQmaQEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P6hLdWaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P73PRGaQEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P6hLdWaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P8m2IGaQEdybsvnUajUaNw" supplier="_P4ubsWaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P8TUIGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P8m2I2aQEdybsvnUajUaNw" supplier="_P8dFImaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P8TUIGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P9zI8GaQEdybsvnUajUaNw" supplier="_P4ubsWaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Class" href="platform:/resource/UnisensInterface/.repository.uml2#_P6XacGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RBcXQGaQEdybsvnUajUaNw" supplier="_P4ubsWaQEdybsvnUajUaNw"/>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RCC0MGaQEdybsvnUajUaNw" supplier="_P4ubsWaQEdybsvnUajUaNw"/>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RG9wcGaQEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Class" href="platform:/resource/UnisensInterface/.repository.uml2#_P7jtQGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RG9wcmaQEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Class" href="platform:/resource/UnisensInterface/.repository.uml2#_P7jtQGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RG9wdWaQEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RGhEl2aQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RG9weGaQEdybsvnUajUaNw" supplier="_RGhEgWaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RG9we2aQEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P8TUIGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RG9wfmaQEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P6hLdWaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RHG6YmaQEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RGqOcmaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RHG6ZWaQEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RHG6aGaQEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RHG6a2aQEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RHG6bmaQEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RHG6cGaQEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RHQrYmaQEdybsvnUajUaNw" supplier="_P4ubsWaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RHQrZWaQEdybsvnUajUaNw" supplier="_RGhEjWaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RHjmUGaQEdybsvnUajUaNw" supplier="_P4ubsWaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RGqOcmaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RHjmU2aQEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P6hLdWaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RGqOcmaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RHjmVmaQEdybsvnUajUaNw" supplier="_RGhEgWaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RGqOcmaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_RHtXUGaQEdybsvnUajUaNw" supplier="_P4ubsWaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RGhEl2aQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_hTuyoWaTEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Class" href="platform:/resource/UnisensInterface/.repository.uml2#_P7jtQGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P6hLdWaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_hT38kWaTEdybsvnUajUaNw" supplier="_hTuyoGaTEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P6hLdWaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_hT38lGaTEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P6hLdWaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_6lsmIGaTEdybsvnUajUaNw" supplier="_P4ubsWaQEdybsvnUajUaNw" client="_Pq9lIGaTEdybsvnUajUaNw"/>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_6lsmI2aTEdybsvnUajUaNw" supplier="_P4ubsWaQEdybsvnUajUaNw" client="_hTuyoGaTEdybsvnUajUaNw"/>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_EllhQGaVEdybsvnUajUaNw" supplier="_P4ubsWaQEdybsvnUajUaNw" client="_CK6OkWaVEdybsvnUajUaNw"/>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_8qQ-lmaWEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_8vLTxmaWEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_-vVNpmaWEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_H7LSMGaXEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Class" href="platform:/resource/UnisensInterface/.repository.uml2#_P7jtQGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_H7LSMmaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_IAi6ZWaXEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Class" href="platform:/resource/UnisensInterface/.repository.uml2#_P7jtQGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_IAsEQWaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_JUlVKGaXEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Class" href="platform:/resource/UnisensInterface/.repository.uml2#_P7jtQGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_JUvGEWaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_PxpfJmaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_P2tlVmaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_QRrqFmaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_fmep12aXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_fnq8oGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_fnq8omaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_fnq8pWaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_nokQ8GaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_nokQ8maXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_nokQ9WaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_nokQ92aXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_rOMT0GaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_rOMT0maXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_rOywwGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_rO76sWaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_sDindmaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_sDsYcWaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_sElJQGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_sElJQmaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_PPAJQGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_tVNDpGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_tVNDpmaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_tV8qgGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_tV8qgmaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_wCfwYGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_wCfwYmaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_wDZIMGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_wDi5MWaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_w5x9sGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_w5x9smaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_w57uoGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_w57uomaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_w6FfsGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_w6FfsmaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_xiduQGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_xiduQmaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_xjNVIGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_xjNVImaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_0DjK92aXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_0DsU4WaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_0ESx0GaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_0Eb7wWaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_1g1BUGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_1g-LMWaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_1g-LM2aXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_1g-LNWaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_1hH8QGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_1hH8QmaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_26PEQGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_26PEQmaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_27RmAGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_27RmAmaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_-B6RgGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_-CECgWaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_-CEChGaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_-CEChmaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="__0Wfi2aXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="__0gQgWaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="__1P3YGaXEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="__1P3YmaXEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_BJSSK2aYEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_BJSSLWaYEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_BKVbAGaYEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_BKVbAmaYEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_DLOUu2aYEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_DLYFsWaYEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_DMHskGaYEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_DMRdkWaYEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_EXhItGaYEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_EXhItmaYEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_EYHloGaYEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_EYQvkWaYEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_Qfkft2aYEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Class" href="platform:/resource/UnisensInterface/.repository.uml2#_P7jtQGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_QfkfuWaYEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_QgwycGaYEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Class" href="platform:/resource/UnisensInterface/.repository.uml2#_P7jtQGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_QgwycmaYEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_Sjv96maYEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_Sj5H0WaYEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_SkyfsGaYEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_SkyfsmaYEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_gFgSsGaYEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_gFqDsWaYEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_gGZqkGaYEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_gGi0gWaYEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_h668O2aYEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_h668PWaYEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_h7-FEGaYEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_h7-FEmaYEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_jaSdMGaYEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_jaSdMmaYEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_jbewAGaYEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_jbohAWaYEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P2pYEGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_tbOhPWaZEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Class" href="platform:/resource/UnisensInterface/.repository.uml2#_P7jtQGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_tbXrIWaZEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_tcHSAGaZEdybsvnUajUaNw">
+    <supplier xmi:type="uml:Class" href="platform:/resource/UnisensInterface/.repository.uml2#_P7jtQGaQEdybsvnUajUaNw"/>
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_tcHSAmaZEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_RElK0GaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_uLzCimaZEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_uL8zgWaZEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_uRnWpmaZEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_uRnWqGaZEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_uo2x82aZEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_uo2x9WaZEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_2sSc4WaZEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_2sSc42aZEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_2tCDwGaZEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_2tCDwmaZEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_5mQToWaZEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_5mQTo2aZEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_5m_6g2aZEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_5nJrgWaZEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_-M_1TGaZEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_-M_1TmaZEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_-NvcIGaZEdybsvnUajUaNw" supplier="_fmep1maXEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_-N5NIWaZEdybsvnUajUaNw" supplier="_P02oVmaQEdybsvnUajUaNw">
+    <client xmi:type="uml:Interface" href="platform:/resource/UnisensInterface/.repository.uml2#_P5U4oGaQEdybsvnUajUaNw"/>
+  </packagedElement>
+</uml:Model>
