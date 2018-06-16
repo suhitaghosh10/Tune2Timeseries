@@ -25,8 +25,8 @@ public class UnisensCSVGenerator {
 	}
 
 	public List<Double> generateDataFromBin(String binLoc, String csvLoc, boolean writeToCSV) throws IOException {
-		System.out.println("This example reads the first samples of a Unisens dataset.");
-		System.out.println("Unisens File: " + binLoc);
+		//System.out.println("This example reads the first samples of a Unisens dataset.");
+		///.out.println("Unisens File: " + binLoc);
 
 		UnisensFactory uf = UnisensFactoryBuilder.createFactory();
 		Unisens u = null;
@@ -40,17 +40,17 @@ public class UnisensCSVGenerator {
 
 		List<Double> edaList = new ArrayList<>();
 		ArrayList<Entry> list = (ArrayList<Entry>) u.getEntries();
-		System.out.println("Timestamp start: " + u.getTimestampStart().toString());
-		System.out.println("Number of entries: " + list.size());
+		//System.out.println("Timestamp start: " + u.getTimestampStart().toString());
+		//System.out.println("Number of entries: " + list.size());
 		BufferedWriter writer = null;
 		for (int i = 0; i < list.size(); i++) {
 			SignalEntry se = list.get(i) instanceof SignalEntry ? (SignalEntry) list.get(i) : null;
 			if (se != null && se.getId().equals(Constants.EDA_BIN)) {
-				System.out.println(se.getId());
-				System.out.println("\nReading entry  " + list.get(i).getId() + "...");
+				//System.out.println(se.getId());
+				//System.out.println("\nReading entry  " + list.get(i).getId() + "...");
 				System.out.println("Sampling rate: " + se.getSampleRate());
-				System.out.println("Number of samples: " + se.getCount());
-				System.out.println("Number of Channels: " + se.getChannelCount());
+				//System.out.println("Number of samples: " + se.getCount());
+				//System.out.println("Number of Channels: " + se.getChannelCount());
 
 				Long count = se.getCount();
 
@@ -72,7 +72,7 @@ public class UnisensCSVGenerator {
 							}
 							edaList.add(data[Math.toIntExact(s)][0]);
 						}
-						System.out.println("Done!");
+						//System.out.println("Done!");
 					} catch (IOException e) {
 						System.out.println("Exception: Can't read data.");
 						e.printStackTrace();

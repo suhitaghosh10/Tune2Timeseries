@@ -41,7 +41,7 @@ public class ArffGenerator {
 		NumericToNominal convert = new NumericToNominal();
 		String[] options = new String[2];
 		options[0] = "-R";
-		options[1] = "last-last";
+		options[1] = "first-first";
 		convert.setOptions(options);
 		convert.setInputFormat(dataset);
 		Instances newData = Filter.useFilter(dataset, convert);
