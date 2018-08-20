@@ -1,17 +1,17 @@
 package org.ovgu.de.trial;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.ovgu.de.unisens.UnisensCSVGenerator;
+import org.ovgu.de.utils.ArffGenerator;
+import org.ovgu.de.utils.PropertiesHandler;
 
 /**
  * 
@@ -23,63 +23,59 @@ import org.ovgu.de.unisens.UnisensCSVGenerator;
  */
 public class TrialPhaseISegregrator {
 
+	java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger("TrialPhaseISegregrator");
 	private static final Integer SAMPLING_RATE = 32;
-	private static final String LOG_PATH = "E:\\user-study\\log\\";
-	private static final String UNISENS_FILES_PATH = "E:\\user-study\\unisens\\";
-	private static final String OUT_PATH = "E:\\user-study\\output\\";
-
-	public static void main(String[] args) throws IOException {
-
-		String INPUT_UNISENS_FILE = UNISENS_FILES_PATH + "2018-05-31 17.10.00";
-		String LOG_FILE = LOG_PATH + "LOG_1527782376698_3.csv";
-		String OUTPUT_FILE = OUT_PATH + "HE_3.csv";
-		boolean startedAfter1min = false;
-		TrialPhaseISegregrator tp = new TrialPhaseISegregrator();
-		//generate for 1 file
-		List<SegmentDAO> segments = tp.generateSegments(INPUT_UNISENS_FILE, LOG_FILE, OUTPUT_FILE, startedAfter1min);
-		tp.generateCSV(segments, OUTPUT_FILE);
-		Map<String, Boolean> logUnisensPathMap = tp.generateLogUnisensMap();
-
-		//generate for multiple files
-		List<SegmentDAO> segmentForAll = tp.generateSegmentsFromMultipleFiles(logUnisensPathMap);// will shift to properties file later
-		tp.generateCSV(segmentForAll, OUT_PATH+"all.csv");
-		System.out.println(segmentForAll.size());
-
-	}
 
 	/**
-	 * @param logUnisensPathMap
+	 * @param inputUnisensFolderLoc
+	 * @param LogFile
+	 * @param ArffFolderLoc
+	 * @param startedAfter1min
+	 * @param classFirstInArff
 	 * @return
-	 * @throws IOException
+	 * 
+	 * 		preprocess and generates arff file. The method returns messages to be
+	 *         returned in the UI
+	 * @throws IOException 
 	 */
-	public List<SegmentDAO> generateSegmentsFromMultipleFiles(Map<String, Boolean> logUniEntries)
-			throws IOException {
-		List<SegmentDAO> segments = new ArrayList<>();
-		List<SegmentDAO> segmentsForOneFile = null;
-		for (Entry<String, Boolean> entry : logUniEntries.entrySet()) {
-			System.out.println("generating ts for" + entry.getKey());
-			String[] arr = entry.getKey().split("#");
-			segmentsForOneFile = generateSegments(UNISENS_FILES_PATH + arr[0], LOG_PATH + arr[1],
-					OUT_PATH + arr[0] + ".csv", entry.getValue());
-			segments.addAll(segmentsForOneFile);
-			System.out.println("End generating ts for" + entry.getKey());
+	public String preprocessAndGenerateArff(String inputUnisensFolderLoc, String LogFile, String ArffFile,
+			boolean startedAfter1min) throws IOException {
+
+		StringBuffer msg = new StringBuffer();
+		String temp_path = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH");
+		if (!(temp_path.endsWith("/") | temp_path.endsWith("\\")))
+			temp_path = temp_path + "/";
+		
+		msg.append("Log file provided :" + LogFile + "\n");
+		LOGGER.info("Log file provided :" + LogFile);
+		msg.append("Unisens folder provided :" + inputUnisensFolderLoc + "\n");
+		LOGGER.info("Unisens folder provided :" + inputUnisensFolderLoc);
+		msg.append("Arff to be generated :" + ArffFile + "\n");
+		LOGGER.info("Arff will be generated :" + ArffFile);
+		String csvFile = temp_path + "temp.csv";
+
+		try {
+			// generate segments
+			SegmentMessageDAO dao = generateSegments(inputUnisensFolderLoc, LogFile, startedAfter1min);
+			msg.append(dao.getMessage());
+			// generate csv
+			generateCSV(dao.getSgmntList(), csvFile);
+		} catch (IOException e) {
+			msg.append("File not found " + e.getMessage());
+			LOGGER.severe("File not found " + e.getMessage());
+			return msg.toString();
 		}
-		return segments;
 
-	}
+		// generate arff
+		try {
+			ArffGenerator.generateDataset(csvFile, ArffFile, false);
+		} catch (Exception e) {
+			msg.append("Arff file could not be generated " + e.getMessage() + "\n");
+			LOGGER.severe("Arff file could not be generated " + e.getMessage());
+			return msg.toString();
+		}
+		return msg.toString();
 
-	/**
-	 * @return generates the log unisens files mapping
-	 */
-	public Map<String, Boolean> generateLogUnisensMap() {
-		Map<String, Boolean> logUnisensPathMap = new HashMap<>();
-		//unisensFile#logFile, startsAfter1min-boolean
-		logUnisensPathMap.put("2018-05-31 14.46.01#LOG_1527772114264_1.csv", false);
-		logUnisensPathMap.put("2018-05-31 15.31.02#LOG_1527775609337_2", true);
-		logUnisensPathMap.put("2018-05-31 17.10.00#LOG_1527782376698_3.csv", false);
-		logUnisensPathMap.put("2018-06-01 17.36.01#LOG_1527869558388_1", false);
-		logUnisensPathMap.put("2018-06-01 18.27.01#LOG_1527872343275_2", false);
-		return logUnisensPathMap;
 	}
 
 	/**
@@ -93,25 +89,25 @@ public class TrialPhaseISegregrator {
 	 *             The method generates segment object. each segment dao represents
 	 *             either hard or easy ts
 	 */
-	public List<SegmentDAO> generateSegments(String inputUnisensLoc, String logLoc, String outputLoc,
-			boolean startedAfter1min) throws IOException {
+	public SegmentMessageDAO generateSegments(String inputUnisensLoc, String logLoc, boolean startedAfter1min)
+			throws IOException {
+
+		SegmentMessageDAO dao = new SegmentMessageDAO();
+		StringBuffer msg = new StringBuffer();
+		msg.append("Generating Segments from the Log and Unisens File ...\n");
+		LOGGER.info("Generating Segments from the Log and Unisens File ...");
 
 		List<LogEntryDAO> logEntries = getLogEntries(logLoc);
 		UnisensCSVGenerator unisens = new UnisensCSVGenerator();
 		List<Double> uniData = unisens.generateDataFromBin(inputUnisensLoc, null, false);
 		List<SegmentDAO> segments = new ArrayList<>();
-		// System.out.println("Data present after truncation 1 min of initial relaxation
-		// phase:" + uniData.size());
 		int counter = startedAfter1min ? 1920 : 0; // start after 1min- (32*60)
 
-		// int max = 0;
 		try {
 			for (int index = 0; index < logEntries.size(); index++) {
 
 				int samplesToAdd = (SAMPLING_RATE * logEntries.get(index).getDuration()) / 1000;
-				// max = samplesToAdd > max ? samplesToAdd : max;
 				StringBuffer sbf = new StringBuffer();
-				sbf.append(logEntries.get(index).getEasyHardRelaxFlag().equals("h") ? "1" : "0").append(",");
 
 				if (logEntries.get(index).getEasyHardRelaxFlag().equals("h")
 						|| logEntries.get(index).getEasyHardRelaxFlag().equals("e")) {
@@ -119,50 +115,62 @@ public class TrialPhaseISegregrator {
 						for (int i = counter; i <= (counter + samplesToAdd); i++) {
 							sbf.append(uniData.get(i)).append(",");
 						}
-						sbf.deleteCharAt(sbf.length() - 1); // remove extra comma
-						segments.add(new SegmentDAO(sbf.toString(), samplesToAdd));
+						sbf.deleteCharAt(sbf.length() - 1);
+						String cls = logEntries.get(index).getEasyHardRelaxFlag().equals("h") ? "1" : "0";
+						segments.add(new SegmentDAO(sbf.toString(), cls, samplesToAdd));
 					}
-					System.out.println(
-							logEntries.get(index).getEasyHardRelaxFlag().toUpperCase() + " Segment, has length "
-									+ samplesToAdd + " range :" + counter + "-" + (counter + samplesToAdd));
+					// LOGGER.info(logEntries.get(index).getEasyHardRelaxFlag().toUpperCase() + "
+					// Segment, has length "
+					// + samplesToAdd + " range :" + counter + "-" + (counter + samplesToAdd));
 				} else {
-					System.out.println("R" + " Segment, has length " + samplesToAdd + " range :" + counter + "-"
-							+ (counter + samplesToAdd));
+					// LOGGER.info("R" + " Segment, has length " + samplesToAdd + " range :" +
+					// counter + "-"
+					// + (counter + samplesToAdd));
 				}
 				counter = counter + samplesToAdd;
 
 			}
 		} catch (Exception e) {
-			System.err.println("all data could not be segmented");
+			LOGGER.info("all data could not be segmented");
+			msg.append("all data could not be segmented\n");
 		} finally {
-			System.out.println(inputUnisensLoc + " length-" + segments.size());
+			LOGGER.info(segments.size() + " segments have been generated...");
+			msg.append(segments.size() + " segments have been generated...\n");
 		}
-		// generateCSV(segments, max + 1, outputLoc);
-		return segments;
+		dao.setSgmntList(segments);
+		dao.setMessage(msg.toString());
+		return dao;
 
 	}
 
 	/**
 	 * @param segments
-	 * @param max
+	 * @param outputLoc
 	 * @throws IOException
+	 * 
+	 *             The method generates csv from segments of timeseries. each
+	 *             segment is either hard or easy type
 	 */
 	public void generateCSV(List<SegmentDAO> segments, String outputLoc) throws IOException {
 
-		int maxLngth = getMaxLength(segments)+1;
-		List<String> paddedSegments = fillWithMissingNotation(segments, maxLngth);
+		File f = new File(outputLoc);
+		if (f.exists()) {
+			f.delete();
+		}
+		int maxLngth = getMaxLength(segments) + 1;
+		List<SegmentDAO> paddedSegments = fillWithMissingNotation(segments, maxLngth);
 		// generate and add header to csv
 		StringBuffer sbf = new StringBuffer();
 		for (int i = 0; i <= maxLngth; i++) {
-			sbf.append(i == 0 ? "class," : "a" + i + ",");
+			sbf.append(i == maxLngth ? "class" : "a" + i + ",");
 		}
-		sbf.deleteCharAt(sbf.length() - 1);
+
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputLoc, true));) {
 			writer.write(sbf.toString());
 			writer.append("\n");
 			// add actual data to csv
-			for (String sgmnt : paddedSegments) {
-				writer.write(sgmnt);
+			for (SegmentDAO sgmnt : paddedSegments) {
+				writer.write(sgmnt.getTimeseries() + "," + sgmnt.getClassName());
 				writer.append("\n");
 			}
 		}
@@ -171,6 +179,8 @@ public class TrialPhaseISegregrator {
 	/**
 	 * @param segments
 	 * @return
+	 * 
+	 * 		The method returns longest segment's length
 	 */
 	private static int getMaxLength(List<SegmentDAO> segments) {
 		int max = 0;
@@ -184,6 +194,8 @@ public class TrialPhaseISegregrator {
 	 * @param logLoc
 	 * @return
 	 * @throws IOException
+	 * 
+	 *             The method reads a log file and creates log dao
 	 */
 	private static List<LogEntryDAO> getLogEntries(String logLoc) throws IOException {
 		List<String> lines = Files.readAllLines(Paths.get(logLoc));
@@ -197,24 +209,99 @@ public class TrialPhaseISegregrator {
 
 	}
 
-	private static List<String> fillWithMissingNotation(List<SegmentDAO> segments, int max) {
+	/**
+	 * @param segments
+	 * @param max
+	 * @return
+	 * 
+	 * 		The method fills the shorter segments with '?' notation, which is
+	 *         needed to create arff file in weka
+	 */
+	private static List<SegmentDAO> fillWithMissingNotation(List<SegmentDAO> segments, int max) {
 		StringBuffer sbf = new StringBuffer();
-		List<String> modifiedS = new ArrayList<>();
+		List<SegmentDAO> modifiedS = new ArrayList<>();
 		for (SegmentDAO sgmnt : segments) {
 			int length = sgmnt.getTimeseries().split(",").length;
-			System.out.println(length);
+			// System.out.println(length);
 			if (length < max) {
 				sbf = new StringBuffer(sgmnt.getTimeseries());
-				for (int i = 0; i <= (max - length); i++) {
-					sbf.append(","); // jus append comma for missing values
+				for (int i = 0; i < (max - length); i++) {
+					sbf.append(",?"); // jus append comma for missing values
 				}
-				modifiedS.add(sbf.toString());
+				modifiedS.add(new SegmentDAO(sbf.toString(), sgmnt.getClassName(), max));
 			} else {
-				modifiedS.add(sgmnt.getTimeseries());
+				modifiedS.add(sgmnt);
 			}
 
 		}
 		return modifiedS;
 	}
 
+	/**
+	 * @param logUnisensPathMap
+	 * @return
+	 * @throws IOException
+	 */
+	public SegmentMessageDAO generateSegmentsFromMultipleFiles(List<PersonDAO> logUnisensPathMap) throws IOException {
+
+		StringBuffer msg = new StringBuffer();
+		SegmentMessageDAO dao = new SegmentMessageDAO();
+
+		LOGGER.info("Generating segements for multiple files...");
+		List<SegmentDAO> segments = new ArrayList<>();
+		List<SegmentDAO> segmentsForOneFile = null;
+
+		for (PersonDAO entry : logUnisensPathMap) {
+			LOGGER.info("Start Generating segments for " + entry.getLogFileName() + "_" + entry.getUnisensFolderName());
+			msg.append("Start Generating segments for " + entry.getLogFileName() + "_" + entry.getUnisensFolderName()
+					+ "\n");
+			segmentsForOneFile = generateSegments(entry.getUnisensFolderName(), entry.getLogFileName(),
+					entry.isStartedAfterOneMinute()).getSgmntList();
+			segments.addAll(segmentsForOneFile);
+			LOGGER.info("End Generating " + segmentsForOneFile.size() + " segments for" + entry.getLogFileName() + "_"
+					+ entry.getUnisensFolderName());
+			msg.append("End Generating " + segmentsForOneFile.size() + " segments for" + entry.getLogFileName() + "_"
+					+ entry.getUnisensFolderName() + "\n");
+		}
+		dao.setSgmntList(segments);
+		dao.setMessage(msg.toString());
+		return dao;
+
+	}
+
+	/**
+	 * @param unisensFolder
+	 * @param LogFolder
+	 * @param arffFolder
+	 * @param logUnisensPathMap
+	 * @return
+	 * @throws IOException
+	 * 
+	 *             processes multiple files and generates ones arff file. returns
+	 *             name of the arff file
+	 */
+	public String preprocessAndGenerateArffForMultiple(String targetArffFileName, List<PersonDAO> logUnisensPathMap)
+			throws IOException {
+
+		String tempPath = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH");
+		if (!(tempPath.endsWith("/") | tempPath.endsWith("\\")))
+			tempPath = tempPath + "/";
+
+		TrialPhaseISegregrator tp = new TrialPhaseISegregrator();
+		StringBuffer sbf = new StringBuffer("Start Generating segments for multiple person\n");
+
+		// create segments for all
+		SegmentMessageDAO segmentForAll = tp.generateSegmentsFromMultipleFiles(logUnisensPathMap);
+		sbf.append(segmentForAll.getMessage());
+		// generate csv
+		long curTime = System.currentTimeMillis();
+		String csvPath = tempPath + "temp.csv";
+		tp.generateCSV(segmentForAll.getSgmntList(), csvPath);
+		sbf.append("Total number of Segments generated : " + segmentForAll.getSgmntList().size() + "\n");
+
+		String msg = ArffGenerator.generateDataset(csvPath, targetArffFileName, false);
+		sbf.append(msg + "\n");
+		sbf.append("End Generating segments for multiple person\n");
+		return sbf.toString();
+	}
 }

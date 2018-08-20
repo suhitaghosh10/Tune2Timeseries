@@ -13,6 +13,12 @@
 			<artifactId>weka-stable</artifactId>
 			<version>3.8.0</version>
 		</dependency>
+<!-- https://mvnrepository.com/artifact/org.owasp/java-file-io -->
+<dependency>
+    <groupId>org.owasp</groupId>
+    <artifactId>java-file-io</artifactId>
+    <version>1.0.0</version>
+</dependency>
 
 	</dependencies>
 </project>

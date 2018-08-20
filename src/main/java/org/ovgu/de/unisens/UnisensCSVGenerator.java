@@ -25,9 +25,6 @@ public class UnisensCSVGenerator {
 	}
 
 	public List<Double> generateDataFromBin(String binLoc, String csvLoc, boolean writeToCSV) throws IOException {
-		//System.out.println("This example reads the first samples of a Unisens dataset.");
-		///.out.println("Unisens File: " + binLoc);
-
 		UnisensFactory uf = UnisensFactoryBuilder.createFactory();
 		Unisens u = null;
 
@@ -46,12 +43,6 @@ public class UnisensCSVGenerator {
 		for (int i = 0; i < list.size(); i++) {
 			SignalEntry se = list.get(i) instanceof SignalEntry ? (SignalEntry) list.get(i) : null;
 			if (se != null && se.getId().equals(Constants.EDA_BIN)) {
-				//System.out.println(se.getId());
-				//System.out.println("\nReading entry  " + list.get(i).getId() + "...");
-				System.out.println("Sampling rate: " + se.getSampleRate());
-				//System.out.println("Number of samples: " + se.getCount());
-				//System.out.println("Number of Channels: " + se.getChannelCount());
-
 				Long count = se.getCount();
 
 				if (writeToCSV) {
@@ -61,8 +52,6 @@ public class UnisensCSVGenerator {
 				if (se.getDataType() == DataType.INT16) {
 					try {
 						double[][] data = (double[][]) se.readScaled(count.intValue());
-
-						System.out.println("\nsample# \tchannel# \tdata"+data.length);
 
 						for (long s = 0; s < se.getCount(); s++) // chop 1 min, so consider from 1920
 						{
