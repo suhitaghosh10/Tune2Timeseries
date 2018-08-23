@@ -21,7 +21,7 @@ import org.ovgu.de.utils.PropertiesHandler;
  *         of timeseries
  *
  */
-public class TrialPhaseISegregrator {
+public class TrialPhaseSegregrator {
 
 	java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger("TrialPhaseISegregrator");
 	private static final Integer SAMPLING_RATE = 32;
@@ -56,7 +56,7 @@ public class TrialPhaseISegregrator {
 
 		try {
 			// generate segments
-			SegmentMessageDAO dao = generateSegments(inputUnisensFolderLoc, LogFile, startedAfter1min);
+			SegmentMessageDAO dao = generateSegmentsForPhase1(inputUnisensFolderLoc, LogFile, startedAfter1min);
 			msg.append(dao.getMessage());
 			// generate csv
 			generateCSV(dao.getSgmntList(), csvFile);
@@ -89,7 +89,72 @@ public class TrialPhaseISegregrator {
 	 *             The method generates segment object. each segment dao represents
 	 *             either hard or easy ts
 	 */
-	public SegmentMessageDAO generateSegments(String inputUnisensLoc, String logLoc, boolean startedAfter1min)
+	public SegmentMessageDAO generateSegmentsForPhase1(String inputUnisensLoc, String logLoc, boolean startedAfter1min)
+			throws IOException {
+
+		SegmentMessageDAO dao = new SegmentMessageDAO();
+		StringBuffer msg = new StringBuffer();
+		msg.append("Generating Segments from the Log and Unisens File ...\n");
+		LOGGER.info("Generating Segments from the Log and Unisens File ...");
+
+		List<LogEntryDAO> logEntries = getLogEntries(logLoc);
+		UnisensCSVGenerator unisens = new UnisensCSVGenerator();
+		List<Double> uniData = unisens.generateDataFromBin(inputUnisensLoc, null, false);
+		List<SegmentDAO> segments = new ArrayList<>();
+		int counter = startedAfter1min ? 1920 : 0; // start after 1min- (32*60)
+
+		try {
+			for (int index = 0; index < logEntries.size(); index++) {
+
+				int samplesToAdd = (SAMPLING_RATE * logEntries.get(index).getDuration()) / 1000;
+				StringBuffer sbf = new StringBuffer();
+
+				if (logEntries.get(index).getEasyHardRelaxFlag().equals("h")
+						|| logEntries.get(index).getEasyHardRelaxFlag().equals("e")) {
+					if ((!startedAfter1min && index > 0) || startedAfter1min) {
+						for (int i = counter; i <= (counter + samplesToAdd); i++) {
+							sbf.append(uniData.get(i)).append(",");
+						}
+						sbf.deleteCharAt(sbf.length() - 1);
+						String cls = logEntries.get(index).getEasyHardRelaxFlag().equals("h") ? "1" : "0";
+						segments.add(new SegmentDAO(sbf.toString(), cls, samplesToAdd));
+					}
+					// LOGGER.info(logEntries.get(index).getEasyHardRelaxFlag().toUpperCase() + "
+					// Segment, has length "
+					// + samplesToAdd + " range :" + counter + "-" + (counter + samplesToAdd));
+				} else {
+					// LOGGER.info("R" + " Segment, has length " + samplesToAdd + " range :" +
+					// counter + "-"
+					// + (counter + samplesToAdd));
+				}
+				counter = counter + samplesToAdd;
+
+			}
+		} catch (Exception e) {
+			LOGGER.info("all data could not be segmented");
+			msg.append("all data could not be segmented\n");
+		} finally {
+			LOGGER.info(segments.size() + " segments have been generated...");
+			msg.append(segments.size() + " segments have been generated...\n");
+		}
+		dao.setSgmntList(segments);
+		dao.setMessage(msg.toString());
+		return dao;
+
+	}
+	
+	/**
+	 * @param inputUnisensLoc
+	 * @param logLoc
+	 * @param outputLoc
+	 * @param startedAfter1min
+	 * @return
+	 * @throws IOException
+	 * 
+	 *             The method generates segment object for phase2. each segment dao represents
+	 *             either hard or easy ts
+	 */
+	public SegmentMessageDAO generateSegmentsForPhase2(String inputUnisensLoc, String logLoc, boolean startedAfter1min)
 			throws IOException {
 
 		SegmentMessageDAO dao = new SegmentMessageDAO();
@@ -255,7 +320,7 @@ public class TrialPhaseISegregrator {
 			LOGGER.info("Start Generating segments for " + entry.getLogFileName() + "_" + entry.getUnisensFolderName());
 			msg.append("Start Generating segments for " + entry.getLogFileName() + "_" + entry.getUnisensFolderName()
 					+ "\n");
-			segmentsForOneFile = generateSegments(entry.getUnisensFolderName(), entry.getLogFileName(),
+			segmentsForOneFile = generateSegmentsForPhase1(entry.getUnisensFolderName(), entry.getLogFileName(),
 					entry.isStartedAfterOneMinute()).getSgmntList();
 			segments.addAll(segmentsForOneFile);
 			LOGGER.info("End Generating " + segmentsForOneFile.size() + " segments for" + entry.getLogFileName() + "_"
@@ -287,7 +352,7 @@ public class TrialPhaseISegregrator {
 		if (!(tempPath.endsWith("/") | tempPath.endsWith("\\")))
 			tempPath = tempPath + "/";
 
-		TrialPhaseISegregrator tp = new TrialPhaseISegregrator();
+		TrialPhaseSegregrator tp = new TrialPhaseSegregrator();
 		StringBuffer sbf = new StringBuffer("Start Generating segments for multiple person\n");
 
 		// create segments for all
