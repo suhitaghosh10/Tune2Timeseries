@@ -405,6 +405,19 @@ public class SAXVSM extends AbstractClassifierWithTrainingData {
 		try {
 			SAXVSM vsm = new SAXVSM();
 			double accuracy = singleClassifierAndFold(train, test, vsm, folds, resultsPath);
+
+			Evaluation eval = new Evaluation(test);
+			PlainText forPredictionsPrinting = new PlainText();
+			forPredictionsPrinting.setBuffer(new StringBuffer());
+
+			CSV output = new CSV();
+			output.setHeader(new Instances(test, 0));
+			output.setBuffer(new StringBuffer());
+
+			eval.evaluateModel(vsm, test, output);
+
+			String classDetailsString = eval.toClassDetailsString();
+
 			weka.core.SerializationHelper.write(classifierSaveLoc + classifierName + ".model", vsm);
 			double trainTime = (System.nanoTime() - start) / 1000000000.0; // seconds
 
@@ -412,27 +425,33 @@ public class SAXVSM extends AbstractClassifierWithTrainingData {
 			msg.append("End Building classifier...\\n");
 			logger.info("Accuracy with " + folds + " :" + accuracy);
 			msg.append("Accuracy with " + folds + " :" + accuracy + "\n");
+			msg.append(classDetailsString + "\n");
 			logger.info("Best Params for classifier: " + classifierName);
 			for (int p : ((SAXVSM) vsm).getParametersArray())
 				logger.info(p + " ");
 		} catch (Exception e) {
 			logger.severe("Classifier could not be built!!!" + e.getMessage());
-			msg.append("Classifier could not be built!!!" + e.getMessage());
+			msg.append("ERROR: Classifier could not be built!!!" + e.getMessage());
 			return msg.toString();
 		}
 		return msg.toString();
 	}
 
-	public void applyClassifier(Instances test, String classifierModel) throws Exception, FileNotFoundException {
+	public String applyClassifier(Instances test, String classifierModel) throws Exception, FileNotFoundException {
 
 		logger.info("Testing starting...");
+		StringBuffer msg = new StringBuffer("Applying ").append(this.toString()).append(" model <")
+				.append(classifierModel).append("> on dataset <").append(test.relationName() + ">\n");
+
 		SAXVSM vsm = (SAXVSM) SerializationHelper.read(new FileInputStream(classifierModel));
 		long start = System.nanoTime();
 		double acc = ClassifierTools.accuracy(test, vsm);
 		double testTime = (System.nanoTime() - start) / 1000000000.0; // sec
 		logger.info("Testing done (" + testTime + "s)");
+		msg.append("Testing done (" + testTime + "s)\n");
 
 		logger.info("Accuracy : " + acc);
+		msg.append("Accuracy : " + acc + "\n");
 		Evaluation eval = new Evaluation(test);
 		PlainText forPredictionsPrinting = new PlainText();
 		forPredictionsPrinting.setBuffer(new StringBuffer());
@@ -445,6 +464,8 @@ public class SAXVSM extends AbstractClassifierWithTrainingData {
 
 		String classDetailsString = eval.toClassDetailsString();
 		logger.info(classDetailsString);
+		msg.append(classDetailsString + "\n");
+		return msg.toString();
 	}
 
 	@Override

@@ -146,7 +146,7 @@ public class ClassifierTools {
 				trueClass = d.classValue();
 				if (trueClass == predictedClass)
 					a++;
-				System.out.println("True = " + trueClass + " Predicted = " + predictedClass);
+				logger.info("True = " + trueClass + " Predicted = " + predictedClass);
 			} catch (Exception e) {
 				System.out.println(" Error with instance " + i + " with Classifier " + c.getClass().getName()
 						+ " Exception =" + e);

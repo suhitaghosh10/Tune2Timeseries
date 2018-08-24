@@ -43,16 +43,26 @@ public class TrialPhaseSegregrator {
 
 		StringBuffer msg = new StringBuffer();
 		String temp_path = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH");
-		if (!(temp_path.endsWith("/") | temp_path.endsWith("\\")))
-			temp_path = temp_path + "/";
 		
+	/*	if (!(temp_path.endsWith("/") | temp_path.endsWith("\\")))
+			temp_path = temp_path + "\\";*/
+		//A file is created if not existent as per props
+		 File file = new File(temp_path);
+	        if (!file.exists()) {
+	            if (file.mkdirs()) {
+	                LOGGER.info("Directory is now created!");
+	            } else {
+	                LOGGER.warning("Failed to create directory may be already existing!");
+	            }
+	        }
 		msg.append("Log file provided :" + LogFile + "\n");
 		LOGGER.info("Log file provided :" + LogFile);
 		msg.append("Unisens folder provided :" + inputUnisensFolderLoc + "\n");
 		LOGGER.info("Unisens folder provided :" + inputUnisensFolderLoc);
 		msg.append("Arff to be generated :" + ArffFile + "\n");
 		LOGGER.info("Arff will be generated :" + ArffFile);
-		String csvFile = temp_path + "temp.csv";
+		long time = System.currentTimeMillis();
+		String csvFile = temp_path + time+"temp.csv";
 
 		try {
 			// generate segments
@@ -159,8 +169,8 @@ public class TrialPhaseSegregrator {
 
 		SegmentMessageDAO dao = new SegmentMessageDAO();
 		StringBuffer msg = new StringBuffer();
-		msg.append("Generating Segments from the Log and Unisens File ...\n");
-		LOGGER.info("Generating Segments from the Log and Unisens File ...");
+		msg.append("Generating Segments from the Log and Unisens File for phase 2...\n");
+		LOGGER.info("Generating Segments from the Log and Unisens File for ...");
 
 		List<LogEntryDAO> logEntries = getLogEntries(logLoc);
 		UnisensCSVGenerator unisens = new UnisensCSVGenerator();
@@ -349,8 +359,18 @@ public class TrialPhaseSegregrator {
 			throws IOException {
 
 		String tempPath = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH");
-		if (!(tempPath.endsWith("/") | tempPath.endsWith("\\")))
-			tempPath = tempPath + "/";
+		//A file is created if not existent as per props
+		/*if (!(tempPath.endsWith("/") | tempPath.endsWith("\\")))
+			tempPath = tempPath + "/";*/
+		
+		 File file = new File(tempPath);
+	        if (!file.exists()) {
+	            if (file.mkdirs()) {
+	                LOGGER.info("Directory is now created!");
+	            } else {
+	                LOGGER.warning("Failed to create directory may be already existing!");
+	            }
+	        }
 
 		TrialPhaseSegregrator tp = new TrialPhaseSegregrator();
 		StringBuffer sbf = new StringBuffer("Start Generating segments for multiple person\n");

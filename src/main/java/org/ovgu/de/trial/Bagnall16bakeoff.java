@@ -92,8 +92,8 @@ public class Bagnall16bakeoff {
 		//	((RandomForest) c).setNumTrees(500);
 			break;
 		case "RotF":
-			//c = new RotationForest();
-			//((RotationForest) c).setNumIterations(50);
+		//	c = new RotationForest();
+		//	((RotationForest) c).setNumIterations(50);
 			break;
 		case "Logistic":
 			c = new Logistic();

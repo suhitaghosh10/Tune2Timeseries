@@ -21,7 +21,6 @@ import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.ovgu.de.classifier.saxvsm.AbstractClassifierWithTrainingData;
-import org.ovgu.de.classifier.saxvsm.SAXVSM;
 import org.ovgu.de.classifier.utility.ClassifierResults;
 import org.ovgu.de.classifier.utility.ClassifierTools;
 import org.ovgu.de.classifier.utility.InstanceTools;
@@ -53,6 +52,11 @@ import weka.core.TechnicalInformation;
  *         getTechnicalInformation()
  */
 public class BOSS extends AbstractClassifierWithTrainingData implements HiveCoteModule, TrainAccuracyEstimate {
+
+	/**
+	 * 
+	 */
+	private static final String TRAIN_CV_PATH = "E:\\Boss\\boss";
 
 	public TechnicalInformation getTechnicalInformation() {
 		TechnicalInformation result;
@@ -98,8 +102,8 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 	};
 
 	private SerialiseOptions serOption = SerialiseOptions.STORE;
-	private static String serFileLoc = "E:\\Boss\\";
-	private static String featureFileLoc = "E:\\Boss\\featuresets\\BOSSEnsemble\\";
+	private static String serFileLoc = "D:\\Boss\\";
+	private static String featureFileLoc = "D:\\Boss\\featuresets\\BOSSEnsemble\\";
 
 	private boolean[] normOptions;
 
@@ -371,7 +375,7 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 
 		for (boolean normalise : normOptions) {
 			for (int winSize = minWindow; winSize <= maxWindow; winSize += winInc) {
-				//System.out.println("window -"+winSize);
+				// System.out.println("window -"+winSize);
 				BOSSIndividual boss = null;
 
 				// for feature saving/loading, one set per windowsize (with wordLengths[0]) is
@@ -431,7 +435,7 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 						bw.storeAndClearClassifier();
 
 					classifiers.add(bw);
-					//System.out.println(bw.toString());
+					// System.out.println(bw.toString());
 
 					if (bestAccForWinSize > maxAcc) {
 						maxAcc = bestAccForWinSize;
@@ -462,7 +466,7 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 		trainCV = true;
 		trainResults.buildTime = System.currentTimeMillis() - trainResults.buildTime;
 		if (trainCV) {
-			trainCVPath="E:\\Boss\\boss";
+			trainCVPath = TRAIN_CV_PATH;
 			OutFile of = new OutFile(trainCVPath);
 			of.writeLine(data.relationName() + ",BOSSEnsemble,train");
 
@@ -620,9 +624,9 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 			if (classHist.length > (int) classification) {
 				classHist[(int) classification]++;
 				sum++;
-				//System.out.println(sum);
+				// System.out.println(sum);
 			} else {
-				System.out.println("check-"+classHist.length +" "+(int) classification);
+				System.out.println("check-" + classHist.length + " " + (int) classification);
 			}
 		}
 
@@ -647,8 +651,8 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 	public static void detailedFold0Test() {
 		System.out.println("BOSS DetailedTest\n");
 		try {
-			Instances train = ClassifierTools.loadData("E:\\user-study\\arff\\train2.arff");
-			Instances test = ClassifierTools.loadData("E:\\user-study\\arff\\test3.arff");
+			Instances train = ClassifierTools.loadData("E:\\user-study\\arff\\train.arff");
+			Instances test = ClassifierTools.loadData("E:\\user-study\\arff\\test.arff");
 			System.out.println(train.relationName());
 
 			BOSS boss = new BOSS();
@@ -685,7 +689,7 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 	public static void resampleTest(int resamples) throws Exception {
 		Instances train = ClassifierTools.loadData("C:\\Users\\com\\Dropbox\\Content\\Tune2\\ms1\\susu.arff");
 		Instances test = ClassifierTools.loadData("C:/Users/com/Dropbox/Content/Tune2/ms1/trainSA.arff");
-		
+
 		// System.out.println(dset);
 
 		Classifier c = new BOSS();
@@ -1455,8 +1459,12 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ovgu.de.classifier.saxvsm.AbstractClassifierWithTrainingData#buildClassifierAndSave(weka.core.Instances, weka.core.Instances, java.lang.String, java.lang.String, int, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ovgu.de.classifier.saxvsm.AbstractClassifierWithTrainingData#
+	 * buildClassifierAndSave(weka.core.Instances, weka.core.Instances,
+	 * java.lang.String, java.lang.String, int, java.lang.String)
 	 */
 	@Override
 	public String buildClassifierAndSave(Instances train, Instances test, String classifierSaveLoc,
@@ -1487,7 +1495,7 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 			logger.info("Accuracy with " + folds + " :" + accuracy);
 			msg.append("Accuracy with " + folds + " :" + accuracy + "\n");
 			logger.info("Best Params for classifier: " + classifierName);
-			
+
 		} catch (Exception e) {
 			logger.severe("Classifier could not be built!!!" + e.getMessage());
 			msg.append("Classifier could not be built!!!" + e.getMessage());
@@ -1496,19 +1504,25 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 		return msg.toString();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ovgu.de.classifier.saxvsm.AbstractClassifierWithTrainingData#applyClassifier(weka.core.Instances, java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.ovgu.de.classifier.saxvsm.AbstractClassifierWithTrainingData#
+	 * applyClassifier(weka.core.Instances, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void applyClassifier(Instances test, String classifierModel)
-			throws Exception, FileNotFoundException {
+	public String applyClassifier(Instances test, String classifierModel) throws Exception, FileNotFoundException {
 
 		logger.info("Testing starting...");
+		StringBuffer msg = new StringBuffer("Applying ").append(this.toString()).append(" model <")
+				.append(classifierModel).append("> on dataset <").append(test.relationName() + ">\n");
+		
 		BOSS vsm = (BOSS) SerializationHelper.read(new FileInputStream(classifierModel));
 		long start = System.nanoTime();
 		double acc = ClassifierTools.accuracy(test, vsm);
 		double testTime = (System.nanoTime() - start) / 1000000000.0; // sec
 		logger.info("Testing done (" + testTime + "s)");
+		msg.append("Testing done (" + testTime + "s)\n");
 
 		logger.info("Accuracy : " + acc);
 		Evaluation eval = new Evaluation(test);
@@ -1523,6 +1537,8 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 
 		String classDetailsString = eval.toClassDetailsString();
 		logger.info(classDetailsString);
+		msg.append(classDetailsString + "\n");
+		return msg.toString();
 	}
 
 }
