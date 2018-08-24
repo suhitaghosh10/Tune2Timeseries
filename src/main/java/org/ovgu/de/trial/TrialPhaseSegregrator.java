@@ -159,8 +159,8 @@ public class TrialPhaseSegregrator {
 
 		SegmentMessageDAO dao = new SegmentMessageDAO();
 		StringBuffer msg = new StringBuffer();
-		msg.append("Generating Segments from the Log and Unisens File ...\n");
-		LOGGER.info("Generating Segments from the Log and Unisens File ...");
+		msg.append("Generating Segments from the Log and Unisens File for phase 2...\n");
+		LOGGER.info("Generating Segments from the Log and Unisens File for ...");
 
 		List<LogEntryDAO> logEntries = getLogEntries(logLoc);
 		UnisensCSVGenerator unisens = new UnisensCSVGenerator();
