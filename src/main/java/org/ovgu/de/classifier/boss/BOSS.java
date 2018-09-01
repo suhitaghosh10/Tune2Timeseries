@@ -686,15 +686,12 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 		}
 	}
 
-	public static void resampleTest(int resamples) throws Exception {
+	/*public static void resampleTest(int resamples) throws Exception {
 		Instances train = ClassifierTools.loadData("C:\\Users\\com\\Dropbox\\Content\\Tune2\\ms1\\susu.arff");
 		Instances test = ClassifierTools.loadData("C:/Users/com/Dropbox/Content/Tune2/ms1/trainSA.arff");
 
-		// System.out.println(dset);
 
 		Classifier c = new BOSS();
-
-		// c.setCVPath("C:\\tempproject\\BOSSEnsembleCVtest.csv");
 
 		double[] accs = new double[resamples];
 
@@ -717,7 +714,7 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 
 		System.out.println("\n\nBOSSEnsemble mean acc over " + resamples + " resamples: " + mean);
 	}
-
+*/
 	/**
 	 * BOSS classifier to be used with known parameters, for boss with parameter
 	 * search, use BOSSEnsemble.

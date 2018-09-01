@@ -228,21 +228,4 @@ public class BagOfPatternsFilter extends SimpleBatchFilter {
 		return null;
 	}
 
-	public static void main(String[] args) {
-		System.out.println("BoPtest\n\n");
-
-		try {
-			Instances test = ClassifierTools.loadData("C:\\tempbakeoff\\TSC Problems\\Car\\Car_TRAIN.arff");
-			test.deleteAttributeAt(0); // just name of bottle
-
-			BagOfPatternsFilter bop = new BagOfPatternsFilter(8, 4, 50);
-			bop.useRealValuedAttributes(false);
-			Instances result = bop.process(test);
-
-			System.out.println(result);
-		} catch (Exception e) {
-			System.out.println(e);
-			e.printStackTrace();
-		}
-	}
 }
