@@ -37,13 +37,14 @@ public class Test {
 		 * The inputs from UI : end
 		 */
 
-		String msg = tp.preprocessAndGenerateArff(unisensFolder, logFileAbsolutePath, target_arff_file, startedAfter1min);
+		String msg = tp.preprocessAndGenerateArff(unisensFolder, logFileAbsolutePath, target_arff_file,
+				startedAfter1min);
 		System.out.println(msg);
 		
-		 target_arff_file = "E:/user-study/arff/suhita1";
-		 msg = tp.preprocessAndGenerateArff(unisensFolder, logFileAbsolutePath, target_arff_file, startedAfter1min);
+		 target_arff_file = "E:/user-study/arff/suhita2";
+		 msg = tp.preprocessAndGenerateArff(unisensFolder, logFileAbsolutePath, target_arff_file,
+				startedAfter1min);
 		System.out.println(msg);
-
 
 		/**
 		 * Preprocess for 1 file : end
@@ -54,12 +55,12 @@ public class Test {
 		 */
 		target_arff_file = "E:/user-study/arff/";// validation-> a folder
 		// generated from multiple unisens,log,startedAfter1min inputs
-		//List<PersonDAO> logUnisensPathMap = generateLogUnisensMap();
+		List<PersonDAO> logUnisensPathMap = generateLogUnisensMap();
 		/**
 		 * The inputs from UI : end
 		 */
-		//String msg2 = tp.preprocessAndGenerateArffForMultiple(target_arff_file, logUnisensPathMap);
-		//System.out.println(msg2);
+		String msg2 = tp.preprocessAndGenerateArffForMultiple(target_arff_file, logUnisensPathMap);
+		System.out.println(msg2);
 
 		/**
 		 * Preprocess for Multiple files : end
@@ -68,7 +69,7 @@ public class Test {
 		/**
 		 * Classifier SAXVSM : start
 		 */
-		System.out.println("Classifier----");
+		System.out.println("SAXVSM....");
 		try {
 
 			/**
@@ -83,15 +84,15 @@ public class Test {
 			String resultsPath = "E:/user-study/output";// validation-> a folder
 			int foldsNo = 10; // validation-> an integer and >=2
 			String classifierSaveLoc = "E:/user-study/arff/";// validation-> a folder
-			String modelName = Constants.ENSEMBLE;// from dropdown, hence no validation
+			String modelName = Constants.SAXVSM;// from dropdown, hence no validation
 
 			if (modelName.equals(Constants.SAXVSM)) {
 
 				SAXVSM vsm = new SAXVSM();
 				// the model will be saved as <classifierSaveLoc>+<modelName>.model
-			//String msg3 = vsm.buildClassifierAndSave(train, test, classifierSaveLoc, modelName, foldsNo,
-						//resultsPath);
-				//System.out.println(msg3);
+				String msg3 = vsm.buildClassifierAndSave(train, test, classifierSaveLoc, modelName, foldsNo,
+						resultsPath);
+				System.out.println(msg3);
 
 				/**
 				 * Input for Apply Classifier for phase2 -SAXVSM : start
@@ -105,27 +106,6 @@ public class Test {
 				System.out.println(msgAplyCl);
 
 			} else if (modelName.equalsIgnoreCase(Constants.BOSS)) {
-
-				BOSS boss = new BOSS();
-				String bossBCl = boss.buildClassifierAndSave(train, test, classifierSaveLoc, modelName, foldsNo,
-						resultsPath);
-				System.out.println(bossBCl);
-
-				/**
-				 * input
-				 */
-				String bossclassifier = "E:/user-study/arff/boss.model";// validation-> ends with .model
-				/**
-				 * end input
-				 */
-				//String bossACl = boss.applyClassifier(test, bossclassifier);
-				//System.out.println(bossACl);
-
-				/**
-				 * Boss - End
-				 */
-			}
-			else if (modelName.equalsIgnoreCase(Constants.ROT_F)) {
 
 				BOSS boss = new BOSS();
 				String bossBCl = boss.buildClassifierAndSave(train, test, classifierSaveLoc, modelName, foldsNo,

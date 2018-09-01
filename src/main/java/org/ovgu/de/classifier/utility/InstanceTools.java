@@ -16,9 +16,10 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.TreeMap;
 
+import org.ovgu.de.classifier.utility.generic_storage.Pair;
+
 import utilities.class_distributions.ClassDistribution;
 import utilities.class_distributions.TreeSetClassDistribution;
-import utilities.generic_storage.Pair;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.DistanceFunction;
