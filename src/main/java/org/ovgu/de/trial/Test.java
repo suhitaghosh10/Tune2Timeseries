@@ -11,6 +11,8 @@ import org.ovgu.de.classifier.saxvsm.SAXVSM;
 import org.ovgu.de.classifier.utility.ClassifierTools;
 import org.ovgu.de.utils.Constants;
 
+import weka.classifiers.Classifier;
+import weka.classifiers.meta.RotationForest;
 import weka.core.Instances;
 
 /**
@@ -37,14 +39,14 @@ public class Test {
 		 * The inputs from UI : end
 		 */
 
-		String msg = tp.preprocessAndGenerateArff(unisensFolder, logFileAbsolutePath, target_arff_file,
-				startedAfter1min);
-		System.out.println(msg);
+		//String msg = tp.preprocessAndGenerateArff(unisensFolder, logFileAbsolutePath, target_arff_file,
+		//		startedAfter1min);
+		//System.out.println(msg);
 		
 		 target_arff_file = "E:/user-study/arff/suhita2";
-		 msg = tp.preprocessAndGenerateArff(unisensFolder, logFileAbsolutePath, target_arff_file,
-				startedAfter1min);
-		System.out.println(msg);
+		// msg = tp.preprocessAndGenerateArff(unisensFolder, logFileAbsolutePath, target_arff_file,
+		//		startedAfter1min);
+		//System.out.println(msg);
 
 		/**
 		 * Preprocess for 1 file : end
@@ -55,12 +57,15 @@ public class Test {
 		 */
 		target_arff_file = "E:/user-study/arff/";// validation-> a folder
 		// generated from multiple unisens,log,startedAfter1min inputs
-		List<PersonDAO> logUnisensPathMap = generateLogUnisensMap();
+		//List<PersonDAO> logUnisensPathMap = generateLogUnisensMap();
 		/**
 		 * The inputs from UI : end
 		 */
-		String msg2 = tp.preprocessAndGenerateArffForMultiple(target_arff_file, logUnisensPathMap);
-		System.out.println(msg2);
+		//String msg2 = tp.preprocessAndGenerateArffForMultiple(target_arff_file, logUnisensPathMap);
+		//System.out.println(msg2);
+		
+		// msg2 = tp.preprocessAndGenerateArffForMultiple(target_arff_file, logUnisensPathMap);
+		//System.out.println(msg2);
 
 		/**
 		 * Preprocess for Multiple files : end
@@ -69,7 +74,7 @@ public class Test {
 		/**
 		 * Classifier SAXVSM : start
 		 */
-		System.out.println("SAXVSM....");
+		
 		try {
 
 			/**
@@ -84,8 +89,9 @@ public class Test {
 			String resultsPath = "E:/user-study/output";// validation-> a folder
 			int foldsNo = 10; // validation-> an integer and >=2
 			String classifierSaveLoc = "E:/user-study/arff/";// validation-> a folder
-			String modelName = Constants.SAXVSM;// from dropdown, hence no validation
-
+			String modelName = Constants.ROT_F;// from dropdown, hence no validation
+			System.out.println(modelName+"....");
+			
 			if (modelName.equals(Constants.SAXVSM)) {
 
 				SAXVSM vsm = new SAXVSM();
@@ -126,6 +132,30 @@ public class Test {
 				 * Boss - End
 				 */
 			}
+			else if (modelName.equalsIgnoreCase(Constants.ROT_F)) {
+
+				RotationForest rotf = new RotationForest();
+				String bossBCl = rotf.buildClassifierAndSave(train, test, classifierSaveLoc, modelName, foldsNo,
+						resultsPath);
+				System.out.println(bossBCl);
+
+				/**
+				 * input
+				 */
+				String bossclassifier = "E:/user-study/arff/boss.model";// validation-> ends with .model
+				/**
+				 * end input
+				 */
+				String bossACl = rotf.applyClassifier(test, bossclassifier);
+				System.out.println(bossACl);
+
+				/**
+				 * Boss - End
+				 */
+			}
+			
+			 Classifier c = new RotationForest();
+				((RotationForest) c).setNumIterations(50);
 		} catch (Exception e) {
 			System.out.println(e);
 			e.printStackTrace();
