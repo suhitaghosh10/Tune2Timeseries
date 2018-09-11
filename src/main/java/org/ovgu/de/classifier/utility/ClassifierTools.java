@@ -158,6 +158,48 @@ public class ClassifierTools {
 	}
 
 	/**
+	 * Simple util to find the accuracy of a trained classifier on a test set.
+	 * Probably is a built in method for this!
+	 * 
+	 * Also stores the predictions made
+	 * @param test
+	 * @param c
+	 * @return accuracy of classifier c on Instances test
+	 */
+	public static ClassifierStatsMessage getClassifierPrediction(Instances test, Classifier c,boolean groundTruthAvailable) {
+		ClassifierStatsMessage stats = new ClassifierStatsMessage();
+		StringBuffer sbf = new StringBuffer();
+		double a = 0;
+		int size = test.numInstances();
+		Instance d;
+		double predictedClass, trueClass;
+		for (int i = 0; i < size; i++) {
+			d = test.instance(i);
+			try {
+				predictedClass = c.classifyInstance(d);
+				trueClass = d.classValue();
+				if (trueClass == predictedClass)
+					a++;
+				if(groundTruthAvailable) {
+				logger.info("Instance "+i+" : True = " + trueClass + " Predicted = " + predictedClass);
+				sbf.append("Instance "+i+" : True = " + trueClass + " Predicted = " + predictedClass+"\n");}
+				else {
+					logger.info("Instance "+i+": Predicted = " + predictedClass);
+					sbf.append("Instance "+i+": Predicted = " + predictedClass+"\n");
+				}
+			} catch (Exception e) {
+				System.out.println(" Error with instance " + i + " with Classifier " + c.getClass().getName()
+						+ " Exception =" + e);
+				e.printStackTrace();
+				System.exit(0);
+			}
+		}
+		stats.setMessage(sbf.toString());
+		stats.setAccuracy(a / size);
+		return stats;
+	}
+
+	/**
 	 * This method returns the data in the same order it was given, and returns
 	 * probability distributions for each test data Assume data is randomised
 	 * already
@@ -711,50 +753,6 @@ public class ClassifierTools {
 		return data;
 	}
 
-	/**
-	 * added by Suhita
-	 * 
-	 * @param test
-	 * @param classIndex
-	 * @return
-	 * 
-	 * 		Returns arffs of same number of attributes
-	 */
-	/**
-	 * public static Instances recreateArff(Instances test, int classIndex) {
-	 * 
-	 * StringBuffer sbfC = new StringBuffer(); int difference = classIndex -
-	 * test.classIndex();
-	 * 
-	 * for (int i = 0; i < difference; i++) { sbfC.append("?,"); }
-	 * System.out.println(sbfC.toString()); StringBuffer header = new
-	 * StringBuffer(); for (int i = 0; i <= classIndex; i++) { header.append(i ==
-	 * classIndex ? "class" : "a" + i + ","); } header.append("\n"); StringBuffer
-	 * temp = new StringBuffer(header);
-	 * 
-	 * Enumeration<Instance> instances = test.enumerateInstances();
-	 * 
-	 * while (instances.hasMoreElements()) { Instance ins = instances.nextElement();
-	 * Double cls = ins.classValue(); temp.append(ins.toString());
-	 * temp.deleteCharAt(ins.toString().length() - 1); temp.append(sbfC);
-	 * temp.append(cls.intValue()); temp.append("\n"); System.out.println(temp); }
-	 * String csvFilename = null; String arffFilename = null; BufferedWriter writer
-	 * = null; try { String temp_path =
-	 * PropertiesHandler.getPropertyVal("TEMP_FILE_PATH"); csvFilename = temp_path +
-	 * "temp.csv"; arffFilename = temp_path + "temp.arff"; File f = new
-	 * File(csvFilename); if (f.exists()) f.delete(); f = new File(arffFilename); if
-	 * (f.exists()) f.delete(); writer = new BufferedWriter(new
-	 * FileWriter(csvFilename)); writer.write(temp.toString());
-	 * System.out.println(temp.toString());
-	 * ArffGenerator.generateDataset(csvFilename, arffFilename, false); test =
-	 * ClassifierTools.loadData(arffFilename); } catch (IOException e1) { // TODO
-	 * Auto-generated catch block e1.printStackTrace();
-	 * 
-	 * } catch (Exception e) { logger.severe("arff could not be generated from " +
-	 * csvFilename); } return test; }
-	 * @throws IOException 
-	 **/
-
 	public static Instances recreateArff(Instances test, int classIndex) throws IOException {
 
 		StringBuffer sbfC = new StringBuffer();
@@ -808,4 +806,56 @@ public class ClassifierTools {
 		return test;
 	}
 
+	public static Instances recreateArffForApplyClassifier(Instances test, int classIndex) throws IOException {
+
+		StringBuffer sbfC = new StringBuffer();
+		int difference = classIndex - test.classIndex();
+		String temp_path = null;
+		try {
+			temp_path = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String csvFilename = temp_path + "temp.csv";
+		String arffFilename = temp_path + "temp.arff";
+		File f = new File(csvFilename);
+		if (f.exists())
+			f.delete();
+		f = new File(arffFilename);
+		if (f.exists())
+			f.delete();
+
+		for (int i = 0; i < difference; i++) {
+			sbfC.append("?,");
+		}
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFilename, false));) {
+			StringBuffer header = new StringBuffer();
+			for (int i = 0; i <= classIndex; i++) {
+				header.append(i == classIndex ? "class" : "a" + i + ",");
+			}
+			header.append("\n");
+			writer.write(header.toString());
+
+			Enumeration<Instance> instances = test.enumerateInstances();
+			while (instances.hasMoreElements()) {
+				Instance ins = instances.nextElement();
+				Double cls = ins.classValue();
+				StringBuffer temp = new StringBuffer(ins.toString());
+				temp.deleteCharAt(ins.toString().length() - 1);
+				temp.append(sbfC);
+				temp.append(cls);
+				writer.write(temp.toString());
+				writer.append("\n");
+			}
+
+		} catch (IOException e) {
+			throw new IOException("file not found " + e.getMessage());
+		}
+
+		ArffGenerator.generateDataset(csvFilename, arffFilename, false);
+		test = ClassifierTools.loadData(arffFilename);
+
+		return test;
+	}
 }

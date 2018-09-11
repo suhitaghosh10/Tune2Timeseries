@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import org.ovgu.de.classifier.utility.ClassifierStatsMessage;
 import org.ovgu.de.classifier.utility.ClassifierTools;
 
 import weka.classifiers.evaluation.Evaluation;
@@ -377,7 +378,7 @@ public class SAXVSM extends AbstractClassifierWithTrainingData {
 			vsm.buildClassifierAndSave(train, test, "E:\\user-study\\arff\\", "sax_train2_test3", 10, resultsPath);
 
 			String classifier = "E:\\user-study\\arff\\sax_train2_test3.model";
-			vsm.applyClassifier(test, classifier);
+			vsm.applyClassifier(test, classifier, true);
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -437,7 +438,8 @@ public class SAXVSM extends AbstractClassifierWithTrainingData {
 		return msg.toString();
 	}
 
-	public String applyClassifier(Instances test, String classifierModel) throws Exception, FileNotFoundException {
+	public String applyClassifier(Instances test, String classifierModel, boolean groundTruthAvailable)
+			throws Exception, FileNotFoundException {
 
 		logger.info("Testing starting...");
 		StringBuffer msg = new StringBuffer("Applying ").append(this.toString()).append(" model <")
@@ -445,26 +447,27 @@ public class SAXVSM extends AbstractClassifierWithTrainingData {
 
 		SAXVSM vsm = (SAXVSM) SerializationHelper.read(new FileInputStream(classifierModel));
 		long start = System.nanoTime();
-		double acc = ClassifierTools.accuracy(test, vsm);
+		ClassifierStatsMessage clmsg = ClassifierTools.getClassifierPrediction(test, vsm, groundTruthAvailable);
 		double testTime = (System.nanoTime() - start) / 1000000000.0; // sec
 		logger.info("Testing done (" + testTime + "s)");
 		msg.append("Testing done (" + testTime + "s)\n");
 
-		logger.info("Accuracy : " + acc);
-		msg.append("Accuracy : " + acc + "\n");
-		Evaluation eval = new Evaluation(test);
 		PlainText forPredictionsPrinting = new PlainText();
 		forPredictionsPrinting.setBuffer(new StringBuffer());
 
 		CSV output = new CSV();
 		output.setHeader(new Instances(test, 0));
 		output.setBuffer(new StringBuffer());
-
-		eval.evaluateModel(vsm, test, output);
-
-		String classDetailsString = eval.toClassDetailsString();
-		logger.info(classDetailsString);
-		msg.append(classDetailsString + "\n");
+		msg.append(clmsg.getMessage());
+		if (groundTruthAvailable) {
+			logger.info("Accuracy : " + clmsg.getAccuracy());
+			msg.append("Accuracy : " + clmsg.getAccuracy() + "\n");
+			Evaluation eval = new Evaluation(test);
+			eval.evaluateModel(vsm, test, output);
+			String classDetailsString = eval.toClassDetailsString();
+			logger.info(classDetailsString);
+			msg.append(classDetailsString + "\n");
+		}
 		return msg.toString();
 	}
 

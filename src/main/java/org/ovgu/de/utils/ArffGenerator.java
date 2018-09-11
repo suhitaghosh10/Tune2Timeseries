@@ -44,7 +44,7 @@ public class ArffGenerator {
 		if (!targetArffFileName.contains(Constants.ARFF))
 			targetArffFileName = targetArffFileName + Constants.ARFF;
 
-		msg.append("Start Generating Arff file...");
+		msg.append("Start Generating Arff file...\n");
 		logger.info("Start Generating Arff file...\n");
 		CSVLoader loader = new CSVLoader();
 		Instances dataset = null;

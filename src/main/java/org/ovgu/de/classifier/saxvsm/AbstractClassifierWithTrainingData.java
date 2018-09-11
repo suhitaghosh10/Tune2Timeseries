@@ -152,7 +152,7 @@ abstract public class AbstractClassifierWithTrainingData extends AbstractClassif
 		return acc;
 	}
 
-	public abstract String applyClassifier(Instances test, String classifierModel)
+	public abstract String applyClassifier(Instances test, String classifierModel, boolean groundTruthAvailable)
 			throws Exception, FileNotFoundException;
 
 }
