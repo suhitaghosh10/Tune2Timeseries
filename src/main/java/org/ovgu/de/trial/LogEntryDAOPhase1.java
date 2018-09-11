@@ -7,13 +7,13 @@ package org.ovgu.de.trial;
  * @author Suhita Ghosh
  *
  */
-public class LogEntryDAO {
+public class LogEntryDAOPhase1 {
 
 	private int questionId;
 	private String easyHardRelaxFlag;
 	private int duration;
 
-	public LogEntryDAO(String easyHardRelaxFlag, int duration) {
+	public LogEntryDAOPhase1(String easyHardRelaxFlag, int duration) {
 		super();
 		this.easyHardRelaxFlag = easyHardRelaxFlag;
 		this.duration = duration;

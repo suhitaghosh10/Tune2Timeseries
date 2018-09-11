@@ -36,25 +36,27 @@ public class TrialPhaseSegregrator {
 	 * 
 	 * 		preprocess and generates arff file. The method returns messages to be
 	 *         returned in the UI
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String preprocessAndGenerateArff(String inputUnisensFolderLoc, String LogFile, String ArffFile,
 			boolean startedAfter1min) throws IOException {
 
 		StringBuffer msg = new StringBuffer();
 		String temp_path = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH");
-		
-	/*	if (!(temp_path.endsWith("/") | temp_path.endsWith("\\")))
-			temp_path = temp_path + "\\";*/
-		//A file is created if not existent as per props
-		 File file = new File(temp_path);
-	        if (!file.exists()) {
-	            if (file.mkdirs()) {
-	                LOGGER.info("Directory is now created!");
-	            } else {
-	                LOGGER.warning("Failed to create directory may be already existing!");
-	            }
-	        }
+
+		/*
+		 * if (!(temp_path.endsWith("/") | temp_path.endsWith("\\"))) temp_path =
+		 * temp_path + "\\";
+		 */
+		// A file is created if not existent as per props
+		File file = new File(temp_path);
+		if (!file.exists()) {
+			if (file.mkdirs()) {
+				LOGGER.info("Directory is now created!");
+			} else {
+				LOGGER.warning("Failed to create directory may be already existing!");
+			}
+		}
 		msg.append("Log file provided :" + LogFile + "\n");
 		LOGGER.info("Log file provided :" + LogFile);
 		msg.append("Unisens folder provided :" + inputUnisensFolderLoc + "\n");
@@ -62,7 +64,7 @@ public class TrialPhaseSegregrator {
 		msg.append("Arff to be generated :" + ArffFile + "\n");
 		LOGGER.info("Arff will be generated :" + ArffFile);
 		long time = System.currentTimeMillis();
-		String csvFile = temp_path + time+"temp.csv";
+		String csvFile = temp_path + time + "temp.csv";
 
 		try {
 			// generate segments
@@ -107,7 +109,7 @@ public class TrialPhaseSegregrator {
 		msg.append("Generating Segments from the Log and Unisens File ...\n");
 		LOGGER.info("Generating Segments from the Log and Unisens File ...");
 
-		List<LogEntryDAO> logEntries = getLogEntries(logLoc);
+		List<LogEntryDAOPhase1> logEntries = getLogEntriesForPhase1(logLoc);
 		UnisensCSVGenerator unisens = new UnisensCSVGenerator();
 		List<Double> uniData = unisens.generateDataFromBin(inputUnisensLoc, null, false);
 		List<SegmentDAO> segments = new ArrayList<>();
@@ -152,7 +154,7 @@ public class TrialPhaseSegregrator {
 		return dao;
 
 	}
-	
+
 	/**
 	 * @param inputUnisensLoc
 	 * @param logLoc
@@ -172,7 +174,7 @@ public class TrialPhaseSegregrator {
 		msg.append("Generating Segments from the Log and Unisens File for phase 2...\n");
 		LOGGER.info("Generating Segments from the Log and Unisens File for ...");
 
-		List<LogEntryDAO> logEntries = getLogEntries(logLoc);
+		List<LogEntryDAOPhase2> logEntries = getLogEntriesForPhase2(logLoc);
 		UnisensCSVGenerator unisens = new UnisensCSVGenerator();
 		List<Double> uniData = unisens.generateDataFromBin(inputUnisensLoc, null, false);
 		List<SegmentDAO> segments = new ArrayList<>();
@@ -181,26 +183,24 @@ public class TrialPhaseSegregrator {
 		try {
 			for (int index = 0; index < logEntries.size(); index++) {
 
-				int samplesToAdd = (SAMPLING_RATE * logEntries.get(index).getDuration()) / 1000;
+				int samplesToAdd = (SAMPLING_RATE * logEntries.get(index).getTotalTimeTaken()) / 1000;
 				StringBuffer sbf = new StringBuffer();
 
-				if (logEntries.get(index).getEasyHardRelaxFlag().equals("h")
-						|| logEntries.get(index).getEasyHardRelaxFlag().equals("e")) {
+				if (logEntries.get(index).isTweet()) {
 					if ((!startedAfter1min && index > 0) || startedAfter1min) {
 						for (int i = counter; i <= (counter + samplesToAdd); i++) {
 							sbf.append(uniData.get(i)).append(",");
 						}
 						sbf.deleteCharAt(sbf.length() - 1);
-						String cls = logEntries.get(index).getEasyHardRelaxFlag().equals("h") ? "1" : "0";
-						segments.add(new SegmentDAO(sbf.toString(), cls, samplesToAdd));
+						//String cls = logEntries.get(index).getEasyHardRelaxFlag().equals("h") ? "1" : "0";
+						segments.add(new SegmentDAO(sbf.toString(), null, samplesToAdd));
 					}
-					// LOGGER.info(logEntries.get(index).getEasyHardRelaxFlag().toUpperCase() + "
-					// Segment, has length "
-					// + samplesToAdd + " range :" + counter + "-" + (counter + samplesToAdd));
+					 LOGGER.info(logEntries.get(index).getTweetId() + " Tweet, has length "
+					 + samplesToAdd + " range :" + counter + "-" + (counter + samplesToAdd));
 				} else {
-					// LOGGER.info("R" + " Segment, has length " + samplesToAdd + " range :" +
-					// counter + "-"
-					// + (counter + samplesToAdd));
+					 LOGGER.info("R" + " Segment, has length " + samplesToAdd + " range :" +
+					 counter + "-"
+					 + (counter + samplesToAdd));
 				}
 				counter = counter + samplesToAdd;
 
@@ -272,12 +272,36 @@ public class TrialPhaseSegregrator {
 	 * 
 	 *             The method reads a log file and creates log dao
 	 */
-	private static List<LogEntryDAO> getLogEntries(String logLoc) throws IOException {
+	private static List<LogEntryDAOPhase1> getLogEntriesForPhase1(String logLoc) throws IOException {
 		List<String> lines = Files.readAllLines(Paths.get(logLoc));
-		List<LogEntryDAO> elist = new ArrayList<>();
+		List<LogEntryDAOPhase1> elist = new ArrayList<>();
 		for (String line : lines) {
 			String[] arr = line.split(",");
-			LogEntryDAO dao = new LogEntryDAO(arr[0], Integer.parseInt(arr[4]));
+			LogEntryDAOPhase1 dao = new LogEntryDAOPhase1(arr[0], Integer.parseInt(arr[4]));
+			elist.add(dao);
+		}
+		return elist;
+
+	}
+
+	/**
+	 * @param logLoc
+	 * @return
+	 * @throws IOException
+	 * 
+	 *             The method reads a log file and creates log dao
+	 */
+	private static List<LogEntryDAOPhase2> getLogEntriesForPhase2(String logLoc) throws IOException {
+		List<String> lines = Files.readAllLines(Paths.get(logLoc));
+		List<LogEntryDAOPhase2> elist = new ArrayList<>();
+		for (String line : lines) {
+			String[] arr = line.split(",");
+			boolean isTweet = arr[0].equals("T") ? true : false;
+			int relevant = arr[4].equals("Relevant") ? Integer.parseInt(arr[5]) : 0;
+			int nonf = arr[4].equals("Relevant") ? Integer.parseInt(arr[7]) : 0;
+			int senti = arr[6].equals("Non-factual") ? Integer.parseInt(arr[9]) : 0;
+			LogEntryDAOPhase2 dao = new LogEntryDAOPhase2(isTweet, arr[1], relevant, nonf, senti,
+					Integer.parseInt(arr[10]));
 			elist.add(dao);
 		}
 		return elist;
@@ -359,18 +383,20 @@ public class TrialPhaseSegregrator {
 			throws IOException {
 
 		String tempPath = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH");
-		//A file is created if not existent as per props
-		/*if (!(tempPath.endsWith("/") | tempPath.endsWith("\\")))
-			tempPath = tempPath + "/";*/
-		
-		 File file = new File(tempPath);
-	        if (!file.exists()) {
-	            if (file.mkdirs()) {
-	                LOGGER.info("Directory is now created!");
-	            } else {
-	                LOGGER.warning("Failed to create directory may be already existing!");
-	            }
-	        }
+		// A file is created if not existent as per props
+		/*
+		 * if (!(tempPath.endsWith("/") | tempPath.endsWith("\\"))) tempPath = tempPath
+		 * + "/";
+		 */
+
+		File file = new File(tempPath);
+		if (!file.exists()) {
+			if (file.mkdirs()) {
+				LOGGER.info("Directory is now created!");
+			} else {
+				LOGGER.warning("Failed to create directory may be already existing!");
+			}
+		}
 
 		TrialPhaseSegregrator tp = new TrialPhaseSegregrator();
 		StringBuffer sbf = new StringBuffer("Start Generating segments for multiple person\n");
@@ -388,5 +414,19 @@ public class TrialPhaseSegregrator {
 		sbf.append(msg + "\n");
 		sbf.append("End Generating segments for multiple person\n");
 		return sbf.toString();
+	}
+
+	public static void main(String[] args) {
+
+		String unisens = "E:\\user-study\\p2\\2018-08-20 15.05.01_Suresh-20180911T143837Z-001\\2018-08-20 15.05.01_Suresh";
+		String log = "E:\\user-study\\p2\\2018-08-20 15.05.01_Suresh-20180911T143837Z-001\\2018-08-20 15.05.01_Suresh\\logLOG_P2_1534771224576.txt";
+		boolean flag = true;
+		TrialPhaseSegregrator a = new TrialPhaseSegregrator();
+		try {
+			a.generateSegmentsForPhase2(unisens, log, flag);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
