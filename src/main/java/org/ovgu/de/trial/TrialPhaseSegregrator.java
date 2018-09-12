@@ -738,7 +738,7 @@ public class TrialPhaseSegregrator {
 	}
 
 	/**
-	 * @return generates the log unisens files mapping
+	 * @return generates the log unisens files mapping for phase1
 	 */
 	public static List<PersonDAO> generateLogUnisensMap() {
 		// unisensFile#logFile, startsAfter1min-boolean
@@ -793,7 +793,7 @@ public class TrialPhaseSegregrator {
 	}
 
 	/**
-	 * @return generates the log unisens files mapping
+	 * @return generates the log unisens files mapping for phase2
 	 */
 	public static List<PersonDAO> generateLogUnisensMapP2() {
 		// unisensFile#logFile, startsAfter1min-boolean
