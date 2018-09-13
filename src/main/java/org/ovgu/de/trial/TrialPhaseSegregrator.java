@@ -440,7 +440,7 @@ public class TrialPhaseSegregrator {
 	 *             The method reads a log file and creates log dao
 	 */
 	private static List<LogEntryDAOPhase2> getLogEntriesForPhase2(String logLoc) throws IOException {
-		
+
 		List<String> lines = Files.readAllLines(Paths.get(logLoc));
 		List<LogEntryDAOPhase2> elist = new ArrayList<>();
 		String[] arr = null;
@@ -451,13 +451,15 @@ public class TrialPhaseSegregrator {
 				int total = Integer.parseInt(arr[10]);
 				int relevant = arr[4].equals("Relevant") ? Integer.parseInt(arr[5]) : total;
 				int nonf = arr[4].equals("Relevant") ? Integer.parseInt(arr[7]) : total;
-				int senti = arr[6].equals("Non-factual") ? Integer.parseInt(arr[9]) : total;
+				int senti = arr[4].equals("Relevant") && arr[6].equals("Non-factual") ? Integer.parseInt(arr[9])
+						: total;
 
 				LogEntryDAOPhase2 dao = new LogEntryDAOPhase2(isTweet, arr[1], relevant, nonf, senti, total);
 				elist.add(dao);
 			}
 		} catch (NumberFormatException e) {
-			LOGGER.severe("Exception for tweet "+arr);
+			LOGGER.severe("Exception for tweet " + arr[1]);
+			LOGGER.severe(e.getMessage());
 		}
 		return elist;
 
@@ -687,13 +689,28 @@ public class TrialPhaseSegregrator {
 		sbf.append(segmentForAll.getMessage());
 		// generate csv
 		long curTime = System.currentTimeMillis();
-		String csvPath = tempPath + "temp.csv";
+		String csvPath = tempPath + curTime + "temp";
 		tp.generateCSVForPhase2(segmentForAll.getSgmntListP2(), csvPath);
 		sbf.append("Total number of Segments generated : " + segmentForAll.getSgmntListP2().size() + "\n");
 
-		String msg = ArffGenerator.generateDataset(csvPath, targetArffFileName, false);
-		sbf.append(msg + "\n");
-		sbf.append("End Generating segments for multiple person\n");
+		// generate arff
+		try {
+			if (targetArffFileName.contains(".")) {
+				targetArffFileName = targetArffFileName.split("\\.")[0];
+				sbf.append("Arff to be generated :" + targetArffFileName + TOTAL_ARFF + " , " + targetArffFileName
+						+ REL_ARFF + " , " + targetArffFileName + FACT_ARFF + " , " + targetArffFileName + SENTI_ARFF
+						+ "\n");
+				LOGGER.info("Arff will be generated :" + targetArffFileName);
+			}
+			sbf.append(ArffGenerator.generateDataset(csvPath + TOTAL_CSV, targetArffFileName + TOTAL_ARFF, false));
+			sbf.append(ArffGenerator.generateDataset(csvPath + REL_CSV, targetArffFileName + REL_ARFF, false));
+			sbf.append(ArffGenerator.generateDataset(csvPath + FACT_CSV, targetArffFileName + FACT_ARFF, false));
+			sbf.append(ArffGenerator.generateDataset(csvPath + SENTI_CSV, targetArffFileName + SENTI_ARFF, false));
+		} catch (Exception e) {
+			sbf.append("Arff file could not be generated " + e.getMessage() + "\n");
+			LOGGER.severe("Arff file could not be generated " + e.getMessage());
+			return sbf.toString();
+		}
 		sbf.append("Time taken: " + (System.currentTimeMillis() - curTime) / 1000 + " sec\n");
 		return sbf.toString();
 	}
