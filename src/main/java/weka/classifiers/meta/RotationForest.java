@@ -1300,6 +1300,19 @@ public class RotationForest extends RandomizableIteratedSingleClassifierEnhancer
 			RotationForest rotf = new RotationForest();
 			rotf.setNumIterations(50);
 			double accuracy = singleClassifierAndFold(train, test, rotf, folds, resultsPath);
+			
+			Evaluation eval = new Evaluation(test);
+			PlainText forPredictionsPrinting = new PlainText();
+			forPredictionsPrinting.setBuffer(new StringBuffer());
+
+			CSV output = new CSV();
+			output.setHeader(new Instances(test, 0));
+			output.setBuffer(new StringBuffer());
+
+			eval.evaluateModel(rotf, test, output);
+
+			String classDetailsString = eval.toClassDetailsString();
+			
 			weka.core.SerializationHelper.write(classifierSaveLoc + classifierName + ".model", rotf);
 			double trainTime = (System.nanoTime() - start) / 1000000000.0; // seconds
 
@@ -1307,7 +1320,8 @@ public class RotationForest extends RandomizableIteratedSingleClassifierEnhancer
 			msg.append("End Building classifier...\\n");
 			logger.info("Accuracy with " + folds + " :" + accuracy);
 			msg.append("Accuracy with " + folds + " :" + accuracy + "\n");
-			logger.info("Best Params for classifier: " + classifierName);
+			logger.info(classDetailsString + "\n");
+			msg.append(classDetailsString + "\n");
 
 		} catch (Exception e) {
 			logger.severe("Classifier could not be built!!!" + e.getMessage());
