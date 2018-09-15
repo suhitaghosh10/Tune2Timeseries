@@ -82,7 +82,8 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 	private final Integer[] wordLengths = { 16, 14, 12, 10, 8 };
 	private final int alphabetSize = 4;
 
-	private boolean loadFeatureSets = true;
+	//Loading feature sets is set to false due to not required to save a feature into file
+	private boolean loadFeatureSets = false;
 	private int fold = 0;
 
 	public enum SerialiseOptions {
@@ -102,7 +103,8 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 		STORE_LOAD
 	};
 
-	private SerialiseOptions serOption = SerialiseOptions.STORE;
+	//Do not provide any serialization
+	private SerialiseOptions serOption = SerialiseOptions.NONE;
 	private static String serFileLoc = "D:\\Boss\\";
 	private static String featureFileLoc = "D:\\Boss\\featuresets\\BOSSEnsemble\\";
 

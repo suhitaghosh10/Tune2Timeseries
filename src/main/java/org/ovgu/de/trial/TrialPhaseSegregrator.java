@@ -125,7 +125,7 @@ public class TrialPhaseSegregrator {
 		LOGGER.info("Unisens folder provided :" + inputUnisensFolderLoc);
 
 		long time = System.currentTimeMillis();
-		String csvFile = temp_path + time + "temp";
+		String csvFile = temp_path + time + "temp//";
 
 		try {
 			// generate segments
@@ -147,10 +147,10 @@ public class TrialPhaseSegregrator {
 						+ ArffFile + FACT_ARFF + " , " + ArffFile + SENTI_ARFF + "\n");
 				LOGGER.info("Arff will be generated :" + ArffFile);
 			}
-			msg.append(ArffGenerator.generateDataset(csvFile + TOTAL_CSV, ArffFile + TOTAL_ARFF, false));
-			msg.append(ArffGenerator.generateDataset(csvFile + REL_CSV, ArffFile + REL_ARFF, false));
-			msg.append(ArffGenerator.generateDataset(csvFile + FACT_CSV, ArffFile + FACT_ARFF, false));
-			msg.append(ArffGenerator.generateDataset(csvFile + SENTI_CSV, ArffFile + SENTI_ARFF, false));
+			msg.append(ArffGenerator.generateDataset(csvFile + TOTAL_CSV, ArffFile + "-" + TOTAL_ARFF, false));
+			msg.append(ArffGenerator.generateDataset(csvFile + REL_CSV, ArffFile + "-" + REL_ARFF, false));
+			msg.append(ArffGenerator.generateDataset(csvFile + FACT_CSV, ArffFile + "-" + FACT_ARFF, false));
+			msg.append(ArffGenerator.generateDataset(csvFile + SENTI_CSV, ArffFile + "-" + SENTI_ARFF, false));
 		} catch (Exception e) {
 			msg.append("Arff file could not be generated " + e.getMessage() + "\n");
 			LOGGER.severe("Arff file could not be generated " + e.getMessage());
@@ -347,9 +347,13 @@ public class TrialPhaseSegregrator {
 	 */
 	public void generateCSVForPhase2(List<SegmentDAOPhase2> segments, String outputLoc) throws IOException {
 
-		File f = new File(outputLoc);
-		if (f.exists()) {
-			f.delete();
+		File dir = new File(outputLoc);
+		if (!dir.exists()) {
+			if (dir.mkdirs()) {
+				LOGGER.info("Directory is now created!");
+			} else {
+				LOGGER.warning("Failed to create directory may be already existing!");
+			}
 		}
 		int maxLngth = getMaxLengthForPhase2(segments) + 1;
 		List<SegmentDAOPhase2> paddedSegments = fillWithMissingNotationforP2(segments, maxLngth);
@@ -440,7 +444,6 @@ public class TrialPhaseSegregrator {
 	 *             The method reads a log file and creates log dao
 	 */
 	private static List<LogEntryDAOPhase2> getLogEntriesForPhase2(String logLoc) throws IOException {
-
 		List<String> lines = Files.readAllLines(Paths.get(logLoc));
 		List<LogEntryDAOPhase2> elist = new ArrayList<>();
 		String[] arr = null;
