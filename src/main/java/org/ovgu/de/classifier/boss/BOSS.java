@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 
 import org.ovgu.de.classifier.saxvsm.AbstractClassifierWithTrainingData;
 import org.ovgu.de.classifier.utility.ClassifierResults;
+import org.ovgu.de.classifier.utility.ClassifierStatsMessage;
 import org.ovgu.de.classifier.utility.ClassifierTools;
 import org.ovgu.de.classifier.utility.InstanceTools;
 import org.ovgu.de.file.OutFile;
@@ -81,7 +82,8 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 	private final Integer[] wordLengths = { 16, 14, 12, 10, 8 };
 	private final int alphabetSize = 4;
 
-	private boolean loadFeatureSets = true;
+	//Loading feature sets is set to false due to not required to save a feature into file
+	private boolean loadFeatureSets = false;
 	private int fold = 0;
 
 	public enum SerialiseOptions {
@@ -101,7 +103,8 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 		STORE_LOAD
 	};
 
-	private SerialiseOptions serOption = SerialiseOptions.STORE;
+	//Do not provide any serialization
+	private SerialiseOptions serOption = SerialiseOptions.NONE;
 	private static String serFileLoc = "D:\\Boss\\";
 	private static String featureFileLoc = "D:\\Boss\\featuresets\\BOSSEnsemble\\";
 
@@ -686,35 +689,32 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 		}
 	}
 
-	/*public static void resampleTest(int resamples) throws Exception {
-		Instances train = ClassifierTools.loadData("C:\\Users\\com\\Dropbox\\Content\\Tune2\\ms1\\susu.arff");
-		Instances test = ClassifierTools.loadData("C:/Users/com/Dropbox/Content/Tune2/ms1/trainSA.arff");
-
-
-		Classifier c = new BOSS();
-
-		double[] accs = new double[resamples];
-
-		for (int i = 0; i < resamples; i++) {
-			Instances[] data = InstanceTools.resampleTrainAndTestInstances(train, test, i);
-
-			c.buildClassifier(data[0]);
-			accs[i] = ClassifierTools.accuracy(data[1], c);
-
-			if (i == 0)
-				System.out.print(accs[i]);
-			else
-				System.out.print("," + accs[i]);
-		}
-
-		double mean = 0;
-		for (int i = 0; i < resamples; i++)
-			mean += accs[i];
-		mean /= resamples;
-
-		System.out.println("\n\nBOSSEnsemble mean acc over " + resamples + " resamples: " + mean);
-	}
-*/
+	/*
+	 * public static void resampleTest(int resamples) throws Exception { Instances
+	 * train = ClassifierTools.loadData(
+	 * "C:\\Users\\com\\Dropbox\\Content\\Tune2\\ms1\\susu.arff"); Instances test =
+	 * ClassifierTools.loadData(
+	 * "C:/Users/com/Dropbox/Content/Tune2/ms1/trainSA.arff");
+	 * 
+	 * 
+	 * Classifier c = new BOSS();
+	 * 
+	 * double[] accs = new double[resamples];
+	 * 
+	 * for (int i = 0; i < resamples; i++) { Instances[] data =
+	 * InstanceTools.resampleTrainAndTestInstances(train, test, i);
+	 * 
+	 * c.buildClassifier(data[0]); accs[i] = ClassifierTools.accuracy(data[1], c);
+	 * 
+	 * if (i == 0) System.out.print(accs[i]); else System.out.print("," + accs[i]);
+	 * }
+	 * 
+	 * double mean = 0; for (int i = 0; i < resamples; i++) mean += accs[i]; mean /=
+	 * resamples;
+	 * 
+	 * System.out.println("\n\nBOSSEnsemble mean acc over " + resamples +
+	 * " resamples: " + mean); }
+	 */
 	/**
 	 * BOSS classifier to be used with known parameters, for boss with parameter
 	 * search, use BOSSEnsemble.
@@ -1508,33 +1508,36 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 	 * applyClassifier(weka.core.Instances, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String applyClassifier(Instances test, String classifierModel) throws Exception, FileNotFoundException {
+	public String applyClassifier(Instances test, String classifierModel, boolean groundTruthAvailable)
+			throws Exception, FileNotFoundException {
 
 		logger.info("Testing starting...");
 		StringBuffer msg = new StringBuffer("Applying ").append(this.toString()).append(" model <")
 				.append(classifierModel).append("> on dataset <").append(test.relationName() + ">\n");
-		
+
 		BOSS vsm = (BOSS) SerializationHelper.read(new FileInputStream(classifierModel));
 		long start = System.nanoTime();
-		double acc = ClassifierTools.accuracy(test, vsm);
+		ClassifierStatsMessage clmsg = ClassifierTools.getClassifierPrediction(test, vsm, groundTruthAvailable);
 		double testTime = (System.nanoTime() - start) / 1000000000.0; // sec
 		logger.info("Testing done (" + testTime + "s)");
 		msg.append("Testing done (" + testTime + "s)\n");
 
-		logger.info("Accuracy : " + acc);
-		Evaluation eval = new Evaluation(test);
 		PlainText forPredictionsPrinting = new PlainText();
 		forPredictionsPrinting.setBuffer(new StringBuffer());
 
 		CSV output = new CSV();
 		output.setHeader(new Instances(test, 0));
 		output.setBuffer(new StringBuffer());
-
-		eval.evaluateModel(vsm, test, output);
-
-		String classDetailsString = eval.toClassDetailsString();
-		logger.info(classDetailsString);
-		msg.append(classDetailsString + "\n");
+		msg.append(clmsg.getMessage());
+		if (groundTruthAvailable) {
+			logger.info("Accuracy : " + clmsg.getAccuracy());
+			msg.append("Accuracy : " + clmsg.getAccuracy() + "\n");
+			Evaluation eval = new Evaluation(test);
+			eval.evaluateModel(vsm, test, output);
+			String classDetailsString = eval.toClassDetailsString();
+			logger.info(classDetailsString);
+			msg.append(classDetailsString + "\n");
+		}
 		return msg.toString();
 	}
 

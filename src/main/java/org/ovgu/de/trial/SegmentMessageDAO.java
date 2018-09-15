@@ -11,15 +11,24 @@ import java.util.List;
  */
 public class SegmentMessageDAO {
 
-	List<SegmentDAO> sgmntList;
+	List<SegmentDAOPhase1> sgmntListP1;
+	List<SegmentDAOPhase2> sgmntListP2;
 	String message;
 
-	public List<SegmentDAO> getSgmntList() {
-		return sgmntList;
+	public List<SegmentDAOPhase1> getSgmntListP1() {
+		return sgmntListP1;
 	}
 
-	public void setSgmntList(List<SegmentDAO> sgmntList) {
-		this.sgmntList = sgmntList;
+	public void setSgmntListP1(List<SegmentDAOPhase1> sgmntListP1) {
+		this.sgmntListP1 = sgmntListP1;
+	}
+
+	public List<SegmentDAOPhase2> getSgmntListP2() {
+		return sgmntListP2;
+	}
+
+	public void setSgmntListP2(List<SegmentDAOPhase2> sgmntListP2) {
+		this.sgmntListP2 = sgmntListP2;
 	}
 
 	public String getMessage() {
