@@ -10,6 +10,7 @@ import org.ovgu.de.classifier.boss.BOSS;
 import org.ovgu.de.classifier.saxvsm.SAXVSM;
 import org.ovgu.de.classifier.utility.ClassifierTools;
 import org.ovgu.de.utils.Constants;
+import org.ovu.de.hive.HiveCote;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.meta.RotationForest;
@@ -80,15 +81,15 @@ public class Test {
 			/**
 			 * Input for Build Classifier : start
 			 */
-			Instances train = ClassifierTools.loadData("E:\\user-study\\arff\\train.arff"); // validation-> ends
+			Instances train = ClassifierTools.loadData("/Users/nikhil/Desktop/KMD/ARFF/train.arff"); // validation-> ends
 																							// with
 																							// .arff
-			Instances test = ClassifierTools.loadData("E:\\user-study\\arff\\test.arff");// validation-> ends with
+			Instances test = ClassifierTools.loadData("/Users/nikhil/Desktop/KMD/ARFF/suhita2.arff");// validation-> ends with
 																							// .arff
 			// path where you will generate the csv, which will further store details
-			String resultsPath = "E:/user-study/output";// validation-> a folder
+			String resultsPath = "/Users/nikhil/Desktop/KMD/ARFF/";// validation-> a folder
 			int foldsNo = 10; // validation-> an integer and >=2
-			String classifierSaveLoc = "E:/user-study/arff/";// validation-> a folder
+			String classifierSaveLoc = "/Users/nikhil/Desktop/KMD/ARFF/";// validation-> a folder
 			String modelName = Constants.ROT_F;// from dropdown, hence no validation
 			System.out.println(modelName+"....");
 			
@@ -142,7 +143,27 @@ public class Test {
 				/**
 				 * input
 				 */
-				String bossclassifier = "E:/user-study/arff/boss.model";// validation-> ends with .model
+				String bossclassifier = "/Users/nikhil/Desktop/KMD/ARFF/rotf.model";// validation-> ends with .model
+				/**
+				 * end input
+				 */
+				String bossACl = rotf.applyClassifier(test, bossclassifier);
+				System.out.println(bossACl);
+
+				/**
+				 * Boss - End
+				 */
+			}else if (modelName.equalsIgnoreCase(Constants.COTE)) {
+
+				HiveCote rotf = new HiveCote();
+				String bossBCl = rotf.buildClassifierAndSave(train, test, classifierSaveLoc, modelName, foldsNo,
+						resultsPath);
+				System.out.println(bossBCl);
+
+				/**
+				 * input
+				 */
+				String bossclassifier = "/Users/nikhil/Desktop/KMD/ARFF/cote.model";// validation-> ends with .model
 				/**
 				 * end input
 				 */
