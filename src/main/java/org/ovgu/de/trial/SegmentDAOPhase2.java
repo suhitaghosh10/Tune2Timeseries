@@ -7,17 +7,19 @@ package org.ovgu.de.trial;
  * @author Suhita Ghosh
  *
  */
-public class SegmentDAOPhase2 extends SegmentMessageDAO{
+public class SegmentDAOPhase2 extends SegmentMessageDAO {
 
+	String tweetId;
 	String totalTimeseries;
 	String relevantTimeseries;
 	String nonfactualTimeseries;
 	String sentimentTimeseries;
 	int length;
 
-	public SegmentDAOPhase2(String totalTimeseries, String relevantTimeseries, String nonfactualTimeseries,
-			String sentimentTimeseries, int length) {
+	public SegmentDAOPhase2(String tweetId, String totalTimeseries, String relevantTimeseries,
+			String nonfactualTimeseries, String sentimentTimeseries, int length) {
 		super();
+		this.tweetId = tweetId;
 		this.totalTimeseries = totalTimeseries;
 		this.relevantTimeseries = relevantTimeseries;
 		this.nonfactualTimeseries = nonfactualTimeseries;
@@ -64,4 +66,13 @@ public class SegmentDAOPhase2 extends SegmentMessageDAO{
 	public void setLength(int length) {
 		this.length = length;
 	}
+
+	public String getTweetId() {
+		return tweetId;
+	}
+
+	public void setTweetId(String tweetId) {
+		this.tweetId = tweetId;
+	}
+
 }
