@@ -1,4 +1,4 @@
-package org.ovu.de.hive;
+package org.ovu.de.classifier.hive;
 /** * Implementation of Deng's Time Series Forest
  Time Series Forest (TimeSeriesForest) Deng 2013: 
 @article{deng13forest,
