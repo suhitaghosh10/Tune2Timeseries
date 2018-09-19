@@ -1298,7 +1298,7 @@ public class RotationForest extends RandomizableIteratedSingleClassifierEnhancer
 		long start = System.nanoTime();
 		try {
 			RotationForest rotf = new RotationForest();
-			rotf.setNumIterations(50);
+			rotf.setNumIterations(20);
 			double accuracy = singleClassifierAndFold(train, test, rotf, folds, resultsPath);
 			
 			Evaluation eval = new Evaluation(test);

@@ -20,10 +20,10 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-import org.ovgu.de.classifier.boss.BOSS;
 import org.ovgu.de.classifier.boss.HiveCoteModule;
 import org.ovgu.de.classifier.saxvsm.AbstractClassifierWithTrainingData;
 import org.ovgu.de.classifier.shapelet_transforms.ShapeletTransform;
+import org.ovgu.de.classifier.utility.ClassifierStatsMessage;
 import org.ovgu.de.classifier.utility.ClassifierTools;
 import org.ovgu.de.classifier.utility.InstanceTools;
 import org.ovgu.de.classifier.utility.SaveParameterInfo;
@@ -33,6 +33,7 @@ import weka.classifiers.Classifier;
 import weka.classifiers.evaluation.Evaluation;
 import weka.classifiers.evaluation.output.prediction.CSV;
 import weka.classifiers.evaluation.output.prediction.PlainText;
+import weka.classifiers.meta.RotationForest;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.SerializationHelper;
@@ -85,13 +86,13 @@ public class HiveCote extends AbstractClassifierWithTrainingData{
         //RISE rise = new RISE();
         //rise.setTransformType(RISE.Filter.PS_ACF);
         //classifiers.add(rise);
-       // classifiers.add(new BOSS());
+       //classifiers.add(new BOSS());
         classifiers.add(new TSF());
         
         //names.add("EE");
         //names.add("ST");
         //names.add("RISE");
-        //names.add("BOSS");
+       // names.add("BOSS");
         names.add("TSF");
     }
     
@@ -641,12 +642,31 @@ public class HiveCote extends AbstractClassifierWithTrainingData{
 		if (!(classifierSaveLoc.endsWith("/") || classifierSaveLoc.endsWith("\\")))
 			classifierSaveLoc = classifierSaveLoc + "/";
 
+		
+		
+		
+		
 		logger.info("Training starting...");
 		long start = System.nanoTime();
 		try {
 			System.out.println("inside try");
 			HiveCote vsm = new HiveCote();
 			double accuracy = singleClassifierAndFold(train, test, vsm, folds, resultsPath);
+			
+			
+			Evaluation eval = new Evaluation(test);
+			PlainText forPredictionsPrinting = new PlainText();
+			forPredictionsPrinting.setBuffer(new StringBuffer());
+
+			CSV output = new CSV();
+			output.setHeader(new Instances(test, 0));
+			output.setBuffer(new StringBuffer());
+
+			eval.evaluateModel(vsm, test, output);
+
+			String classDetailsString = eval.toClassDetailsString();
+			
+			
 			System.out.println("accuracy is "+ accuracy);
 			System.out.println(vsm);
 			SerializationHelper.write("/Users/nikhil/Desktop/KMD/ARFF/cote.model", vsm);
@@ -659,6 +679,8 @@ public class HiveCote extends AbstractClassifierWithTrainingData{
 			logger.info("Accuracy with " + folds + " :" + accuracy);
 			msg.append("Accuracy with " + folds + " :" + accuracy + "\n");
 			logger.info("Best Params for classifier: " + classifierName);
+			logger.info(classDetailsString + "\n");
+			msg.append(classDetailsString + "\n");
 
 		} catch (Exception e) {
 			logger.severe("Classifier could not be built!!!" + e.getMessage());
@@ -674,7 +696,6 @@ public class HiveCote extends AbstractClassifierWithTrainingData{
 	 * @see org.ovgu.de.classifier.saxvsm.AbstractClassifierWithTrainingData#
 	 * applyClassifier(weka.core.Instances, java.lang.String, java.lang.String)
 	 */
-	@Override
 	public String applyClassifier(Instances test, String classifierModel) throws Exception, FileNotFoundException {
 
 		logger.info("Testing starting...");
@@ -758,5 +779,42 @@ public class HiveCote extends AbstractClassifierWithTrainingData{
 			}
 			return acc;
 		}
+
+	@Override
+	public String applyClassifier(Instances test, String classifierModel, boolean groundTruthAvailable)
+			throws Exception, FileNotFoundException {
+
+		logger.info("Testing starting...");
+		
+		
+		StringBuffer msg = new StringBuffer("Applying ").append(this.toString()).append(" model <")
+				.append(classifierModel).append("> on dataset <").append(test.relationName() + ">\n");
+
+		RotationForest vsm = (RotationForest) SerializationHelper.read(new FileInputStream(classifierModel));
+		vsm.setNumIterations(50);
+		long start = System.nanoTime();
+		ClassifierStatsMessage clmsg = ClassifierTools.getClassifierPrediction(test, vsm, groundTruthAvailable);
+		double testTime = (System.nanoTime() - start) / 1000000000.0; // sec
+		logger.info("Testing done (" + testTime + "s)");
+		msg.append("Testing done (" + testTime + "s)\n");
+
+		PlainText forPredictionsPrinting = new PlainText();
+		forPredictionsPrinting.setBuffer(new StringBuffer());
+
+		CSV output = new CSV();
+		output.setHeader(new Instances(test, 0));
+		output.setBuffer(new StringBuffer());
+		msg.append(clmsg.getMessage());
+		if (groundTruthAvailable) {
+			logger.info("Accuracy : " + clmsg.getAccuracy());
+			msg.append("Accuracy : " + clmsg.getAccuracy() + "\n");
+			Evaluation eval = new Evaluation(test);
+			eval.evaluateModel(vsm, test, output);
+			String classDetailsString = eval.toClassDetailsString();
+			logger.info(classDetailsString);
+			msg.append(classDetailsString + "\n");
+		}
+		return msg.toString();
+	}
     
 }

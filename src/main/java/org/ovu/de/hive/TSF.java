@@ -35,17 +35,31 @@ as
 margin= min{ |f_i-v| } 
  **/ 
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.util.Random;
+import java.util.logging.Logger;
 
 import org.ovgu.de.classifier.boss.TrainAccuracyEstimate;
 import org.ovgu.de.classifier.saxvsm.AbstractClassifierWithTrainingData;
 import org.ovgu.de.classifier.utility.ClassifierResults;
+import org.ovgu.de.classifier.utility.ClassifierStatsMessage;
 import org.ovgu.de.classifier.utility.ClassifierTools;
+import org.ovgu.de.classifier.utility.InstanceTools;
 import org.ovgu.de.classifier.utility.SaveParameterInfo;
 import org.ovgu.de.file.OutFile;
+import org.ovgu.de.utils.PropertiesHandler;
 
+import weka.classifiers.Classifier;
+import weka.classifiers.evaluation.Evaluation;
+import weka.classifiers.evaluation.output.prediction.CSV;
+import weka.classifiers.evaluation.output.prediction.PlainText;
+import weka.classifiers.meta.RotationForest;
 import weka.classifiers.trees.RandomForest;
 import weka.classifiers.trees.RandomTree;
 import weka.core.Attribute;
@@ -53,6 +67,7 @@ import weka.core.DenseInstance;
 import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.core.SerializationHelper;
 import weka.core.TechnicalInformation;
 
 /*
@@ -68,6 +83,7 @@ public class TSF extends AbstractClassifierWithTrainingData implements SaveParam
     int[][][] intervals;
     Random rand;
     Instances testHolder;
+    
 /*
     There is no benefit from internally doing the CV for this classifier,   
    so this is just for debugging really. Somewhat tidier
@@ -93,6 +109,7 @@ public class TSF extends AbstractClassifierWithTrainingData implements SaveParam
         rand=new Random();
         rand.setSeed(seed);
     }
+    private static Logger logger = Logger.getLogger("TSF");
     @Override
     public void writeCVTrainToFile(String train) {
         trainCVPath=train;
@@ -465,15 +482,161 @@ public class TSF extends AbstractClassifierWithTrainingData implements SaveParam
         System.out.println("Test size "+testHolder.numInstances());
 */
     }
-	@Override
-	public String buildClassifierAndSave(Instances train, Instances test, String classifierSaveLoc,
+    public String buildClassifierAndSave(Instances train, Instances test, String classifierSaveLoc,
 			String classifierName, int folds, String resultsPath) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+
+		StringBuffer msg = new StringBuffer("Start Building classifier...\n");
+
+		int classIndex = 0;
+		// if train and test have different number of attributes then need to recreate
+		// arffs
+		if (train.classIndex() > test.classIndex()) {
+			test = ClassifierTools.recreateArff(test, train.classIndex());
+			classIndex = train.classIndex();
+		} else if (train.classIndex() < test.classIndex()) {
+			train = ClassifierTools.recreateArff(train, test.classIndex());
+			classIndex = test.classIndex();
+		}
+		
+//		try {
+//			//String rotCtrFileName = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH") + ROTF;
+//			//File file = new File(rotCtrFileName);
+//			//file.createNewFile();
+//			//Files.write(Paths.get(rotCtrFileName), String.valueOf(classIndex).getBytes());
+//
+//		} catch (IOException e2) {
+//			logger.severe("Rotation Forest prop File could not be created");
+//		}
+		if (!(classifierSaveLoc.endsWith("/") || classifierSaveLoc.endsWith("\\")))
+			classifierSaveLoc = classifierSaveLoc + "/";
+
+		logger.info("Training starting...");
+		long start = System.nanoTime();
+		try {
+			RotationForest rotf = new RotationForest();
+			rotf.setNumIterations(50);
+			double accuracy = singleClassifierAndFold(train, test, rotf, folds, resultsPath);
+			
+			Evaluation eval = new Evaluation(test);
+			PlainText forPredictionsPrinting = new PlainText();
+			forPredictionsPrinting.setBuffer(new StringBuffer());
+
+			CSV output = new CSV();
+			output.setHeader(new Instances(test, 0));
+			output.setBuffer(new StringBuffer());
+
+			eval.evaluateModel(rotf, test, output);
+
+			String classDetailsString = eval.toClassDetailsString();
+			
+			weka.core.SerializationHelper.write(classifierSaveLoc + classifierName + ".model", rotf);
+			double trainTime = (System.nanoTime() - start) / 1000000000.0; // seconds
+
+			logger.info("Training done (" + trainTime + "s)");
+			msg.append("End Building classifier...\\n");
+			logger.info("Accuracy with " + folds + " :" + accuracy);
+			msg.append("Accuracy with " + folds + " :" + accuracy + "\n");
+			logger.info(classDetailsString + "\n");
+			msg.append(classDetailsString + "\n");
+
+		} catch (Exception e) {
+			logger.severe("Classifier could not be built!!!" + e.getMessage());
+			msg.append("Classifier could not be built!!!" + e.getMessage());
+			return msg.toString();
+		}
+		return msg.toString();
 	}
-	@Override
-	public String applyClassifier(Instances test, String classifierModel) throws Exception, FileNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+
+	public static double singleClassifierAndFold(Instances train, Instances test, Classifier c, int fold,
+			String resultsPath) {
+		Instances[] data = InstanceTools.resampleTrainAndTestInstances(train, test, fold);
+		double acc = 0;
+		int act;
+		int pred;
+		try {
+			c.buildClassifier(data[0]);
+			StringBuilder str = new StringBuilder();
+			DecimalFormat df = new DecimalFormat("##.######");
+			for (int j = 0; j < data[1].numInstances(); j++) {
+				act = (int) data[1].instance(j).classValue();
+				data[1].instance(j).setClassMissing();// Just in case ....
+				double[] probs = c.distributionForInstance(data[1].instance(j));
+				pred = 0;
+				for (int i = 1; i < probs.length; i++) {
+					if (probs[i] > probs[pred])
+						pred = i;
+				}
+				if (act == pred)
+					acc++;
+				str.append(act);
+				str.append(",");
+				str.append(pred);
+				str.append(",,");
+				for (double d : probs) {
+					str.append(df.format(d));
+					str.append(",");
+				}
+				str.append("\n");
+			}
+			acc /= data[1].numInstances();
+			System.out.println("Accuracy FOR fold" + fold + " -" + acc);
+			OutFile p = new OutFile(
+					resultsPath + "/testFold" + fold + "_" + train.relationName().split("-")[0] + ".csv");
+			p.writeLine(train.relationName() + "," + c.getClass().getName() + ",test");
+			if (c instanceof SaveParameterInfo) {
+				p.writeLine(((SaveParameterInfo) c).getParameters());
+			} else
+				p.writeLine("No parameter info");
+			p.writeLine(acc + "");
+			p.writeLine(str.toString());
+		} catch (Exception e) {
+			System.out.println(" Error =" + e + " in method simpleExperiment" + e);
+			e.printStackTrace();
+			System.out.println(" TRAIN " + train.relationName() + " has " + train.numAttributes() + " attributes and "
+					+ train.numInstances() + " instances");
+			System.out.println(" TEST " + test.relationName() + " has " + test.numAttributes() + " attributes"
+					+ test.numInstances() + " instances");
+
+			System.exit(0);
+		}
+		return acc;
 	}
+
+	public String applyClassifier(Instances test, String classifierModel, boolean groundTruthAvailable)
+			throws Exception, FileNotFoundException {
+
+		logger.info("Testing starting...");
+	
+
+		
+		StringBuffer msg = new StringBuffer("Applying ").append(this.toString()).append(" model <")
+				.append(classifierModel).append("> on dataset <").append(test.relationName() + ">\n");
+
+		RotationForest vsm = (RotationForest) SerializationHelper.read(new FileInputStream(classifierModel));
+		vsm.setNumIterations(50);
+		long start = System.nanoTime();
+		ClassifierStatsMessage clmsg = ClassifierTools.getClassifierPrediction(test, vsm, groundTruthAvailable);
+		double testTime = (System.nanoTime() - start) / 1000000000.0; // sec
+		logger.info("Testing done (" + testTime + "s)");
+		msg.append("Testing done (" + testTime + "s)\n");
+
+		PlainText forPredictionsPrinting = new PlainText();
+		forPredictionsPrinting.setBuffer(new StringBuffer());
+
+		CSV output = new CSV();
+		output.setHeader(new Instances(test, 0));
+		output.setBuffer(new StringBuffer());
+		msg.append(clmsg.getMessage());
+		if (groundTruthAvailable) {
+			logger.info("Accuracy : " + clmsg.getAccuracy());
+			msg.append("Accuracy : " + clmsg.getAccuracy() + "\n");
+			Evaluation eval = new Evaluation(test);
+			eval.evaluateModel(vsm, test, output);
+			String classDetailsString = eval.toClassDetailsString();
+			logger.info(classDetailsString);
+			msg.append(classDetailsString + "\n");
+		}
+		return msg.toString();
+	}
+
 }
