@@ -10,6 +10,7 @@ import org.ovgu.de.classifier.boss.BOSS;
 import org.ovgu.de.classifier.saxvsm.SAXVSM;
 import org.ovgu.de.classifier.utility.ClassifierTools;
 import org.ovgu.de.utils.Constants;
+import org.ovu.de.classifier.hive.HiveCote;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.functions.SMO;
@@ -95,7 +96,7 @@ public class Test {
 			String resultsPath = "E:/user-study/output";// validation-> a folder
 			int foldsNo = 10; // validation-> an integer and >=2
 			String classifierSaveLoc = "E:/user-study/arff/";// validation-> a folder
-			String modelName =Constants.SVM;// from dropdown, hence no validation
+			String modelName =Constants.COTE;// from dropdown, hence no validation
 			System.out.println(modelName + "....");
 
 			if (modelName.equals(Constants.SAXVSM)) {
@@ -181,8 +182,29 @@ public class Test {
 				 */
 			}
 
-			Classifier c = new RotationForest();
-			((RotationForest) c).setNumIterations(50);
+			else if (modelName.equalsIgnoreCase(Constants.COTE)) {
+
+				HiveCote hive = new HiveCote();
+				String smo = hive.buildClassifierAndSave(train, test, classifierSaveLoc, modelName, foldsNo,
+						resultsPath);
+				 System.out.println(smo);
+
+				/**
+				 * input
+				 */
+				String hiveclassifier = "E:/user-study/arff/hive.model";// validation-> ends with .model
+				/**
+				 * end input
+				 */
+				Instances testRotf = ClassifierTools.loadData("E:/user-study/arff/testp2M-total.arff");
+				String bossACl = hive.applyClassifier(testRotf, hiveclassifier, false);
+				System.out.println(bossACl);
+
+				/**
+				 * Boss - End
+				 */
+			}
+
 		} catch (Exception e) {
 			System.out.println(e);
 			e.printStackTrace();
