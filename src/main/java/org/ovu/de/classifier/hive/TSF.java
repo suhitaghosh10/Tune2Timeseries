@@ -498,24 +498,24 @@ public class TSF extends AbstractClassifierWithTrainingData implements SaveParam
 			classIndex = test.classIndex();
 		}
 		
-//		try {
-//			//String rotCtrFileName = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH") + ROTF;
-//			//File file = new File(rotCtrFileName);
-//			//file.createNewFile();
-//			//Files.write(Paths.get(rotCtrFileName), String.valueOf(classIndex).getBytes());
-//
-//		} catch (IOException e2) {
-//			logger.severe("Rotation Forest prop File could not be created");
-//		}
+		try {
+			
+		String tsf = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH")+"tsf.txt" ;
+		File file = new File(tsf);
+		file.createNewFile();
+		Files.write(Paths.get(tsf), String.valueOf(classIndex).getBytes());
+		} catch (IOException e2) {
+			logger.severe("Rotation Forest prop File could not be created");
+		}
 		if (!(classifierSaveLoc.endsWith("/") || classifierSaveLoc.endsWith("\\")))
 			classifierSaveLoc = classifierSaveLoc + "/";
 
 		logger.info("Training starting...");
 		long start = System.nanoTime();
 		try {
-			RotationForest rotf = new RotationForest();
-			rotf.setNumIterations(50);
-			double accuracy = singleClassifierAndFold(train, test, rotf, folds, resultsPath);
+			TSF tsf = new TSF();
+		
+			double accuracy = singleClassifierAndFold(train, test, tsf, folds, resultsPath);
 			
 			Evaluation eval = new Evaluation(test);
 			PlainText forPredictionsPrinting = new PlainText();
@@ -525,11 +525,11 @@ public class TSF extends AbstractClassifierWithTrainingData implements SaveParam
 			output.setHeader(new Instances(test, 0));
 			output.setBuffer(new StringBuffer());
 
-			eval.evaluateModel(rotf, test, output);
+			eval.evaluateModel(tsf, test, output);
 
 			String classDetailsString = eval.toClassDetailsString();
 			
-			weka.core.SerializationHelper.write(classifierSaveLoc + classifierName + ".model", rotf);
+			weka.core.SerializationHelper.write(classifierSaveLoc + classifierName + ".model", tsf);
 			double trainTime = (System.nanoTime() - start) / 1000000000.0; // seconds
 
 			logger.info("Training done (" + trainTime + "s)");
@@ -612,8 +612,8 @@ public class TSF extends AbstractClassifierWithTrainingData implements SaveParam
 		StringBuffer msg = new StringBuffer("Applying ").append(this.toString()).append(" model <")
 				.append(classifierModel).append("> on dataset <").append(test.relationName() + ">\n");
 
-		RotationForest vsm = (RotationForest) SerializationHelper.read(new FileInputStream(classifierModel));
-		vsm.setNumIterations(50);
+		TSF vsm = (TSF) SerializationHelper.read(new FileInputStream(classifierModel));
+		
 		long start = System.nanoTime();
 		ClassifierStatsMessage clmsg = ClassifierTools.getClassifierPrediction(test, vsm, groundTruthAvailable);
 		double testTime = (System.nanoTime() - start) / 1000000000.0; // sec

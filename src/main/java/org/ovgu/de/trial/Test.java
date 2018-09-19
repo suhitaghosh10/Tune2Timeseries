@@ -10,7 +10,7 @@ import org.ovgu.de.classifier.boss.BOSS;
 import org.ovgu.de.classifier.saxvsm.SAXVSM;
 import org.ovgu.de.classifier.utility.ClassifierTools;
 import org.ovgu.de.utils.Constants;
-import org.ovu.de.hive.HiveCote;
+import org.ovu.de.classifier.hive.HiveCote;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.meta.RotationForest;
@@ -165,6 +165,7 @@ public class Test {
 				/**
 				 * input
 				 */
+				
 				String bossclassifier = "/Users/nikhil/Desktop/KMD/ARFF/cote.model";// validation-> ends with .model
 //				String bossclassifier = "E:/user-study/arff/rotf.model";// validation-> ends with .model
 //				String bossclassifier = "E:/user-study/arff/rotf.model";// validation-> ends with .model

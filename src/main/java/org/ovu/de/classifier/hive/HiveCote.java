@@ -13,6 +13,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +30,7 @@ import org.ovgu.de.classifier.utility.ClassifierTools;
 import org.ovgu.de.classifier.utility.InstanceTools;
 import org.ovgu.de.classifier.utility.SaveParameterInfo;
 import org.ovgu.de.file.OutFile;
+import org.ovgu.de.utils.PropertiesHandler;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.evaluation.Evaluation;
@@ -632,6 +635,7 @@ public class HiveCote extends AbstractClassifierWithTrainingData{
 
 		StringBuffer msg = new StringBuffer("Start Building classifier...\n");
 
+		int classIndex = 0;
 		// if train and test have different number of attributes then need to recreate
 		// arffs
 		if (train.classIndex() > test.classIndex()) {
@@ -639,6 +643,19 @@ public class HiveCote extends AbstractClassifierWithTrainingData{
 		} else if (train.classIndex() < test.classIndex()) {
 			train = ClassifierTools.recreateArff(train, test.classIndex());
 		}
+		
+		try {
+			
+			String hive= PropertiesHandler.getPropertyVal("TEMP_FILE_PATH")+"hive.txt" ;
+			File file = new File(hive);
+			file.createNewFile();
+			Files.write(Paths.get(hive), String.valueOf(classIndex).getBytes());
+			} catch (IOException e2) {
+				logger.severe("Rotation Forest prop File could not be created");
+			}
+		
+		
+		
 		if (!(classifierSaveLoc.endsWith("/") || classifierSaveLoc.endsWith("\\")))
 			classifierSaveLoc = classifierSaveLoc + "/";
 
