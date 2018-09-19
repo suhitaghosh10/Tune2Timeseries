@@ -229,9 +229,8 @@ import weka.filters.unsupervised.instance.RemovePercentage;
  */
 public class RotationForest extends RandomizableIteratedSingleClassifierEnhancer
 		implements WeightedInstancesHandler, TechnicalInformationHandler {
-	/**
-	 * 
-	 */
+	
+	private static final int NUM_ITERATION = 50;
 	private static final String ROTF = "rotf.txt";
 
 	// It implements WeightedInstancesHandler because the base classifier
@@ -1298,7 +1297,7 @@ public class RotationForest extends RandomizableIteratedSingleClassifierEnhancer
 		long start = System.nanoTime();
 		try {
 			RotationForest rotf = new RotationForest();
-			rotf.setNumIterations(20);
+			rotf.setNumIterations(NUM_ITERATION);
 			double accuracy = singleClassifierAndFold(train, test, rotf, folds, resultsPath);
 			
 			Evaluation eval = new Evaluation(test);

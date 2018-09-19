@@ -678,7 +678,6 @@ public class HiveCote extends AbstractClassifierWithTrainingData{
 			msg.append("End Building classifier...\\n");
 			logger.info("Accuracy with " + folds + " :" + accuracy);
 			msg.append("Accuracy with " + folds + " :" + accuracy + "\n");
-			logger.info("Best Params for classifier: " + classifierName);
 			logger.info(classDetailsString + "\n");
 			msg.append(classDetailsString + "\n");
 
@@ -696,35 +695,7 @@ public class HiveCote extends AbstractClassifierWithTrainingData{
 	 * @see org.ovgu.de.classifier.saxvsm.AbstractClassifierWithTrainingData#
 	 * applyClassifier(weka.core.Instances, java.lang.String, java.lang.String)
 	 */
-	public String applyClassifier(Instances test, String classifierModel) throws Exception, FileNotFoundException {
-
-		logger.info("Testing starting...");
-		StringBuffer msg = new StringBuffer("Applying ").append(this.toString()).append(" model <")
-				.append(classifierModel).append("> on dataset <").append(test.relationName() + ">\n");
-		
-		HiveCote vsm = (HiveCote) SerializationHelper.read(new FileInputStream(classifierModel));
-		long start = System.nanoTime();
-		double acc = ClassifierTools.accuracy(test, vsm);
-		double testTime = (System.nanoTime() - start) / 1000000000.0; // sec
-		logger.info("Testing done (" + testTime + "s)");
-		msg.append("Testing done (" + testTime + "s)\n");
-
-		logger.info("Accuracy : " + acc);
-		Evaluation eval = new Evaluation(test);
-		PlainText forPredictionsPrinting = new PlainText();
-		forPredictionsPrinting.setBuffer(new StringBuffer());
-
-		CSV output = new CSV();
-		output.setHeader(new Instances(test, 0));
-		output.setBuffer(new StringBuffer());
-
-		eval.evaluateModel(vsm, test, output);
-
-		String classDetailsString = eval.toClassDetailsString();
-		logger.info(classDetailsString);
-		msg.append(classDetailsString + "\n");
-		return msg.toString();
-	}
+	
 	  public static double singleClassifierAndFold(Instances train, Instances test, Classifier c, int fold,
 				String resultsPath) {
 			Instances[] data = InstanceTools.resampleTrainAndTestInstances(train, test, fold);
@@ -790,8 +761,8 @@ public class HiveCote extends AbstractClassifierWithTrainingData{
 		StringBuffer msg = new StringBuffer("Applying ").append(this.toString()).append(" model <")
 				.append(classifierModel).append("> on dataset <").append(test.relationName() + ">\n");
 
-		RotationForest vsm = (RotationForest) SerializationHelper.read(new FileInputStream(classifierModel));
-		vsm.setNumIterations(50);
+		HiveCote vsm = (HiveCote) SerializationHelper.read(new FileInputStream(classifierModel));
+		
 		long start = System.nanoTime();
 		ClassifierStatsMessage clmsg = ClassifierTools.getClassifierPrediction(test, vsm, groundTruthAvailable);
 		double testTime = (System.nanoTime() - start) / 1000000000.0; // sec
