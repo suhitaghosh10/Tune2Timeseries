@@ -12,6 +12,7 @@ import org.ovgu.de.classifier.utility.ClassifierTools;
 import org.ovgu.de.utils.Constants;
 
 import weka.classifiers.Classifier;
+import weka.classifiers.functions.SMO;
 import weka.classifiers.meta.RotationForest;
 import weka.core.Instances;
 
@@ -85,16 +86,16 @@ public class Test {
 			/**
 			 * Input for Build Classifier : start
 			 */
-			Instances train = ClassifierTools.loadData("E:\\user-study\\arff\\train.arff"); // validation-> ends
+			Instances train = ClassifierTools.loadData("E:\\user-study\\arff\\train29.arff"); // validation-> ends
 																							// with
 																							// .arff
-			Instances test = ClassifierTools.loadData("E:\\user-study\\arff\\test.arff");// validation-> ends with
+			Instances test = ClassifierTools.loadData("E:\\user-study\\arff\\test29.arff");// validation-> ends with
 																							// .arff
 			// path where you will generate the csv, which will further store details
 			String resultsPath = "E:/user-study/output";// validation-> a folder
 			int foldsNo = 10; // validation-> an integer and >=2
 			String classifierSaveLoc = "E:/user-study/arff/";// validation-> a folder
-			String modelName =Constants.SAXVSM;// from dropdown, hence no validation
+			String modelName =Constants.SVM;// from dropdown, hence no validation
 			System.out.println(modelName + "....");
 
 			if (modelName.equals(Constants.SAXVSM)) {
@@ -151,6 +152,28 @@ public class Test {
 				 */
 				Instances testRotf = ClassifierTools.loadData("E:/user-study/arff/testp2Stotal.arff");
 				String bossACl = rotf.applyClassifier(testRotf, bossclassifier, false);
+				System.out.println(bossACl);
+
+				/**
+				 * Boss - End
+				 */
+			}
+			else if (modelName.equalsIgnoreCase(Constants.SVM)) {
+
+				SMO rotf = new SMO();
+				String smo = rotf.buildClassifierAndSave(train, test, classifierSaveLoc, modelName, foldsNo,
+						resultsPath);
+				 System.out.println(smo);
+
+				/**
+				 * input
+				 */
+				String smoclassifier = "E:/user-study/arff/svm.model";// validation-> ends with .model
+				/**
+				 * end input
+				 */
+				Instances testRotf = ClassifierTools.loadData("E:/user-study/arff/testp2M-total.arff");
+				String bossACl = rotf.applyClassifier(testRotf, smoclassifier, false);
 				System.out.println(bossACl);
 
 				/**

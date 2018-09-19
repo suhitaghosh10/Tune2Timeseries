@@ -708,101 +708,7 @@ public class SMO
      * @return a description of the classifier as a string
      */
     public String toString() {
-
-      StringBuffer text = new StringBuffer();
-      int printed = 0;
-
-      if ((m_alpha == null) && (m_sparseWeights == null)) {
-	return "BinarySMO: No model built yet.\n";
-      }
-      try {
-	text.append("BinarySMO\n\n");
-
-	// If machine linear, print weight vector
-	if (m_KernelIsLinear) {
-	  text.append("Machine linear: showing attribute weights, ");
-	  text.append("not support vectors.\n\n");
-
-	  // We can assume that the weight vector is stored in sparse
-	  // format because the classifier has been built
-	  for (int i = 0; i < m_sparseWeights.length; i++) {
-	    if (m_sparseIndices[i] != (int)m_classIndex) {
-	      if (printed > 0) {
-		text.append(" + ");
-	      } else {
-		text.append("   ");
-	      }
-	      text.append(Utils.doubleToString(m_sparseWeights[i], 12, 4) +
-			  " * ");
-	      if (m_filterType == FILTER_STANDARDIZE) {
-		text.append("(standardized) ");
-	      } else if (m_filterType == FILTER_NORMALIZE) {
-		text.append("(normalized) ");
-	      }
-	      if (!m_checksTurnedOff) {
-		text.append(m_data.attribute(m_sparseIndices[i]).name()+"\n");
-	      } else {
-		text.append("attribute with index " + 
-			    m_sparseIndices[i] +"\n");
-	      }
-	      printed++;
-	    }
-	  }
-	} else {
-	  for (int i = 0; i < m_alpha.length; i++) {
-	    if (m_supportVectors.contains(i)) {
-	      double val = m_alpha[i];
-	      if (m_class[i] == 1) {
-		if (printed > 0) {
-		  text.append(" + ");
-		}
-	      } else {
-		text.append(" - ");
-	      }
-	      text.append(Utils.doubleToString(val, 12, 4) 
-			  + " * <");
-	      for (int j = 0; j < m_data.numAttributes(); j++) {
-		if (j != m_data.classIndex()) {
-		  text.append(m_data.instance(i).toString(j));
-		}
-		if (j != m_data.numAttributes() - 1) {
-		  text.append(" ");
-		}
-	      }
-	      text.append("> * X]\n");
-	      printed++;
-	    }
-	  }
-	}
-	if (m_b > 0) {
-	  text.append(" - " + Utils.doubleToString(m_b, 12, 4));
-	} else {
-	  text.append(" + " + Utils.doubleToString(-m_b, 12, 4));
-	}
-
-	if (!m_KernelIsLinear) {
-	  text.append("\n\nNumber of support vectors: " + 
-		      m_supportVectors.numElements());
-	}
-	int numEval = 0;
-	int numCacheHits = -1;
-	if (m_kernel != null) {
-	  numEval = m_kernel.numEvals();
-	  numCacheHits = m_kernel.numCacheHits();
-	}
-	text.append("\n\nNumber of kernel evaluations: " + numEval);
-	if (numCacheHits >= 0 && numEval > 0) {
-	  double hitRatio = 1 - numEval*1.0/(numCacheHits+numEval);
-	  text.append(" (" + Utils.doubleToString(hitRatio*100, 7, 3).trim() + "% cached)");
-	}
-
-      } catch (Exception e) {
-	e.printStackTrace();
-
-	return "Can't print BinarySMO classifier.";
-      }
-    
-      return text.toString();
+    	return "SMO";
     }
 
     /**
@@ -2181,12 +2087,13 @@ public class SMO
 			Files.write(Paths.get(rotCtrFileName), String.valueOf(classIndex).getBytes());
 
 		} catch (IOException e2) {
-			logger.severe("Rotation Forest prop File could not be created");
+			logger.severe("SVM prop File could not be created");
 		}
 		if (!(classifierSaveLoc.endsWith("/") || classifierSaveLoc.endsWith("\\")))
 			classifierSaveLoc = classifierSaveLoc + "/";
 
 		logger.info("Training starting...");
+		msg.append("Training starting...\n");
 		long start = System.nanoTime();
 		try {
 			SMO svm = new SMO();
@@ -2209,7 +2116,7 @@ public class SMO
 			double trainTime = (System.nanoTime() - start) / 1000000000.0; // seconds
 
 			logger.info("Training done (" + trainTime + "s)");
-			msg.append("End Building classifier...\\n");
+			msg.append("End Building classifier...\n");
 			logger.info("Accuracy with " + folds + " :" + accuracy);
 			msg.append("Accuracy with " + folds + " :" + accuracy + "\n");
 			logger.info(classDetailsString + "\n");
