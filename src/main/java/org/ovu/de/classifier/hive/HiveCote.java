@@ -50,7 +50,8 @@ import weka.core.SerializationHelper;
 //public class HiveCote extends AbstractClassifier implements SaveTrainingPredictions{
 public class HiveCote extends AbstractClassifierWithTrainingData{
     
-    /**
+    private static final String HIVE_TXT = "hive.txt";
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 936809282757249853L;
@@ -646,7 +647,7 @@ public class HiveCote extends AbstractClassifierWithTrainingData{
 		
 		try {
 			
-			String hive= PropertiesHandler.getPropertyVal("TEMP_FILE_PATH")+"hive.txt" ;
+			String hive= PropertiesHandler.getPropertyVal("TEMP_FILE_PATH")+HIVE_TXT ;
 			File file = new File(hive);
 			file.createNewFile();
 			Files.write(Paths.get(hive), String.valueOf(classIndex).getBytes());
@@ -777,6 +778,10 @@ public class HiveCote extends AbstractClassifierWithTrainingData{
 		
 		StringBuffer msg = new StringBuffer("Applying ").append(this.toString()).append(" model <")
 				.append(classifierModel).append("> on dataset <").append(test.relationName() + ">\n");
+		logger.info("Testing starting...");
+		String rotCtrFileName = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH") + HIVE_TXT;
+		String content = new String(Files.readAllBytes(Paths.get(rotCtrFileName)));
+		int classIndexForModel = Integer.parseInt(content);
 
 		HiveCote vsm = (HiveCote) SerializationHelper.read(new FileInputStream(classifierModel));
 		

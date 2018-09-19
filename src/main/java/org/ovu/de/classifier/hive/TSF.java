@@ -75,7 +75,8 @@ import weka.core.TechnicalInformation;
 
  */
 public class TSF extends AbstractClassifierWithTrainingData implements SaveParameterInfo, TrainAccuracyEstimate{
-    boolean setSeed=false;
+    private static final String TSF_TXT = "tsf.txt";
+	boolean setSeed=false;
     int seed=0;
     RandomTree[] trees;
     int numTrees=500;
@@ -500,7 +501,7 @@ public class TSF extends AbstractClassifierWithTrainingData implements SaveParam
 		
 		try {
 			
-		String tsf = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH")+"tsf.txt" ;
+		String tsf = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH")+TSF_TXT ;
 		File file = new File(tsf);
 		file.createNewFile();
 		Files.write(Paths.get(tsf), String.valueOf(classIndex).getBytes());
@@ -606,7 +607,11 @@ public class TSF extends AbstractClassifierWithTrainingData implements SaveParam
 			throws Exception, FileNotFoundException {
 
 		logger.info("Testing starting...");
-	
+		logger.info("Testing starting...");
+		String rotCtrFileName = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH") + TSF_TXT;
+		String content = new String(Files.readAllBytes(Paths.get(rotCtrFileName)));
+		int classIndexForModel = Integer.parseInt(content);
+
 
 		
 		StringBuffer msg = new StringBuffer("Applying ").append(this.toString()).append(" model <")
