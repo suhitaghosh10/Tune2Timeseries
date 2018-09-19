@@ -19,4 +19,5 @@ public final class Constants {
 	public static final String COTE = "cote";
 	public static final String ENSEMBLE = "ensemble";
 	public static final String ROT_F = "rotf";
+	public static final String SVM = "svm";
 }

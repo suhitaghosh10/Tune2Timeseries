@@ -13,6 +13,7 @@ import org.ovgu.de.utils.Constants;
 import org.ovu.de.classifier.hive.HiveCote;
 
 import weka.classifiers.Classifier;
+import weka.classifiers.functions.SMO;
 import weka.classifiers.meta.RotationForest;
 import weka.core.Instances;
 
@@ -153,20 +154,20 @@ public class Test {
 				System.out.println(rotfACl);
 
 				/**
-				 * Boss - End
+				 * ROTF - End
 				 */
 			}else if (modelName.equalsIgnoreCase(Constants.COTE)) {
 
-				HiveCote rotf = new HiveCote();
-				String bossBCl = rotf.buildClassifierAndSave(train, test, classifierSaveLoc, modelName, foldsNo,
+				HiveCote hiveCote = new HiveCote();
+				String hiveCoteBCl = hiveCote.buildClassifierAndSave(train, test, classifierSaveLoc, modelName, foldsNo,
 						resultsPath);
-				System.out.println(bossBCl);
+				System.out.println(hiveCoteBCl);
 
 				/**
 				 * input
 				 */
 				
-				String bossclassifier = "/Users/nikhil/Desktop/KMD/ARFF/cote.model";// validation-> ends with .model
+				String coteclassifier = "/Users/nikhil/Desktop/KMD/ARFF/cote.model";// validation-> ends with .model
 //				String bossclassifier = "E:/user-study/arff/rotf.model";// validation-> ends with .model
 //				String bossclassifier = "E:/user-study/arff/rotf.model";// validation-> ends with .model
 //				String bossclassifier = "E:/user-study/arff/rotf.model";// validation-> ends with .model
@@ -176,16 +177,34 @@ public class Test {
 				 * end input
 				 */
 				Instances testRotf = ClassifierTools.loadData("/Users/nikhil/Desktop/KMD/ARFF/test.arff");
-				String bossACl = rotf.applyClassifier(testRotf, bossclassifier, false);
+//				String bossACl = hiveCote.applyClassifier(testRotf, bossclassifier, false);
 				
 
 				/**
-				 * Boss - End
+				 * COTE - End
+				 */
+			}else if (modelName.equalsIgnoreCase(Constants.SVM)) {
+
+				SMO svm = new SMO();
+				String svmBCl = svm.buildClassifierAndSave(train, test, classifierSaveLoc, modelName, foldsNo,
+						resultsPath);
+				System.out.println(svmBCl);
+
+				/**
+				 * input
+				 */
+				String svmclassifier = "/Users/nikhil/Desktop/KMD/ARFF/rotf.model";// validation-> ends with .model
+				/**
+				 * end input
+				 */
+				String svmACl = svm.applyClassifier(test,svmclassifier, false);
+				System.out.println(svmACl);
+
+				/**
+				 * SVM - End
 				 */
 			}
 
-			Classifier c = new RotationForest();
-			((RotationForest) c).setNumIterations(50);
 		} catch (Exception e) {
 			System.out.println(e);
 			e.printStackTrace();
