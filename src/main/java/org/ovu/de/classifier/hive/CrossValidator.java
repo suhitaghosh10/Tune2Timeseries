@@ -1,5 +1,5 @@
 
-package org.ovu.de.hive;
+package org.ovu.de.classifier.hive;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -4,7 +4,7 @@
  */
 
 
-package org.ovu.de.hive;
+package org.ovu.de.classifier.hive;
 
 
 import java.io.File;

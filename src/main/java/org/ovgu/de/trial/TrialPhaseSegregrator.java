@@ -23,6 +23,7 @@ import org.ovgu.de.utils.PropertiesHandler;
  */
 public class TrialPhaseSegregrator {
 
+	private static final String TWEET_LIST = "tweetId.txt";
 	private static final String SENTI_CSV = "senti.csv";
 	private static final String FACT_CSV = "fact.csv";
 	private static final String REL_CSV = "rel.csv";
@@ -279,7 +280,7 @@ public class TrialPhaseSegregrator {
 						fact.deleteCharAt(fact.length() - 1);
 						senti.deleteCharAt(senti.length() - 1);
 
-						segments.add(new SegmentDAOPhase2(total.toString(), rel.toString(), fact.toString(),
+						segments.add(new SegmentDAOPhase2(logEntries.get(index).getTweetId(),total.toString(), rel.toString(), fact.toString(),
 								senti.toString(), samplesToAdd));
 					}
 					LOGGER.info(logEntries.get(index).getTweetId() + " Tweet, has length " + samplesToAdd + " range :"
@@ -366,7 +367,8 @@ public class TrialPhaseSegregrator {
 		try (BufferedWriter total = new BufferedWriter(new FileWriter(outputLoc + TOTAL_CSV, true));
 				BufferedWriter rel = new BufferedWriter(new FileWriter(outputLoc + REL_CSV, true));
 				BufferedWriter fact = new BufferedWriter(new FileWriter(outputLoc + FACT_CSV, true));
-				BufferedWriter senti = new BufferedWriter(new FileWriter(outputLoc + SENTI_CSV, true));) {
+				BufferedWriter senti = new BufferedWriter(new FileWriter(outputLoc + SENTI_CSV, true));
+				BufferedWriter tweetList = new BufferedWriter(new FileWriter(outputLoc + TWEET_LIST, true));) {
 			total.write(sbf.toString());
 			total.append("\n");
 			rel.write(sbf.toString());
@@ -375,6 +377,7 @@ public class TrialPhaseSegregrator {
 			fact.append("\n");
 			senti.write(sbf.toString());
 			senti.append("\n");
+			
 			// add actual data to csv
 			for (SegmentDAOPhase2 sgmnt : paddedSegments) {
 				total.write(sgmnt.getTotalTimeseries() + "," + "0");
@@ -385,6 +388,8 @@ public class TrialPhaseSegregrator {
 				fact.append("\n");
 				senti.write(sgmnt.getSentimentTimeseries() + "," + "0");
 				senti.append("\n");
+				tweetList.write(sgmnt.getTweetId());
+				tweetList.append("\n");
 			}
 		}
 	}
@@ -544,7 +549,7 @@ public class TrialPhaseSegregrator {
 				}
 			}
 			modifiedS.add(
-					new SegmentDAOPhase2(total.toString(), rel.toString(), fact.toString(), senti.toString(), max));
+					new SegmentDAOPhase2(sgmnt.getTweetId(),total.toString(), rel.toString(), fact.toString(), senti.toString(), max));
 		}
 		return modifiedS;
 	}
@@ -692,7 +697,7 @@ public class TrialPhaseSegregrator {
 		sbf.append(segmentForAll.getMessage());
 		// generate csv
 		long curTime = System.currentTimeMillis();
-		String csvPath = tempPath + curTime + "temp";
+		String csvPath = tempPath + curTime + "temp//";
 		tp.generateCSVForPhase2(segmentForAll.getSgmntListP2(), csvPath);
 		sbf.append("Total number of Segments generated : " + segmentForAll.getSgmntListP2().size() + "\n");
 
