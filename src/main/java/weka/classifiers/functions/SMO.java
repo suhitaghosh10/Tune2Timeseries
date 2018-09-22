@@ -49,6 +49,7 @@ import weka.classifiers.evaluation.output.prediction.PlainText;
 import weka.classifiers.functions.supportVector.Kernel;
 import weka.classifiers.functions.supportVector.PolyKernel;
 import weka.classifiers.functions.supportVector.SMOset;
+import weka.classifiers.functions.supportVector.RBFKernel;
 import weka.core.Attribute;
 import weka.core.Capabilities;
 import weka.core.Capabilities.Capability;
@@ -435,6 +436,9 @@ public class SMO
      */
     public void setKernel(Kernel value) {
       m_kernel = value;
+      //Ad ch st
+//      m_kernel = 
+      //Ad ch end
     }
     
     /**
@@ -2097,7 +2101,10 @@ public class SMO
 		long start = System.nanoTime();
 		try {
 			SMO svm = new SMO();
-//			rotf.setNumIterations(50);
+			//Ad ch st
+			String[] temp = null;
+			svm.setKernel(Kernel.forName("weka.classifiers.functions.supportVector.RBFKernel", temp));
+			//Ad ch end
 			double accuracy = singleClassifierAndFold(train, test, svm, folds, resultsPath);
 			
 			Evaluation eval = new Evaluation(test);
