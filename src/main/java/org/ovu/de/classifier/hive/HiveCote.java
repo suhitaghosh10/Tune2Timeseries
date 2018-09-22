@@ -23,12 +23,14 @@ import java.util.logging.Logger;
 import org.ovgu.de.classifier.boss.BOSS;
 import org.ovgu.de.classifier.boss.HiveCoteModule;
 import org.ovgu.de.classifier.saxvsm.AbstractClassifierWithTrainingData;
+import org.ovgu.de.classifier.saxvsm.SAXVSM;
 import org.ovgu.de.classifier.shapelet_transforms.ShapeletTransform;
 import org.ovgu.de.classifier.utility.ClassifierStatsMessage;
 import org.ovgu.de.classifier.utility.ClassifierTools;
 import org.ovgu.de.classifier.utility.InstanceTools;
 import org.ovgu.de.classifier.utility.SaveParameterInfo;
 import org.ovgu.de.file.OutFile;
+import org.ovgu.de.trial.Phase2Results;
 import org.ovgu.de.utils.PropertiesHandler;
 
 import weka.classifiers.Classifier;
@@ -778,15 +780,12 @@ public class HiveCote extends AbstractClassifierWithTrainingData {
 	}
 
 	@Override
-	public String applyClassifier(Instances test, String classifierModel, boolean groundTruthAvailable)
+	public Phase2Results applyClassifier(Instances test, String classifierModel, boolean groundTruthAvailable)
 			throws Exception, FileNotFoundException {
 
+		Phase2Results results = new Phase2Results();
+		
 		logger.info("Testing starting...");
-		String hiveCtrFileName = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH") + HIVE;
-		String content = new String(Files.readAllBytes(Paths.get(hiveCtrFileName)));
-		int classIndexForModel = Integer.parseInt(content);
-
-		test = ClassifierTools.recreateArffForApplyClassifier(test, classIndexForModel);
 		StringBuffer msg = new StringBuffer("Applying ").append(this.toString()).append(" model <")
 				.append(classifierModel).append("> on dataset <").append(test.relationName() + ">\n");
 
@@ -795,7 +794,8 @@ public class HiveCote extends AbstractClassifierWithTrainingData {
 		ClassifierStatsMessage clmsg = ClassifierTools.getClassifierPrediction(test, vsm, groundTruthAvailable);
 		double testTime = (System.nanoTime() - start) / 1000000000.0; // sec
 		logger.info("Testing done (" + testTime + "s)");
-		msg.append("Testing done (" + testTime + "s)\n");
+		//msg.append("Testing done (" + testTime + "s)\n");
+		results.setTimeTaken(testTime);
 
 		PlainText forPredictionsPrinting = new PlainText();
 		forPredictionsPrinting.setBuffer(new StringBuffer());
@@ -805,15 +805,17 @@ public class HiveCote extends AbstractClassifierWithTrainingData {
 		output.setBuffer(new StringBuffer());
 		msg.append(clmsg.getMessage());
 		if (groundTruthAvailable) {
-			logger.info("Accuracy : " + clmsg.getAccuracy());
-			msg.append("Accuracy : " + clmsg.getAccuracy() + "\n");
+			logger.info(clmsg.getMessage());
+			//msg.append("Accuracy : " + clmsg.getAccuracy() + "\n");
 			Evaluation eval = new Evaluation(test);
 			eval.evaluateModel(vsm, test, output);
 			String classDetailsString = eval.toClassDetailsString();
 			logger.info(classDetailsString);
 			msg.append(classDetailsString + "\n");
 		}
-		return msg.toString();
+		results.setPredictionList(clmsg.getPredictionList());
+		results.setMessage(msg.toString());
+		return results;
 	}
 
 }

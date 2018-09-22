@@ -1413,8 +1413,7 @@ public class RotationForest extends RandomizableIteratedSingleClassifierEnhancer
 		output.setBuffer(new StringBuffer());
 		msg.append(clmsg.getMessage());
 		if (groundTruthAvailable) {
-			logger.info("Accuracy : " + clmsg.getAccuracy());
-			msg.append("Accuracy : " + clmsg.getAccuracy() + "\n");
+			logger.info(clmsg.getMessage());
 			Evaluation eval = new Evaluation(test);
 			eval.evaluateModel(vsm, test, output);
 			String classDetailsString = eval.toClassDetailsString();

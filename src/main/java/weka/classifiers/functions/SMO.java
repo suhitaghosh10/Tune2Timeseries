@@ -2213,8 +2213,7 @@ public class SMO
 		output.setBuffer(new StringBuffer());
 		msg.append(clmsg.getMessage());
 		if (groundTruthAvailable) {
-			logger.info("Accuracy : " + clmsg.getAccuracy());
-			msg.append("Accuracy : " + clmsg.getAccuracy() + "\n");
+			logger.info(clmsg.getMessage());
 			Evaluation eval = new Evaluation(test);
 			eval.evaluateModel(svm, test, output);
 			String classDetailsString = eval.toClassDetailsString();

@@ -41,6 +41,7 @@ import org.ovgu.de.classifier.utility.ClassifierResults;
 import org.ovgu.de.classifier.utility.InstanceTools;
 import org.ovgu.de.classifier.utility.SaveParameterInfo;
 import org.ovgu.de.file.OutFile;
+import org.ovgu.de.trial.Phase2Results;
 
 import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
@@ -152,7 +153,7 @@ abstract public class AbstractClassifierWithTrainingData extends AbstractClassif
 		return acc;
 	}
 
-	public abstract String applyClassifier(Instances test, String classifierModel, boolean groundTruthAvailable)
+	public abstract Phase2Results applyClassifier(Instances test, String classifierModel, boolean groundTruthAvailable)
 			throws Exception, FileNotFoundException;
 
 }

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import org.ovgu.de.classifier.utility.ClassifierStatsMessage;
 import org.ovgu.de.classifier.utility.ClassifierTools;
+import org.ovgu.de.trial.Phase2Results;
 
 import weka.classifiers.evaluation.Evaluation;
 import weka.classifiers.evaluation.output.prediction.CSV;
@@ -438,9 +439,11 @@ public class SAXVSM extends AbstractClassifierWithTrainingData {
 		return msg.toString();
 	}
 
-	public String applyClassifier(Instances test, String classifierModel, boolean groundTruthAvailable)
+	public Phase2Results applyClassifier(Instances test, String classifierModel, boolean groundTruthAvailable)
 			throws Exception, FileNotFoundException {
 
+		Phase2Results results = new Phase2Results();
+		
 		logger.info("Testing starting...");
 		StringBuffer msg = new StringBuffer("Applying ").append(this.toString()).append(" model <")
 				.append(classifierModel).append("> on dataset <").append(test.relationName() + ">\n");
@@ -450,7 +453,8 @@ public class SAXVSM extends AbstractClassifierWithTrainingData {
 		ClassifierStatsMessage clmsg = ClassifierTools.getClassifierPrediction(test, vsm, groundTruthAvailable);
 		double testTime = (System.nanoTime() - start) / 1000000000.0; // sec
 		logger.info("Testing done (" + testTime + "s)");
-		msg.append("Testing done (" + testTime + "s)\n");
+		//msg.append("Testing done (" + testTime + "s)\n");
+		results.setTimeTaken(testTime);
 
 		PlainText forPredictionsPrinting = new PlainText();
 		forPredictionsPrinting.setBuffer(new StringBuffer());
@@ -460,15 +464,18 @@ public class SAXVSM extends AbstractClassifierWithTrainingData {
 		output.setBuffer(new StringBuffer());
 		msg.append(clmsg.getMessage());
 		if (groundTruthAvailable) {
-			logger.info("Accuracy : " + clmsg.getAccuracy());
-			msg.append("Accuracy : " + clmsg.getAccuracy() + "\n");
+			//logger.info("Accuracy : " + clmsg.getAccuracy());
+			logger.info(clmsg.getMessage());
+			//msg.append("Accuracy : " + clmsg.getAccuracy() + "\n");
 			Evaluation eval = new Evaluation(test);
 			eval.evaluateModel(vsm, test, output);
 			String classDetailsString = eval.toClassDetailsString();
 			logger.info(classDetailsString);
 			msg.append(classDetailsString + "\n");
 		}
-		return msg.toString();
+		results.setPredictionList(clmsg.getPredictionList());
+		results.setMessage(msg.toString());
+		return results;
 	}
 
 	@Override

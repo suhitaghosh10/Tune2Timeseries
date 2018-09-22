@@ -21,11 +21,13 @@ import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.ovgu.de.classifier.saxvsm.AbstractClassifierWithTrainingData;
+import org.ovgu.de.classifier.saxvsm.SAXVSM;
 import org.ovgu.de.classifier.utility.ClassifierResults;
 import org.ovgu.de.classifier.utility.ClassifierStatsMessage;
 import org.ovgu.de.classifier.utility.ClassifierTools;
 import org.ovgu.de.classifier.utility.InstanceTools;
 import org.ovgu.de.file.OutFile;
+import org.ovgu.de.trial.Phase2Results;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.evaluation.Evaluation;
@@ -1508,9 +1510,11 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 	 * applyClassifier(weka.core.Instances, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String applyClassifier(Instances test, String classifierModel, boolean groundTruthAvailable)
+	public Phase2Results applyClassifier(Instances test, String classifierModel, boolean groundTruthAvailable)
 			throws Exception, FileNotFoundException {
 
+		Phase2Results results = new Phase2Results();
+		
 		logger.info("Testing starting...");
 		StringBuffer msg = new StringBuffer("Applying ").append(this.toString()).append(" model <")
 				.append(classifierModel).append("> on dataset <").append(test.relationName() + ">\n");
@@ -1520,7 +1524,8 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 		ClassifierStatsMessage clmsg = ClassifierTools.getClassifierPrediction(test, vsm, groundTruthAvailable);
 		double testTime = (System.nanoTime() - start) / 1000000000.0; // sec
 		logger.info("Testing done (" + testTime + "s)");
-		msg.append("Testing done (" + testTime + "s)\n");
+		//msg.append("Testing done (" + testTime + "s)\n");
+		results.setTimeTaken(testTime);
 
 		PlainText forPredictionsPrinting = new PlainText();
 		forPredictionsPrinting.setBuffer(new StringBuffer());
@@ -1530,15 +1535,17 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 		output.setBuffer(new StringBuffer());
 		msg.append(clmsg.getMessage());
 		if (groundTruthAvailable) {
-			logger.info("Accuracy : " + clmsg.getAccuracy());
-			msg.append("Accuracy : " + clmsg.getAccuracy() + "\n");
+			logger.info(clmsg.getMessage());
+			//msg.append("Accuracy : " + clmsg.getAccuracy() + "\n");
 			Evaluation eval = new Evaluation(test);
 			eval.evaluateModel(vsm, test, output);
 			String classDetailsString = eval.toClassDetailsString();
 			logger.info(classDetailsString);
 			msg.append(classDetailsString + "\n");
 		}
-		return msg.toString();
+		results.setPredictionList(clmsg.getPredictionList());
+		results.setMessage(msg.toString());
+		return results;
 	}
 
 }

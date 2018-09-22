@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import org.ovgu.de.classifier.utility.distribution.NormalDistribution;
 import org.ovgu.de.file.OutFile;
+import org.ovgu.de.trial.IndividualPrediction;
 import org.ovgu.de.utils.ArffGenerator;
 import org.ovgu.de.utils.PropertiesHandler;
 
@@ -162,13 +163,16 @@ public class ClassifierTools {
 	 * Probably is a built in method for this!
 	 * 
 	 * Also stores the predictions made
+	 * 
 	 * @param test
 	 * @param c
 	 * @return accuracy of classifier c on Instances test
 	 */
-	public static ClassifierStatsMessage getClassifierPrediction(Instances test, Classifier c,boolean groundTruthAvailable) {
+	public static ClassifierStatsMessage getClassifierPrediction(Instances test, Classifier c,
+			boolean groundTruthAvailable) {
 		ClassifierStatsMessage stats = new ClassifierStatsMessage();
 		StringBuffer sbf = new StringBuffer();
+		List<IndividualPrediction> predictionList = new ArrayList<>();
 		double a = 0;
 		int size = test.numInstances();
 		Instance d;
@@ -180,12 +184,19 @@ public class ClassifierTools {
 				trueClass = d.classValue();
 				if (trueClass == predictedClass)
 					a++;
-				if(groundTruthAvailable) {
-				logger.info("Instance "+i+" : True = " + trueClass + " Predicted = " + predictedClass);
-				sbf.append("Instance "+i+" : True = " + trueClass + " Predicted = " + predictedClass+"\n");}
+				if (groundTruthAvailable) {
+					logger.info("Instance " + i + " : True = " + trueClass + " Predicted = " + predictedClass);
+					IndividualPrediction pr = new IndividualPrediction(trueClass, predictedClass);
+					predictionList.add(pr);
+					// sbf.append("Instance "+i+" : True = " + trueClass + " Predicted = " +
+					// predictedClass+"\n");
+				}
+
 				else {
-					logger.info("Instance "+i+": Predicted = " + predictedClass);
-					sbf.append("Instance "+i+": Predicted = " + predictedClass+"\n");
+					logger.info("Instance " + i + ": Predicted = " + predictedClass);
+					// sbf.append("Instance "+i+": Predicted = " + predictedClass+"\n");
+					IndividualPrediction pr = new IndividualPrediction(predictedClass);
+					predictionList.add(pr);
 				}
 			} catch (Exception e) {
 				System.out.println(" Error with instance " + i + " with Classifier " + c.getClass().getName()
@@ -194,8 +205,12 @@ public class ClassifierTools {
 				System.exit(0);
 			}
 		}
+
 		stats.setMessage(sbf.toString());
-		stats.setAccuracy(a / size);
+		stats.setPredictionList(predictionList);
+		if (groundTruthAvailable) {
+			stats.setMessage("Accuracy :" + a / size);
+		}
 		return stats;
 	}
 

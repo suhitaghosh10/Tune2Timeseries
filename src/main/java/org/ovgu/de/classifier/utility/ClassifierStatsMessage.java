@@ -3,6 +3,10 @@
  */
 package org.ovgu.de.classifier.utility;
 
+import java.util.List;
+
+import org.ovgu.de.trial.IndividualPrediction;
+
 /**
  * @author Suhita Ghosh
  *
@@ -10,7 +14,7 @@ package org.ovgu.de.classifier.utility;
 public class ClassifierStatsMessage {
 
 	private String message;
-	private double accuracy;
+	List<IndividualPrediction> predictionList;
 
 	public String getMessage() {
 		return message;
@@ -20,12 +24,12 @@ public class ClassifierStatsMessage {
 		this.message = message;
 	}
 
-	public double getAccuracy() {
-		return accuracy;
+	public List<IndividualPrediction> getPredictionList() {
+		return predictionList;
 	}
 
-	public void setAccuracy(double accuracy) {
-		this.accuracy = accuracy;
+	public void setPredictionList(List<IndividualPrediction> predictionList) {
+		this.predictionList = predictionList;
 	}
 
 }

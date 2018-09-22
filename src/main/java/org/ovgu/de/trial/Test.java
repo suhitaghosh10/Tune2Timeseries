@@ -41,8 +41,8 @@ public class Test {
 		 * The inputs from UI : end
 		 */
 		String msg=null;
-		// msg = tp.preprocessAndGenerateArffForPhase1(unisensFolder, logFileAbsolutePath, target_arff_file,startedAfter1min);
-		System.out.println(msg);
+	// msg = tp.preprocessAndGenerateArffForPhase1(unisensFolder, logFileAbsolutePath, target_arff_file,startedAfter1min);
+	//	System.out.println(msg);
 
 		/**
 		 * Preprocess for 1 file : end
@@ -68,8 +68,8 @@ public class Test {
 		target_arff_file = "E:/user-study/arff/testp2S.arff";
 		startedAfter1min = true;
 
-		//msg = tp.preprocessAndGenerateArffForPhase2(unisens, log, target_arff_file, startedAfter1min);
-		//System.out.println(msg);
+		msg = tp.preprocessAndGenerateArffForPhase2(unisens, log, target_arff_file, startedAfter1min);
+		System.out.println(msg);
 
 		/**
 		 * Preprocess for Multiple files
@@ -96,26 +96,27 @@ public class Test {
 			String resultsPath = "E:/user-study/output";// validation-> a folder
 			int foldsNo = 10; // validation-> an integer and >=2
 			String classifierSaveLoc = "E:/user-study/arff/";// validation-> a folder
-			String modelName =Constants.COTE;// from dropdown, hence no validation
+			String modelName =Constants.SAXVSM;// from dropdown, hence no validation
 			System.out.println(modelName + "....");
 
 			if (modelName.equals(Constants.SAXVSM)) {
 
 				SAXVSM vsm = new SAXVSM();
 				// the model will be saved as <classifierSaveLoc>+<modelName>.model
-				String msg3 = vsm.buildClassifierAndSave(train, test, classifierSaveLoc,modelName, foldsNo,resultsPath);
-				System.out.println(msg3);
+				//String msg3 = vsm.buildClassifierAndSave(train, test, classifierSaveLoc,modelName, foldsNo,resultsPath);
+				//System.out.println(msg3);
 
 				/**
 				 * Input for Apply Classifier for phase2 -SAXVSM : start
 				 */
-				String vsmclassifier = "E:/user-study/arff/sax29Users.model";// validation-> ends with .model
+				String vsmclassifier = "E:/user-study/arff/sax.model";// validation-> ends with .model
 				test = ClassifierTools.loadData("E:\\user-study\\arff\\test.arff");// validation-> ends with .arff
 				/**
 				 * Input for Apply Classifier for phase2 -SAXVSM : end
 				 */
-				String msgAplyCl = vsm.applyClassifier(test, vsmclassifier, true);
-				System.out.println(msgAplyCl);
+				Phase2Results msgAplyCl = vsm.applyClassifier(test, vsmclassifier, false);
+
+				System.out.println(msgAplyCl.getMessage());
 
 			} else if (modelName.equalsIgnoreCase(Constants.BOSS)) {
 
@@ -131,8 +132,8 @@ public class Test {
 				/**
 				 * end input
 				 */
-				String bossACl = boss.applyClassifier(test, bossclassifier, true);
-				System.out.println(bossACl);
+				Phase2Results bossACl = boss.applyClassifier(test, bossclassifier, true);
+				System.out.println(bossACl.getMessage());
 
 				/**
 				 * Boss - End
@@ -197,7 +198,7 @@ public class Test {
 				 * end input
 				 */
 				Instances testRotf = ClassifierTools.loadData("E:/user-study/arff/testp2M-total.arff");
-				String bossACl = hive.applyClassifier(testRotf, hiveclassifier, false);
+				Phase2Results bossACl = hive.applyClassifier(testRotf, hiveclassifier, false);
 				System.out.println(bossACl);
 
 				/**
