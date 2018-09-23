@@ -9,15 +9,15 @@ package org.ovgu.de.trial;
  */
 public class IndividualPrediction {
 
-	double predictedValue;
-	double trueValue;
+	String predictedValue;
+	String trueValue;
 
-	public IndividualPrediction(double predictedClass) {
+	public IndividualPrediction(String predictedClass) {
 		super();
 		this.predictedValue = predictedClass;
 	}
 
-	public IndividualPrediction( double trueClass, double predictedClass) {
+	public IndividualPrediction( String trueClass, String predictedClass) {
 		super();
 		this.predictedValue = predictedClass;
 		this.trueValue = trueClass;

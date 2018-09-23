@@ -186,7 +186,8 @@ public class ClassifierTools {
 					a++;
 				if (groundTruthAvailable) {
 					logger.info("Instance " + i + " : True = " + trueClass + " Predicted = " + predictedClass);
-					IndividualPrediction pr = new IndividualPrediction(trueClass, predictedClass);
+					IndividualPrediction pr = new IndividualPrediction(getTextValue(trueClass),
+							getTextValue(predictedClass));
 					predictionList.add(pr);
 					// sbf.append("Instance "+i+" : True = " + trueClass + " Predicted = " +
 					// predictedClass+"\n");
@@ -195,7 +196,7 @@ public class ClassifierTools {
 				else {
 					logger.info("Instance " + i + ": Predicted = " + predictedClass);
 					// sbf.append("Instance "+i+": Predicted = " + predictedClass+"\n");
-					IndividualPrediction pr = new IndividualPrediction(predictedClass);
+					IndividualPrediction pr = new IndividualPrediction(getTextValue(predictedClass));
 					predictionList.add(pr);
 				}
 			} catch (Exception e) {
@@ -212,6 +213,19 @@ public class ClassifierTools {
 			stats.setMessage("Accuracy :" + a / size);
 		}
 		return stats;
+	}
+
+	/**
+	 * @param trueClass
+	 * @return
+	 */
+	private static String getTextValue(double lclass) {
+		if (lclass == 1.0)
+			return "Hard";
+		else if (lclass == 0.0)
+			return "Easy";
+		else
+			return "Invalid";
 	}
 
 	/**
