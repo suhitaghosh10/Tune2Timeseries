@@ -174,7 +174,7 @@ public class Test {
 				 * end input
 				 */
 				Instances testsmo = ClassifierTools.loadData("E:/user-study/arff/testp2M-total.arff");
-				String smoACl = rotf.applyClassifier(testsmo, smoclassifier, false);
+				Phase2Results smoACl = rotf.applyClassifier(testsmo, smoclassifier, false);
 				System.out.println(smoACl);
 
 				/**
