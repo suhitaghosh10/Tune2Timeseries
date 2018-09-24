@@ -352,8 +352,17 @@ public class TrialPhaseSegregrator {
 	public void generateCSVForPhase2(List<SegmentDAOPhase2> segments, String outputLoc, String tweetFileLoc)
 			throws IOException {
 		File dir = new File(outputLoc);
+		File tweetFileLocation = new File(tweetFileLoc);
 		if (!dir.exists()) {
 			if (dir.mkdirs()) {
+				LOGGER.info("Directory is now created!");
+			} else {
+				LOGGER.warning("Failed to create directory may be already existing!");
+			}
+		}
+		
+		if (!tweetFileLocation.exists()) {
+			if (tweetFileLocation.mkdirs()) {
 				LOGGER.info("Directory is now created!");
 			} else {
 				LOGGER.warning("Failed to create directory may be already existing!");

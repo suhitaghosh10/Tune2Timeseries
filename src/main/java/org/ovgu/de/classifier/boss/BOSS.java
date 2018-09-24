@@ -59,6 +59,11 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 3762711647194689488L;
+	
+	/**
+	 * 
+	 */
 	private static final String TRAIN_CV_PATH = "E:\\Boss\\boss";
 
 	public TechnicalInformation getTechnicalInformation() {
@@ -162,6 +167,10 @@ public class BOSS extends AbstractClassifierWithTrainingData implements HiveCote
 	}
 
 	public static class BOSSWindow implements Comparable<BOSSWindow>, Serializable {
+		/**
+		 * 
+		 */
+		//private static final long serialVersionUID = 1L;
 		private BOSSIndividual classifier;
 		public double accuracy;
 		public String filename;

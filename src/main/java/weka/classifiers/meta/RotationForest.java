@@ -40,6 +40,7 @@ import org.ovgu.de.classifier.utility.ClassifierTools;
 import org.ovgu.de.classifier.utility.InstanceTools;
 import org.ovgu.de.classifier.utility.SaveParameterInfo;
 import org.ovgu.de.file.OutFile;
+import org.ovgu.de.trial.Phase2Results;
 import org.ovgu.de.utils.PropertiesHandler;
 
 import weka.classifiers.Classifier;
@@ -1385,8 +1386,10 @@ public class RotationForest extends RandomizableIteratedSingleClassifierEnhancer
 		return acc;
 	}
 
-	public String applyClassifier(Instances test, String classifierModel, boolean groundTruthAvailable)
+	public Phase2Results applyClassifier(Instances test, String classifierModel, boolean groundTruthAvailable)
 			throws Exception, FileNotFoundException {
+		
+		Phase2Results results = new Phase2Results();
 
 		logger.info("Testing starting...");
 		String rotCtrFileName = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH") + ROTF;
@@ -1404,7 +1407,7 @@ public class RotationForest extends RandomizableIteratedSingleClassifierEnhancer
 		double testTime = (System.nanoTime() - start) / 1000000000.0; // sec
 		logger.info("Testing done (" + testTime + "s)");
 		msg.append("Testing done (" + testTime + "s)\n");
-
+		results.setTimeTaken(testTime);
 		PlainText forPredictionsPrinting = new PlainText();
 		forPredictionsPrinting.setBuffer(new StringBuffer());
 
@@ -1420,6 +1423,9 @@ public class RotationForest extends RandomizableIteratedSingleClassifierEnhancer
 			logger.info(classDetailsString);
 			msg.append(classDetailsString + "\n");
 		}
-		return msg.toString();
+		results.setPredictionList(clmsg.getPredictionList());
+		results.setMessage(msg.toString());
+		
+		return results;
 	}
 }

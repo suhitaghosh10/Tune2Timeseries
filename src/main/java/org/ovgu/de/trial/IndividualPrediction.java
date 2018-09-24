@@ -9,8 +9,8 @@ package org.ovgu.de.trial;
  */
 public class IndividualPrediction {
 
-	String predictedValue;
-	String trueValue;
+	public String predictedValue;
+	public String trueValue;
 
 	public IndividualPrediction(String predictedClass) {
 		super();

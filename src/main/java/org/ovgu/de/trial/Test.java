@@ -153,7 +153,7 @@ public class Test {
 				 * end input
 				 */
 				Instances testRotf = ClassifierTools.loadData("E:/user-study/arff/testp2Stotal.arff");
-				String bossACl = rotf.applyClassifier(testRotf, bossclassifier, false);
+				Phase2Results bossACl = rotf.applyClassifier(testRotf, bossclassifier, false);
 				System.out.println(bossACl);
 
 				/**
