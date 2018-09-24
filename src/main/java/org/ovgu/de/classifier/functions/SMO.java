@@ -19,7 +19,7 @@
  *
  */
 
-package weka.classifiers.functions;
+package org.ovgu.de.classifier.functions;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -46,6 +46,7 @@ import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.evaluation.output.prediction.CSV;
 import weka.classifiers.evaluation.output.prediction.PlainText;
+import weka.classifiers.functions.Logistic;
 import weka.classifiers.functions.supportVector.Kernel;
 import weka.classifiers.functions.supportVector.PolyKernel;
 import weka.classifiers.functions.supportVector.SMOset;

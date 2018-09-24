@@ -19,7 +19,7 @@
  *
  */
 
-package weka.classifiers.functions.supportVector;
+package org.ovgu.de.classifier.functions.supportVector;
 
 import java.io.Serializable;
 

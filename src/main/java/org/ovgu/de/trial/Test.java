@@ -12,8 +12,7 @@ import org.ovgu.de.classifier.utility.ClassifierTools;
 import org.ovgu.de.utils.Constants;
 import org.ovu.de.classifier.hive.HiveCote;
 
-import weka.classifiers.Classifier;
-import weka.classifiers.functions.SMO;
+import org.ovgu.de.classifier.functions.SMO;
 import weka.classifiers.meta.RotationForest;
 import weka.core.Instances;
 
@@ -141,20 +140,20 @@ public class Test {
 			} else if (modelName.equalsIgnoreCase(Constants.ROT_F)) {
 
 				RotationForest rotf = new RotationForest();
-				String bossBCl = rotf.buildClassifierAndSave(train, test, classifierSaveLoc, modelName, foldsNo,
+				String rotfBCl = rotf.buildClassifierAndSave(train, test, classifierSaveLoc, modelName, foldsNo,
 						resultsPath);
-				// System.out.println(bossBCl);
+				// System.out.println(rotfBCl);
 
 				/**
 				 * input
 				 */
-				String bossclassifier = "E:/user-study/arff/rotf.model";// validation-> ends with .model
+				String rotfclassifier = "E:/user-study/arff/rotf.model";// validation-> ends with .model
 				/**
 				 * end input
 				 */
 				Instances testRotf = ClassifierTools.loadData("E:/user-study/arff/testp2Stotal.arff");
-				String bossACl = rotf.applyClassifier(testRotf, bossclassifier, false);
-				System.out.println(bossACl);
+				String rotfACl = rotf.applyClassifier(testRotf, rotfclassifier, false);
+				System.out.println(rotfACl);
 
 				/**
 				 * Boss - End
@@ -174,9 +173,9 @@ public class Test {
 				/**
 				 * end input
 				 */
-				Instances testRotf = ClassifierTools.loadData("E:/user-study/arff/testp2M-total.arff");
-				String bossACl = rotf.applyClassifier(testRotf, smoclassifier, false);
-				System.out.println(bossACl);
+				Instances testsmo = ClassifierTools.loadData("E:/user-study/arff/testp2M-total.arff");
+				String smoACl = rotf.applyClassifier(testsmo, smoclassifier, false);
+				System.out.println(smoACl);
 
 				/**
 				 * Boss - End
@@ -186,20 +185,20 @@ public class Test {
 			else if (modelName.equalsIgnoreCase(Constants.COTE)) {
 
 				HiveCote hive = new HiveCote();
-				String smo = hive.buildClassifierAndSave(train, test, classifierSaveLoc, modelName, foldsNo,
+				String cote = hive.buildClassifierAndSave(train, test, classifierSaveLoc, modelName, foldsNo,
 						resultsPath);
-				 System.out.println(smo);
+				 System.out.println(cote);
 
 				/**
 				 * input
 				 */
-				String hiveclassifier = "E:/user-study/arff/hive.model";// validation-> ends with .model
+				String coteclassifier = "E:/user-study/arff/hive.model";// validation-> ends with .model
 				/**
 				 * end input
 				 */
-				Instances testRotf = ClassifierTools.loadData("E:/user-study/arff/testp2M-total.arff");
-				Phase2Results bossACl = hive.applyClassifier(testRotf, hiveclassifier, false);
-				System.out.println(bossACl);
+				Instances testcote = ClassifierTools.loadData("E:/user-study/arff/testp2M-total.arff");
+				Phase2Results coteACl = hive.applyClassifier(testcote, coteclassifier, false);
+				System.out.println(coteACl);
 
 				/**
 				 * Boss - End

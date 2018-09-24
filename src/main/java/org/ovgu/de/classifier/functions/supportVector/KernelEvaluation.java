@@ -18,7 +18,7 @@
  * Copyright (C) 2006-2012 University of Waikato, Hamilton, New Zealand
  */
 
-package weka.classifiers.functions.supportVector;
+package org.ovgu.de.classifier.functions.supportVector;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
