@@ -19,7 +19,7 @@
  *
  */
 
-package weka.classifiers.functions.supportVector;
+package org.ovgu.de.classifier.functions.supportVector;
 
 import java.util.Enumeration;
 import java.util.Random;
@@ -181,7 +181,7 @@ public class CheckKernel
    */
   
   /*** The kernel to be examined */
-  protected Kernel m_Kernel = new weka.classifiers.functions.supportVector.RBFKernel();
+  protected Kernel m_Kernel = new org.ovgu.de.classifier.functions.supportVector.RBFKernel();
   
   /**
    * Returns an enumeration describing the available options.

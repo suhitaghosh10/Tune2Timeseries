@@ -19,14 +19,15 @@
  *
  */
 
-package weka.classifiers.functions.supportVector;
+package org.ovgu.de.classifier.functions.supportVector;
 
 import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Random;
 import java.util.Vector;
 
-import weka.classifiers.functions.SMOreg;
+import org.ovgu.de.classifier.functions.SMOreg;
+
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Option;

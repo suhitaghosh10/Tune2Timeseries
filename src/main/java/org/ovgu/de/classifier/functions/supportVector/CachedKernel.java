@@ -18,7 +18,7 @@
  * Copyright (C) 2005-2012 University of Waikato, Hamilton, New Zealand
  */
 
-package weka.classifiers.functions.supportVector;
+package org.ovgu.de.classifier.functions.supportVector;
 
 import java.util.Enumeration;
 import java.util.Vector;
