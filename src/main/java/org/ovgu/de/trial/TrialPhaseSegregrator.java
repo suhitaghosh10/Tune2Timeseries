@@ -53,14 +53,7 @@ public class TrialPhaseSegregrator {
 		StringBuffer msg = new StringBuffer();
 		String temp_path = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH");
 
-		File file = new File(temp_path);
-		if (!file.exists()) {
-			if (file.mkdirs()) {
-				LOGGER.info("Directory is now created!");
-			} else {
-				LOGGER.warning("Failed to create directory may be already existing!");
-			}
-		}
+		Utility.checkAndCreateDirectory(temp_path);
 		msg.append("Log file provided :" + LogFile + "\n");
 		LOGGER.info("Log file provided :" + LogFile);
 		msg.append("Unisens folder provided :" + inputUnisensFolderLoc + "\n");
@@ -94,6 +87,8 @@ public class TrialPhaseSegregrator {
 
 	}
 
+	
+
 	/**
 	 * @param inputUnisensFolderLoc
 	 * @param LogFile
@@ -112,14 +107,7 @@ public class TrialPhaseSegregrator {
 		StringBuffer msg = new StringBuffer();
 		String temp_path = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH");
 
-		File file = new File(temp_path);
-		if (!file.exists()) {
-			if (file.mkdirs()) {
-				LOGGER.info("Directory is now created!");
-			} else {
-				LOGGER.warning("Failed to create directory may be already existing!");
-			}
-		}
+		Utility.checkAndCreateDirectory(temp_path);
 		msg.append("Log file provided :" + LogFile + "\n");
 		LOGGER.info("Log file provided :" + LogFile);
 		msg.append("Unisens folder provided :" + inputUnisensFolderLoc + "\n");
@@ -133,8 +121,8 @@ public class TrialPhaseSegregrator {
 			SegmentMessageDAO dao = generateSegmentsForPhase2(inputUnisensFolderLoc, LogFile, startedAfter1min);
 			msg.append(dao.getMessage());
 
-			if (ArffFile.contains("."))
-				ArffFile = ArffFile.split("\\.")[0];
+			//if (ArffFile.contains("."))
+			//	ArffFile = ArffFile.split("\\.")[0];
 			// generate csv
 			generateCSVForPhase2(dao.getSgmntListP2(), csvFile, ArffFile);
 		} catch (IOException e) {
@@ -318,10 +306,7 @@ public class TrialPhaseSegregrator {
 	 */
 	public void generateCSVForPhase1(List<SegmentDAOPhase1> segments, String outputLoc) throws IOException {
 
-		File f = new File(outputLoc);
-		if (f.exists()) {
-			f.delete();
-		}
+		Utility.deleteFile(outputLoc);
 		int maxLngth = getMaxLengthForPhase1(segments) + 1;
 		List<SegmentDAOPhase1> paddedSegments = fillWithMissingNotationForP1(segments, maxLngth);
 		// generate and add header to csv
@@ -351,23 +336,10 @@ public class TrialPhaseSegregrator {
 	 */
 	public void generateCSVForPhase2(List<SegmentDAOPhase2> segments, String outputLoc, String tweetFileLoc)
 			throws IOException {
-		File dir = new File(outputLoc);
-		File tweetFileLocation = new File(tweetFileLoc);
-		if (!dir.exists()) {
-			if (dir.mkdirs()) {
-				LOGGER.info("Directory is now created!");
-			} else {
-				LOGGER.warning("Failed to create directory may be already existing!");
-			}
-		}
 		
-		if (!tweetFileLocation.exists()) {
-			if (tweetFileLocation.mkdirs()) {
-				LOGGER.info("Directory is now created!");
-			} else {
-				LOGGER.warning("Failed to create directory may be already existing!");
-			}
-		}
+		Utility.checkAndCreateDirectory(outputLoc);
+		Utility.checkAndCreateDirectory(tweetFileLoc);
+		
 		int maxLngth = getMaxLengthForPhase2(segments) + 1;
 		List<SegmentDAOPhase2> paddedSegments = fillWithMissingNotationforP2(segments, maxLngth);
 		// generate and add header to csv
@@ -648,14 +620,7 @@ public class TrialPhaseSegregrator {
 
 		String tempPath = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH");
 
-		File file = new File(tempPath);
-		if (!file.exists()) {
-			if (file.mkdirs()) {
-				LOGGER.info("Directory is now created!");
-			} else {
-				LOGGER.warning("Failed to create directory may be already existing!");
-			}
-		}
+		Utility.checkAndCreateDirectory(tempPath);
 
 		TrialPhaseSegregrator tp = new TrialPhaseSegregrator();
 		StringBuffer sbf = new StringBuffer("Start Generating segments for Phase1 for multiple person\n");
@@ -692,14 +657,7 @@ public class TrialPhaseSegregrator {
 
 		String tempPath = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH");
 
-		File file = new File(tempPath);
-		if (!file.exists()) {
-			if (file.mkdirs()) {
-				LOGGER.info("Directory is now created!");
-			} else {
-				LOGGER.warning("Failed to create directory may be already existing!");
-			}
-		}
+		Utility.checkAndCreateDirectory(tempPath);
 
 		TrialPhaseSegregrator tp = new TrialPhaseSegregrator();
 		StringBuffer sbf = new StringBuffer("Start Generating segments for Phase2 for multiple person\n");
@@ -715,13 +673,13 @@ public class TrialPhaseSegregrator {
 
 		// generate arff
 		try {
-			if (targetArffFileName.contains(".")) {
-				targetArffFileName = targetArffFileName.split("\\.")[0];
+			//if (targetArffFileName.contains(".")) {
+			//	targetArffFileName = targetArffFileName.split("\\.")[0];
 				sbf.append("Arff to be generated :" + targetArffFileName + "-" + TOTAL_ARFF + " , " + targetArffFileName
 						+ "-" + REL_ARFF + " , " + targetArffFileName + "-" + FACT_ARFF + " , " + targetArffFileName
 						+ "-" + SENTI_ARFF + "\n");
 				LOGGER.info("Arff will be generated :" + targetArffFileName);
-			}
+			//}
 			sbf.append(
 					ArffGenerator.generateDataset(csvPath + TOTAL_CSV, targetArffFileName + "-" + TOTAL_ARFF, false));
 			sbf.append(ArffGenerator.generateDataset(csvPath + REL_CSV, targetArffFileName + "-" + REL_ARFF, false));

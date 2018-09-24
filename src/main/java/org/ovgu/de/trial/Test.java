@@ -3,16 +3,18 @@
  */
 package org.ovgu.de.trial;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.ovgu.de.classifier.boss.BOSS;
+import org.ovgu.de.classifier.functions.SMO;
 import org.ovgu.de.classifier.saxvsm.SAXVSM;
 import org.ovgu.de.classifier.utility.ClassifierTools;
 import org.ovgu.de.utils.Constants;
 import org.ovu.de.classifier.hive.HiveCote;
 
-import org.ovgu.de.classifier.functions.SMO;
 import weka.classifiers.meta.RotationForest;
 import weka.core.Instances;
 
@@ -67,9 +69,27 @@ public class Test {
 		target_arff_file = "E:/user-study/arff/testp2S.arff";
 		startedAfter1min = true;
 
-		msg = tp.preprocessAndGenerateArffForPhase2(unisens, log, target_arff_file, startedAfter1min);
-		System.out.println(msg);
+		//msg = tp.preprocessAndGenerateArffForPhase2(unisens, log, target_arff_file, startedAfter1min);
+		//System.out.println(msg);
 
+		
+		 /* File directory = new File("E:\\user-study\\p2\\");
+		for (File file : directory.listFiles()) {
+			String[] filepath = file.getPath().split("\\\\");
+			System.out.println(filepath[3].split("_")[1]);
+			
+			String logfileDir = filepath[0] + "\\" + filepath[1] + "\\" + filepath[2] + "\\" + filepath[3] + "\\";
+			File sdirectory = new File(logfileDir);
+			for (File logf : sdirectory.listFiles()) {
+				if(FilenameUtils.getExtension(logf.getName()).equals("txt")) {
+					System.out.println("log-"+logf.getPath());
+					msg = tp.preprocessAndGenerateArffForPhase2(logfileDir, logf.getPath(), logfileDir+"\\arff\\", true);
+					System.out.println(msg);
+				}
+			}
+
+		}*/
+		 
 		/**
 		 * Preprocess for Multiple files
 		 */
@@ -95,7 +115,7 @@ public class Test {
 			String resultsPath = "E:/user-study/output";// validation-> a folder
 			int foldsNo = 10; // validation-> an integer and >=2
 			String classifierSaveLoc = "E:/user-study/arff/";// validation-> a folder
-			String modelName =Constants.SAXVSM;// from dropdown, hence no validation
+			String modelName ="";// from dropdown, hence no validation
 			System.out.println(modelName + "....");
 
 			if (modelName.equals(Constants.SAXVSM)) {
@@ -262,7 +282,9 @@ public class Test {
 				"E:/user-study/drive/Logs/prajwal.txt", true));
 		persons.add(new PersonDAO("E:/user-study/drive/unisens/2018-08-24 14.41.01_Shobhit",
 				"E:/user-study/drive/Logs/Shobhit.txt", true));
-		**/
+		persons.add(new PersonDAO("E:/user-study/drive/unisens/2018-08-24 11.16.01_Moni",
+				"E:/user-study/drive/Logs/moni.txt", true));**/
+		
 		persons.add(new PersonDAO("E:/user-study/drive/unisens/2018-08-24 15.27.01_Ahmadullah",
 				"E:/user-study/drive/Logs/Ahmadullah.txt", true));
 		persons.add(new PersonDAO("E:/user-study/drive/unisens/2018-08-24 15.27.01_Chaitanya",
