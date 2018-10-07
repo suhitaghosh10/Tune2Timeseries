@@ -8,8 +8,8 @@ import java.util.Random;
 
 import org.ovgu.de.classifier.utility.ClassifierResults;
 import org.ovgu.de.classifier.utility.ClassifierTools;
+import org.unisens.ri.util.StatisticalUtilities;
 
-import utilities.StatisticalUtilities;
 import weka.classifiers.Classifier;
 import weka.core.Instances;
 

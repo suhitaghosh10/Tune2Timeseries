@@ -23,4 +23,14 @@ public class IndividualPrediction {
 		this.trueValue = trueClass;
 	}
 
+	public String getPredictedValue() {
+		return predictedValue;
+	}
+
+	public String getTrueValue() {
+		return trueValue;
+	}
+	
+	
+
 }

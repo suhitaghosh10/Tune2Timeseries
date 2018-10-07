@@ -460,7 +460,7 @@ public class SAXVSM extends AbstractClassifierWithTrainingData {
 		forPredictionsPrinting.setBuffer(new StringBuffer());
 
 		CSV output = new CSV();
-		output.setHeader(new Instances(test, 0));
+		output.setHeader(new Instances(test,0));
 		output.setBuffer(new StringBuffer());
 		msg.append(clmsg.getMessage());
 		if (groundTruthAvailable) {
@@ -468,10 +468,11 @@ public class SAXVSM extends AbstractClassifierWithTrainingData {
 			logger.info(clmsg.getMessage());
 			//msg.append("Accuracy : " + clmsg.getAccuracy() + "\n");
 			Evaluation eval = new Evaluation(test);
+			//logger.info(""+eval.kappa());
 			eval.evaluateModel(vsm, test, output);
 			String classDetailsString = eval.toClassDetailsString();
 			logger.info(classDetailsString);
-			msg.append(classDetailsString + "\n");
+			msg.append("\n"+classDetailsString + "\n");
 		}
 		results.setPredictionList(clmsg.getPredictionList());
 		results.setMessage(msg.toString());
