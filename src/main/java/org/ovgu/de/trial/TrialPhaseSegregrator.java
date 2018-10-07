@@ -1,17 +1,19 @@
 package org.ovgu.de.trial;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.ovgu.de.unisens.UnisensCSVGenerator;
 import org.ovgu.de.utils.ArffGenerator;
 import org.ovgu.de.utils.PropertiesHandler;
+import org.unisens.ri.util.TweetLabel;
 
 /**
  * 
@@ -34,6 +36,7 @@ public class TrialPhaseSegregrator {
 	private static final String TOTAL_ARFF = "total.arff";
 	private static java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger("TrialPhaseISegregrator");
 	private static final Integer SAMPLING_RATE = 32;
+	private static Map<String, TweetLabel> twtLblMap = new HashMap<>();
 
 	/**
 	 * @param inputUnisensFolderLoc
@@ -87,8 +90,6 @@ public class TrialPhaseSegregrator {
 
 	}
 
-	
-
 	/**
 	 * @param inputUnisensFolderLoc
 	 * @param LogFile
@@ -107,6 +108,17 @@ public class TrialPhaseSegregrator {
 		StringBuffer msg = new StringBuffer();
 		String temp_path = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH");
 
+		if (twtLblMap.size() == 0) {
+			Integer twt_no = Integer.parseInt(PropertiesHandler.getPropertyVal("TWEET_COUNT"));
+			for (int i = 0; i < twt_no; i++) {
+				twtLblMap.put(PropertiesHandler.getPropertyVal(i + ".twt.id"),
+						new TweetLabel(PropertiesHandler.getPropertyVal(i + ".twt.rel"),
+								PropertiesHandler.getPropertyVal(i + ".twt.fac"),
+								PropertiesHandler.getPropertyVal(i + ".twt.sen")));
+				System.out.println(i);
+			}
+		}
+		System.out.println(twtLblMap.size());
 		Utility.checkAndCreateDirectory(temp_path);
 		msg.append("Log file provided :" + LogFile + "\n");
 		LOGGER.info("Log file provided :" + LogFile);
@@ -121,8 +133,8 @@ public class TrialPhaseSegregrator {
 			SegmentMessageDAO dao = generateSegmentsForPhase2(inputUnisensFolderLoc, LogFile, startedAfter1min);
 			msg.append(dao.getMessage());
 
-			//if (ArffFile.contains("."))
-			//	ArffFile = ArffFile.split("\\.")[0];
+			// if (ArffFile.contains("."))
+			// ArffFile = ArffFile.split("\\.")[0];
 			// generate csv
 			generateCSVForPhase2(dao.getSgmntListP2(), csvFile, ArffFile);
 		} catch (IOException e) {
@@ -336,10 +348,10 @@ public class TrialPhaseSegregrator {
 	 */
 	public void generateCSVForPhase2(List<SegmentDAOPhase2> segments, String outputLoc, String tweetFileLoc)
 			throws IOException {
-		
+
 		Utility.checkAndCreateDirectory(outputLoc);
 		Utility.checkAndCreateDirectory(tweetFileLoc);
-		
+
 		int maxLngth = getMaxLengthForPhase2(segments) + 1;
 		List<SegmentDAOPhase2> paddedSegments = fillWithMissingNotationforP2(segments, maxLngth);
 		// generate and add header to csv
@@ -348,13 +360,10 @@ public class TrialPhaseSegregrator {
 			sbf.append(i == maxLngth ? "class" : "a" + i + ",");
 		}
 
-		try (BufferedWriter total = new BufferedWriter(new FileWriter(outputLoc + TOTAL_CSV, true));
-				BufferedWriter rel = new BufferedWriter(new FileWriter(outputLoc + REL_CSV, true));
+		try (BufferedWriter rel = new BufferedWriter(new FileWriter(outputLoc + REL_CSV, true));
 				BufferedWriter fact = new BufferedWriter(new FileWriter(outputLoc + FACT_CSV, true));
 				BufferedWriter senti = new BufferedWriter(new FileWriter(outputLoc + SENTI_CSV, true));
-				BufferedWriter tweetList = new BufferedWriter(new FileWriter(tweetFileLoc +"/"+ TWEET_LIST, true));) {
-			total.write(sbf.toString());
-			total.append("\n");
+				BufferedWriter tweetList = new BufferedWriter(new FileWriter(tweetFileLoc + "/" + TWEET_LIST, true));) {
 			rel.write(sbf.toString());
 			rel.append("\n");
 			fact.write(sbf.toString());
@@ -364,13 +373,20 @@ public class TrialPhaseSegregrator {
 
 			// add actual data to csv
 			for (SegmentDAOPhase2 sgmnt : paddedSegments) {
-				total.write(sgmnt.getTotalTimeseries() + "," + "0");
-				total.append("\n");
-				rel.write(sgmnt.getRelevantTimeseries() + "," + "0");
+				rel.write(sgmnt.getRelevantTimeseries() + ","
+						+ (twtLblMap.containsKey(sgmnt.getTweetId())
+								? twtLblMap.get(sgmnt.getTweetId()).getRelevantLabel()
+								: "0"));
 				rel.append("\n");
-				fact.write(sgmnt.getNonfactualTimeseries() + "," + "0");
+				fact.write(sgmnt.getNonfactualTimeseries() + ","
+						+ (twtLblMap.containsKey(sgmnt.getTweetId())
+								? twtLblMap.get(sgmnt.getTweetId()).getFactualLabel()
+								: "0"));
 				fact.append("\n");
-				senti.write(sgmnt.getSentimentTimeseries() + "," + "0");
+				senti.write(sgmnt.getSentimentTimeseries() + ","
+						+ (twtLblMap.containsKey(sgmnt.getTweetId())
+								? twtLblMap.get(sgmnt.getTweetId()).getSentimentLabel()
+								: "0"));
 				senti.append("\n");
 				tweetList.write(sgmnt.getTweetId());
 				tweetList.append("\n");
@@ -673,13 +689,13 @@ public class TrialPhaseSegregrator {
 
 		// generate arff
 		try {
-			//if (targetArffFileName.contains(".")) {
-			//	targetArffFileName = targetArffFileName.split("\\.")[0];
-				sbf.append("Arff to be generated :" + targetArffFileName + "-" + TOTAL_ARFF + " , " + targetArffFileName
-						+ "-" + REL_ARFF + " , " + targetArffFileName + "-" + FACT_ARFF + " , " + targetArffFileName
-						+ "-" + SENTI_ARFF + "\n");
-				LOGGER.info("Arff will be generated :" + targetArffFileName);
-			//}
+			// if (targetArffFileName.contains(".")) {
+			// targetArffFileName = targetArffFileName.split("\\.")[0];
+			sbf.append("Arff to be generated :" + targetArffFileName + "-" + TOTAL_ARFF + " , " + targetArffFileName
+					+ "-" + REL_ARFF + " , " + targetArffFileName + "-" + FACT_ARFF + " , " + targetArffFileName + "-"
+					+ SENTI_ARFF + "\n");
+			LOGGER.info("Arff will be generated :" + targetArffFileName);
+			// }
 			sbf.append(
 					ArffGenerator.generateDataset(csvPath + TOTAL_CSV, targetArffFileName + "-" + TOTAL_ARFF, false));
 			sbf.append(ArffGenerator.generateDataset(csvPath + REL_CSV, targetArffFileName + "-" + REL_ARFF, false));

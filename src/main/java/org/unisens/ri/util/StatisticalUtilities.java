@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package utilities;
+package org.unisens.ri.util;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

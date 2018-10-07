@@ -4,7 +4,7 @@ This class is a helper class to describe the structure of our shapelet code and
  *copyright Anthony Bagnall
  * @author Anthony Bagnall, Jason Lines, Jon Hills and Edgaras Baranauskas
  */
-package org.ovgu.de.classifier.examples;
+package org.ovgu.de.classifier.shapelet;
 
 import java.io.BufferedReader;
 import java.io.File;
