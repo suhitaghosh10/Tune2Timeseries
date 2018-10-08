@@ -115,10 +115,9 @@ public class TrialPhaseSegregrator {
 						new TweetLabel(PropertiesHandler.getPropertyVal(i + ".twt.rel"),
 								PropertiesHandler.getPropertyVal(i + ".twt.fac"),
 								PropertiesHandler.getPropertyVal(i + ".twt.sen")));
-				System.out.println(i);
 			}
 		}
-		System.out.println(twtLblMap.size());
+		LOGGER.info("Tweet Label Map filled and has :" + twtLblMap.size()+" entries");
 		Utility.checkAndCreateDirectory(temp_path);
 		msg.append("Log file provided :" + LogFile + "\n");
 		LOGGER.info("Log file provided :" + LogFile);
@@ -673,6 +672,17 @@ public class TrialPhaseSegregrator {
 
 		if(targetArffFolder.endsWith("/"))
 			targetArffFolder = targetArffFolder +"/";
+		
+		if (twtLblMap.size() == 0) {
+			Integer twt_no = Integer.parseInt(PropertiesHandler.getPropertyVal("TWEET_COUNT"));
+			for (int i = 0; i < twt_no; i++) {
+				twtLblMap.put(PropertiesHandler.getPropertyVal(i + ".twt.id"),
+						new TweetLabel(PropertiesHandler.getPropertyVal(i + ".twt.rel"),
+								PropertiesHandler.getPropertyVal(i + ".twt.fac"),
+								PropertiesHandler.getPropertyVal(i + ".twt.sen")));
+			}
+		}
+		LOGGER.info("Tweet Label Map filled and has :" + twtLblMap.size()+" entries");
 		
 		Utility.deleteFile(targetArffFolder);
 		String tempPath = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH");
