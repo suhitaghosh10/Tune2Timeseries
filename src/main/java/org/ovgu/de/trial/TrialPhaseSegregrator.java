@@ -668,9 +668,13 @@ public class TrialPhaseSegregrator {
 	 *             processes multiple files and generates ones arff file. returns
 	 *             name of the arff file
 	 */
-	public String preprocessAndGenerateArffForMultipleForP2(String targetArffFileName,
+	public String preprocessAndGenerateArffForMultipleForP2(String targetArffFolder,
 			List<PersonDAO> logUnisensPathMap) throws IOException {
 
+		if(targetArffFolder.endsWith("/"))
+			targetArffFolder = targetArffFolder +"/";
+		
+		Utility.deleteFile(targetArffFolder);
 		String tempPath = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH");
 
 		Utility.checkAndCreateDirectory(tempPath);
@@ -681,27 +685,27 @@ public class TrialPhaseSegregrator {
 		// create segments for all
 		SegmentMessageDAO segmentForAll = tp.generateSegmentsFromMultipleFilesForP2(logUnisensPathMap);
 		sbf.append(segmentForAll.getMessage());
+		LOGGER.info("Segments generated :"+segmentForAll.getSgmntListP2().size());
 		// generate csv
 		long curTime = System.currentTimeMillis();
 		String csvPath = tempPath + curTime + "temp//";
-		tp.generateCSVForPhase2(segmentForAll.getSgmntListP2(), csvPath, targetArffFileName);
+		tp.generateCSVForPhase2(segmentForAll.getSgmntListP2(), csvPath, targetArffFolder);
 		sbf.append("Total number of Segments generated : " + segmentForAll.getSgmntListP2().size() + "\n");
 
 		// generate arff
 		try {
 			// if (targetArffFileName.contains(".")) {
 			// targetArffFileName = targetArffFileName.split("\\.")[0];
-			sbf.append("Arff to be generated :" + targetArffFileName + "-" + TOTAL_ARFF + " , " + targetArffFileName
-					+ "-" + REL_ARFF + " , " + targetArffFileName + "-" + FACT_ARFF + " , " + targetArffFileName + "-"
-					+ SENTI_ARFF + "\n");
-			LOGGER.info("Arff will be generated :" + targetArffFileName);
+			sbf.append("Arff to be generated :" + REL_ARFF + " , " + targetArffFolder + "-" + FACT_ARFF + " , "
+					+ targetArffFolder + "-" + SENTI_ARFF + "\n");
+			LOGGER.info("Arff will be generated :" + targetArffFolder);
 			// }
-			sbf.append(
-					ArffGenerator.generateDataset(csvPath + TOTAL_CSV, targetArffFileName + "-" + TOTAL_ARFF, false));
-			sbf.append(ArffGenerator.generateDataset(csvPath + REL_CSV, targetArffFileName + "-" + REL_ARFF, false));
-			sbf.append(ArffGenerator.generateDataset(csvPath + FACT_CSV, targetArffFileName + "-" + FACT_ARFF, false));
-			sbf.append(
-					ArffGenerator.generateDataset(csvPath + SENTI_CSV, targetArffFileName + "-" + SENTI_ARFF, false));
+			// sbf.append(
+			// ArffGenerator.generateDataset(csvPath + TOTAL_CSV, targetArffFileName +
+			// TOTAL_ARFF, false));
+			sbf.append(ArffGenerator.generateDataset(csvPath + REL_CSV, targetArffFolder + REL_ARFF, false));
+			sbf.append(ArffGenerator.generateDataset(csvPath + FACT_CSV, targetArffFolder + FACT_ARFF, false));
+			sbf.append(ArffGenerator.generateDataset(csvPath + SENTI_CSV, targetArffFolder + SENTI_ARFF, false));
 		} catch (Exception e) {
 			sbf.append("Arff file could not be generated " + e.getMessage() + "\n");
 			LOGGER.severe("Arff file could not be generated " + e.getMessage());

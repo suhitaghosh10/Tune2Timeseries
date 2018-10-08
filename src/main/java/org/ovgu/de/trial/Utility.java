@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import org.apache.commons.io.FileDeleteStrategy;
+
 /**
  * @author Suhita Ghosh
  *
@@ -55,7 +57,16 @@ public class Utility {
 	 */
 	public static void deleteFile(String fileLoc) {
 		File f = new File(fileLoc);
-		if (f.exists()) {
+		if(f.isDirectory() && f.exists()) {
+			for (File file : f.listFiles()) {
+			    try {
+					FileDeleteStrategy.FORCE.delete(file);
+				} catch (IOException e) {
+					LOGGER.info("exception occurred while deletion of folder"+fileLoc);
+				}
+			}
+		}
+		if (f.exists() && f.isFile()) {
 			f.delete();
 		}
 	}
