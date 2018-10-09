@@ -147,7 +147,7 @@ public class ClassifierTools {
 				trueClass = d.classValue();
 				if (trueClass == predictedClass)
 					a++;
-				logger.info("True = " + trueClass + " Predicted = " + predictedClass);
+				//logger.info("True = " + trueClass + " Predicted = " + predictedClass);
 			} catch (Exception e) {
 				System.out.println(" Error with instance " + i + " with Classifier " + c.getClass().getName()
 						+ " Exception =" + e);
@@ -185,7 +185,7 @@ public class ClassifierTools {
 				if (trueClass == predictedClass)
 					a++;
 				if (groundTruthAvailable) {
-					logger.info("Instance " + i + " : True = " + trueClass + " Predicted = " + predictedClass);
+					//logger.info("Instance " + i + " : True = " + trueClass + " Predicted = " + predictedClass);
 					IndividualPrediction pr = new IndividualPrediction(getTextValue(trueClass),
 							getTextValue(predictedClass));
 					predictionList.add(pr);
@@ -194,7 +194,7 @@ public class ClassifierTools {
 				}
 
 				else {
-					logger.info("Instance " + i + ": Predicted = " + predictedClass);
+					//logger.info("Instance " + i + ": Predicted = " + predictedClass);
 					// sbf.append("Instance "+i+": Predicted = " + predictedClass+"\n");
 					IndividualPrediction pr = new IndividualPrediction(getTextValue(predictedClass));
 					predictionList.add(pr);
@@ -793,8 +793,8 @@ public class ClassifierTools {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		String csvFilename = temp_path + "temp.csv";
-		String arffFilename = temp_path + "temp.arff";
+		String csvFilename = temp_path + System.currentTimeMillis()+"temp.csv";
+		String arffFilename = temp_path + System.currentTimeMillis()+ "temp.arff";
 		File f = new File(csvFilename);
 		if (f.exists())
 			f.delete();
@@ -846,8 +846,8 @@ public class ClassifierTools {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		String csvFilename = temp_path + "temp.csv";
-		String arffFilename = temp_path + "temp.arff";
+		String csvFilename = temp_path + "temp"+System.currentTimeMillis()+".csv";
+		String arffFilename = temp_path + "temp"+System.currentTimeMillis()+".arff";
 		File f = new File(csvFilename);
 		if (f.exists())
 			f.delete();
