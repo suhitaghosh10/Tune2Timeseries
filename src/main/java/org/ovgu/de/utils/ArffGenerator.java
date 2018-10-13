@@ -12,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
 
+import org.ovgu.de.classifier.utility.ClassifierTools;
+
 import weka.core.Instances;
 import weka.core.converters.ArffSaver;
 import weka.core.converters.CSVLoader;
@@ -98,6 +100,72 @@ public class ArffGenerator {
 				}
 		}
 		return msg.toString();
+
+	}
+	
+	public static void mergeDataset(String inputFileName1, String inputFileName2, String targetArffFileName, boolean classNameFirst) throws IOException {
+
+		if (targetArffFileName.endsWith("/") || targetArffFileName.endsWith("\\"))
+			targetArffFileName = targetArffFileName + Constants.DEFAULT_ARFF_FILE_NAME;
+		if (!targetArffFileName.contains(Constants.ARFF))
+			targetArffFileName = targetArffFileName + Constants.ARFF;
+		
+		logger.info("Start Generating Arff file...\n");
+		
+		Instances train = ClassifierTools.loadData(inputFileName1);
+		Instances test = ClassifierTools.loadData(inputFileName2);
+		
+		
+		
+		if (train .classIndex() > test.classIndex()) {
+			test = ClassifierTools.recreateArff(test, train.classIndex());
+		} else if (train.classIndex() < test.classIndex()) {
+			train = ClassifierTools.recreateArff(train, test.classIndex());
+		}
+		
+		Writer fileWriter = null;
+		try {
+			
+			NumericToNominal convert = new NumericToNominal();
+			String[] options = new String[2];
+			options[0] = "-R";
+			options[1] = classNameFirst ? "first" : "last";
+			convert.setOptions(options);
+			convert.setInputFormat(train);
+			convert.setInputFormat(test);
+			Instances train_f = Filter.useFilter(train, convert);
+			Instances test_f = Filter.useFilter(test, convert);
+			Instances all = new Instances(train_f);
+			all.addAll(test_f);
+
+			ArffSaver saver = new ArffSaver();
+			saver.setInstances(all);
+			saver.setFile(new File(targetArffFileName));
+			saver.writeBatch();
+
+			String arfcontent = new String(Files.readAllBytes(Paths.get(targetArffFileName)));
+			String STRING = "string";
+			if (arfcontent.contains(STRING)) {
+				arfcontent = arfcontent.replaceAll(STRING, "numeric");
+				fileWriter = new FileWriter(targetArffFileName, false);
+				fileWriter.write(arfcontent);
+			}
+			logger.info("End Generating Arff :" + targetArffFileName);
+
+		} catch (FileNotFoundException fe) {
+			logger.severe("File not found " + fe.getLocalizedMessage());
+		} catch (IOException e) {
+			logger.severe("arff file not created "+e.getMessage());
+		} catch (Exception e) {
+			logger.severe("arff file not created " + e.getMessage());
+		} finally {
+			if (fileWriter != null)
+				try {
+					fileWriter.close();
+				} catch (IOException e) {
+					logger.severe("File not found " + e.getLocalizedMessage());
+				}
+		}
 
 	}
 
