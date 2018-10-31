@@ -4,3 +4,4 @@
 2. RotF
 3. BOSS
 4. SVM
+5. Hive COTE
