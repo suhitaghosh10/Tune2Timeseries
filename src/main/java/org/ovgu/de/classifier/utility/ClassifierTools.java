@@ -147,7 +147,7 @@ public class ClassifierTools {
 				trueClass = d.classValue();
 				if (trueClass == predictedClass)
 					a++;
-				//logger.info("True = " + trueClass + " Predicted = " + predictedClass);
+				// logger.info("True = " + trueClass + " Predicted = " + predictedClass);
 			} catch (Exception e) {
 				System.out.println(" Error with instance " + i + " with Classifier " + c.getClass().getName()
 						+ " Exception =" + e);
@@ -185,7 +185,8 @@ public class ClassifierTools {
 				if (trueClass == predictedClass)
 					a++;
 				if (groundTruthAvailable) {
-					//logger.info("Instance " + i + " : True = " + trueClass + " Predicted = " + predictedClass);
+					// logger.info("Instance " + i + " : True = " + trueClass + " Predicted = " +
+					// predictedClass);
 					IndividualPrediction pr = new IndividualPrediction(getTextValue(trueClass),
 							getTextValue(predictedClass));
 					predictionList.add(pr);
@@ -194,7 +195,7 @@ public class ClassifierTools {
 				}
 
 				else {
-					//logger.info("Instance " + i + ": Predicted = " + predictedClass);
+					// logger.info("Instance " + i + ": Predicted = " + predictedClass);
 					// sbf.append("Instance "+i+": Predicted = " + predictedClass+"\n");
 					IndividualPrediction pr = new IndividualPrediction(getTextValue(predictedClass));
 					predictionList.add(pr);
@@ -793,8 +794,8 @@ public class ClassifierTools {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		String csvFilename = temp_path + System.currentTimeMillis()+"temp.csv";
-		String arffFilename = temp_path + System.currentTimeMillis()+ "temp.arff";
+		String csvFilename = temp_path + System.currentTimeMillis() + "temp.csv";
+		String arffFilename = temp_path + System.currentTimeMillis() + "temp.arff";
 		File f = new File(csvFilename);
 		if (f.exists())
 			f.delete();
@@ -846,8 +847,8 @@ public class ClassifierTools {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		String csvFilename = temp_path + "temp"+System.currentTimeMillis()+".csv";
-		String arffFilename = temp_path + "temp"+System.currentTimeMillis()+".arff";
+		String csvFilename = temp_path + "temp" + System.currentTimeMillis() + ".csv";
+		String arffFilename = temp_path + "temp" + System.currentTimeMillis() + ".arff";
 		File f = new File(csvFilename);
 		if (f.exists())
 			f.delete();
@@ -855,33 +856,59 @@ public class ClassifierTools {
 		if (f.exists())
 			f.delete();
 
-		for (int i = 0; i < difference; i++) {
-			sbfC.append("?,");
-		}
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFilename, false));) {
-			StringBuffer header = new StringBuffer();
-			for (int i = 0; i <= classIndex; i++) {
-				header.append(i == classIndex ? "class" : "a" + i + ",");
+		if (difference > 0) {
+			for (int i = 0; i < difference; i++) {
+				sbfC.append("?,");
 			}
-			header.append("\n");
-			writer.write(header.toString());
+			try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFilename, false));) {
+				StringBuffer header = new StringBuffer();
+				for (int i = 0; i <= classIndex; i++) {
+					header.append(i == classIndex ? "class" : "a" + i + ",");
+				}
+				header.append("\n");
+				writer.write(header.toString());
 
-			Enumeration<Instance> instances = test.enumerateInstances();
-			while (instances.hasMoreElements()) {
-				Instance ins = instances.nextElement();
-				Double cls = ins.classValue();
-				StringBuffer temp = new StringBuffer(ins.toString());
-				temp.deleteCharAt(ins.toString().length() - 1);
-				temp.append(sbfC);
-				temp.append(cls);
-				writer.write(temp.toString());
-				writer.append("\n");
+				Enumeration<Instance> instances = test.enumerateInstances();
+				while (instances.hasMoreElements()) {
+					Instance ins = instances.nextElement();
+					Double cls = ins.classValue();
+					StringBuffer temp = new StringBuffer(ins.toString());
+					temp.deleteCharAt(test.classIndex());
+					temp.append(sbfC);
+					temp.append(cls);
+					writer.write(temp.toString());
+					writer.append("\n");
+				}
+
+			} catch (IOException e) {
+				throw new IOException("file not found " + e.getMessage());
 			}
+		} else {
+			
+			try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFilename, false));) {
+				StringBuffer header = new StringBuffer();
+				for (int i = 0; i <= classIndex; i++) {
+					header.append(i == classIndex ? "class" : "a" + i + ",");
+				}
+				header.append("\n");
+				writer.write(header.toString());
 
-		} catch (IOException e) {
-			throw new IOException("file not found " + e.getMessage());
+				Enumeration<Instance> instances = test.enumerateInstances();
+				while (instances.hasMoreElements()) {
+					Instance ins = instances.nextElement();
+					StringBuffer temp = new StringBuffer();
+					for(int i=0;i<classIndex;i++) {
+						temp.append(ins.value(i)).append(",");
+					}
+					temp.append(ins.classValue());
+					writer.write(temp.toString().replaceAll("NaN", "?"));
+					writer.append("\n");
+				}
+
+			} catch (IOException e) {
+				throw new IOException("file not found " + e.getMessage());
+			}
 		}
-
 		ArffGenerator.generateDataset(csvFilename, arffFilename, false);
 		test = ClassifierTools.loadData(arffFilename);
 

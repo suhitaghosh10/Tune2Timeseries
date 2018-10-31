@@ -669,6 +669,9 @@ public class HiveCote extends AbstractClassifierWithTrainingData {
 			train = ClassifierTools.recreateArff(train, test.classIndex());
 			classIndex = test.classIndex();
 		}
+		else {
+			classIndex = test.classIndex();
+		}
 		try {
 			String hiveCtrFileName = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH") + HIVE;
 			File file = new File(hiveCtrFileName);

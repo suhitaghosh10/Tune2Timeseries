@@ -161,6 +161,7 @@ public class InstanceTools {
         Map<Double, Instances> classBins = createClassInstancesMap(all);
        
         Random r = new Random(seed);
+        System.out.println(r.nextInt());
 
         //empty instances.
         Instances outputTrain = new Instances(all, 0);

@@ -231,7 +231,7 @@ import weka.filters.unsupervised.instance.RemovePercentage;
 public class RotationForest extends RandomizableIteratedSingleClassifierEnhancer
 		implements WeightedInstancesHandler, TechnicalInformationHandler {
 	
-	private static final int NUM_ITERATION = 50;
+	private static final int NUM_ITERATION = 2;
 	private static final String ROTF = "rotf.txt";
 
 	// It implements WeightedInstancesHandler because the base classifier
@@ -1282,6 +1282,9 @@ public class RotationForest extends RandomizableIteratedSingleClassifierEnhancer
 			train = ClassifierTools.recreateArff(train, test.classIndex());
 			classIndex = test.classIndex();
 		}
+		else {
+			classIndex = test.classIndex();
+		}
 		try {
 			String rotCtrFileName = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH") + ROTF;
 			File file = new File(rotCtrFileName);
@@ -1401,7 +1404,7 @@ public class RotationForest extends RandomizableIteratedSingleClassifierEnhancer
 				.append(classifierModel).append("> on dataset <").append(test.relationName() + ">\n");
 
 		RotationForest vsm = (RotationForest) SerializationHelper.read(new FileInputStream(classifierModel));
-		vsm.setNumIterations(50);
+		vsm.setNumIterations(NUM_ITERATION);
 		long start = System.nanoTime();
 		ClassifierStatsMessage clmsg = ClassifierTools.getClassifierPrediction(test, vsm, groundTruthAvailable);
 		double testTime = (System.nanoTime() - start) / 1000000000.0; // sec
@@ -1421,6 +1424,7 @@ public class RotationForest extends RandomizableIteratedSingleClassifierEnhancer
 			eval.evaluateModel(vsm, test, output);
 			String classDetailsString = eval.toClassDetailsString();
 			logger.info(classDetailsString);
+			logger.info(eval.toMatrixString());
 			msg.append(classDetailsString + "\n");
 		}
 		results.setPredictionList(clmsg.getPredictionList());

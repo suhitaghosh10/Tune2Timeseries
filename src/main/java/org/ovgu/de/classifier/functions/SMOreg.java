@@ -726,20 +726,8 @@ public class SMOreg
    * @return a description of the classifier as a string
    */
   public String toString() {
-    StringBuffer text = new StringBuffer();
-    
-    if (m_optimizer == null || !m_optimizer.modelBuilt()) {
-      return "SMOreg: No model built yet.";
-    }
-    
-    try {
-      text.append(m_optimizer.toString());
-    } 
-    catch (Exception e) {
-      return "Can't print SMVreg classifier.";
-    }
-    
-    return text.toString();
+   
+    return "SMOreg";
   }
   
   /**

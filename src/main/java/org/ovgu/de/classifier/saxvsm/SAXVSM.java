@@ -3,11 +3,18 @@ package org.ovgu.de.classifier.saxvsm;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
+import org.ovgu.de.classifier.functions.SMO;
 import org.ovgu.de.classifier.utility.ClassifierStatsMessage;
 import org.ovgu.de.classifier.utility.ClassifierTools;
+import org.ovgu.de.trial.IndividualPrediction;
 import org.ovgu.de.trial.Phase2Results;
+import org.ovgu.de.utils.PropertiesHandler;
 
 import weka.classifiers.evaluation.Evaluation;
 import weka.classifiers.evaluation.output.prediction.CSV;
@@ -131,7 +138,7 @@ public class SAXVSM extends AbstractClassifierWithTrainingData {
 		if (winInc < 1)
 			winInc = 1;
 
-		for (int alphaSize = 2; alphaSize <= 8; alphaSize += 2) {
+		for (int alphaSize = 6; alphaSize <= 8; alphaSize += 2) {
 			for (int winSize = minWinSize; winSize <= maxWinSize; winSize += winInc) {
 				// for (int wordSize = 2; wordSize <= 8 && wordSize < winSize; wordSize+=1) {
 				// //change by suhita
@@ -443,40 +450,86 @@ public class SAXVSM extends AbstractClassifierWithTrainingData {
 			throws Exception, FileNotFoundException {
 
 		Phase2Results results = new Phase2Results();
-		
 		logger.info("Testing starting...");
+		String rotCtrFileName = PropertiesHandler.getPropertyVal("TEMP_FILE_PATH") + "svm.txt";
+		String content = new String(Files.readAllBytes(Paths.get(rotCtrFileName)));
+		int classIndexForModel = Integer.parseInt(content);
+
+		test = ClassifierTools.recreateArffForApplyClassifier(test, classIndexForModel);
 		StringBuffer msg = new StringBuffer("Applying ").append(this.toString()).append(" model <")
 				.append(classifierModel).append("> on dataset <").append(test.relationName() + ">\n");
 
-		SAXVSM vsm = (SAXVSM) SerializationHelper.read(new FileInputStream(classifierModel));
+		SAXVSM svm = (SAXVSM) SerializationHelper.read(new FileInputStream(classifierModel));
 		long start = System.nanoTime();
-		ClassifierStatsMessage clmsg = ClassifierTools.getClassifierPrediction(test, vsm, groundTruthAvailable);
+		ClassifierStatsMessage clmsg = ClassifierTools.getClassifierPrediction(test, svm, groundTruthAvailable);
 		double testTime = (System.nanoTime() - start) / 1000000000.0; // sec
 		logger.info("Testing done (" + testTime + "s)");
-		//msg.append("Testing done (" + testTime + "s)\n");
+		msg.append("Testing done (" + testTime + "s)\n");
 		results.setTimeTaken(testTime);
-
 		PlainText forPredictionsPrinting = new PlainText();
 		forPredictionsPrinting.setBuffer(new StringBuffer());
 
 		CSV output = new CSV();
-		output.setHeader(new Instances(test,0));
+		output.setHeader(new Instances(test, 0));
 		output.setBuffer(new StringBuffer());
 		msg.append(clmsg.getMessage());
 		if (groundTruthAvailable) {
-			//logger.info("Accuracy : " + clmsg.getAccuracy());
 			logger.info(clmsg.getMessage());
-			//msg.append("Accuracy : " + clmsg.getAccuracy() + "\n");
 			Evaluation eval = new Evaluation(test);
-			//logger.info(""+eval.kappa());
-			eval.evaluateModel(vsm, test, output);
+			eval.evaluateModel(svm, test, output);
 			String classDetailsString = eval.toClassDetailsString();
-			logger.info(classDetailsString);
-			msg.append("\n"+classDetailsString + "\n");
+			msg.append(classDetailsString + "\n");
+			logger.info(classDetailsString + "\n");
 		}
 		results.setPredictionList(clmsg.getPredictionList());
+		System.out.println(Arrays.deepToString(createConfusionMatrixWithRespectToHard(clmsg.getPredictionList())));;
+		System.out.println(Arrays.deepToString(createConfusionMatrixWithRespectToEasy(clmsg.getPredictionList())));;
 		results.setMessage(msg.toString());
+
 		return results;
+	}
+
+	/**
+	 * @param predictionList
+	 */
+	private double[][] createConfusionMatrixWithRespectToHard(List<IndividualPrediction> predictionList) {
+
+
+		double[][] cf = new double[2][2];
+		
+		for(IndividualPrediction pr : predictionList) {
+			if(pr.getPredictedValue().equals("Hard") && pr.getTrueValue().equals("Hard"))
+				cf[0][0] = cf[0][0]+1;
+			else if(pr.getPredictedValue().equals("Hard") && pr.getTrueValue().equals("Easy"))
+				cf[0][1] = cf[0][1]+1;
+			else if(pr.getPredictedValue().equals("Easy") && pr.getTrueValue().equals("Hard"))
+				cf[1][0] = cf[1][0]+1;
+			else if(pr.getPredictedValue().equals("Easy") && pr.getTrueValue().equals("Easy"))
+				cf[1][1] = cf[1][1]+1;
+		}
+		return cf;
+	}
+		
+		/**
+		 * @param predictionList
+		 */
+		private double[][] createConfusionMatrixWithRespectToEasy(List<IndividualPrediction> predictionList) {
+
+
+			double[][] cf = new double[2][2];
+			
+			for(IndividualPrediction pr : predictionList) {
+				if(pr.getPredictedValue().equals("Easy") && pr.getTrueValue().equals("Easy"))
+					cf[0][0] = cf[0][0]+1;
+				else if(pr.getPredictedValue().equals("Easy") && pr.getTrueValue().equals("Hard"))
+					cf[0][1] = cf[0][1]+1;
+				else if(pr.getPredictedValue().equals("Hard") && pr.getTrueValue().equals("Easy"))
+					cf[1][0] = cf[1][0]+1;
+				else if(pr.getPredictedValue().equals("Hard") && pr.getTrueValue().equals("Hard"))
+					cf[1][1] = cf[1][1]+1;
+			}
+			return cf;
+		
 	}
 
 	@Override
