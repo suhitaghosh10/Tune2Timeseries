@@ -1,4 +1,5 @@
 # Tune2Timeseries
+Models implemented for time series classification.
 # Classifiers:
 1. SAX-VSM
 2. RotF
